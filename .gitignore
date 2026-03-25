@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.piper_config/
+templates/client_temp/
+.env
+src/dev_utils.egg-info/

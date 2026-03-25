@@ -1,0 +1,15 @@
+{
+    "CRED": {
+        "access_token": "6dxt4VdaxJ4wFCpHLdUpAbNoKk5kcXwFdcmCKorK2MSK",
+        "refresh_token": "HcEzhNzPUqBKQW8Gp4gTx4RgLFxaL6iYrryXJzn29J96",
+        "state": "",
+        "token_type": "bearer",
+        "expires_in": 604800
+    },
+    "import": [
+        "API_KEY",
+        "telegram_key"
+    ],
+    "Hubspot": "{{$.vault.API_kEY}}",
+    "API_KEY": "SGD276sgdr3"
+}

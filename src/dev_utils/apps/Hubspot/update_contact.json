@@ -1,0 +1,19 @@
+{
+    "name": "hubspot_update_contact",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/crm/v3/objects/contacts/{contact_id}",
+    "auth_config": {
+        "authorization": "{{$.Hubspot}}",
+        "contact_id": "{{contact}}"
+    },
+    "headers": {
+        "Authorization": "Bearer {authorization}",
+        "Content-Type": "application/json"
+    },
+    "body": {
+        "properties": {
+        "lifecyclestage": "{{new_stage}}",
+        "hs_lead_status": "{{new_status}}"
+        }
+    }
+}

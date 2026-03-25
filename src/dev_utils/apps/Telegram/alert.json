@@ -1,0 +1,16 @@
+{
+    "name": "telegram_bot_message",
+    "method": "POST",
+    "url": "https://api.telegram.org/bot{authorization}/sendMessage",
+    "auth_config": {
+        "authorization": "{{$.Telegram}}"
+    },
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "body": {
+        "chat_id": "{{chat_id}}",
+        "text": "{{content}}",
+        "parse_mode": "HTML"
+    }
+}

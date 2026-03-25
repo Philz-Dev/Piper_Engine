@@ -1,0 +1,19 @@
+{
+    "url": "https://api.typeform.com/forms/{form_id}/webhooks/{webhook_tag}",
+    "response_navigator": "form.response",
+    "method": "put",
+    "auth_config": {
+        "form_id": "{{form_id}}", 
+        "webhook_tag": "{{webhook_tag}}",
+        "authorization": "{{$.Typeform}}"
+    },
+    "headers": {
+        "Authorization": "Bearer {authorization}",
+        "Content-Type": "application/json"
+    },
+    "body": {
+        "url": "{universal_webhook}",
+        "enabled": true,
+        "secret": "{webhook_tag}"
+    }
+}

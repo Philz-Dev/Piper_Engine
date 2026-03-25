@@ -1,0 +1,2 @@
+[console_scripts]
+piper = dev_utils.cli_manager.core:cli

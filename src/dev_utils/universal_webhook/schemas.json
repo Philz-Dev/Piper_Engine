@@ -1,0 +1,12 @@
+{
+  "facebook": {
+    "name": "full_name",
+    "email": "email_address",
+    "phone": "phone_number"
+  },
+  "linkedin": {
+    "name": "first_name",
+    "email": "email",
+    "phone": "mobile_number"
+  }
+}

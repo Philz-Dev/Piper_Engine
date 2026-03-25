@@ -1,0 +1,35 @@
+{
+    "name": "HubSpot_CRM_Search",
+    "response_navigator": "results",
+    "url": "https://api.hubapi.com/crm/v3/objects/contacts/search",
+    "method": "POST",
+    "auth_config": {
+        "authorization": "{{$.Hubspot}}"
+    },
+    "headers": {
+        "Authorization": "Bearer {authorization}",
+        "Content-Type": "application/json"
+    },
+    "body": {
+        "filterGroups": [
+            {
+                "filters": [
+                    {
+                        "propertyName": "email",
+                        "operator": "EQ",
+                        "value": "{{email}}"
+                    }
+                ]
+            }
+        ],
+        "sorts": [
+            {
+                "propertyName": "createdate",
+                "direction": "DESCENDING"
+            }
+        ],
+        "properties": ["firstname", "lastname", "email"],
+        "limit": 10,
+        "after": 0
+    }
+}

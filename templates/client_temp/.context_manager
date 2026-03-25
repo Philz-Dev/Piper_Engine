@@ -1,0 +1,1982 @@
+{
+    "20260324_064112": {
+        "Typeform_webhook": {
+            "event_id": "01KMF96WNCZFG05XFA1WJ5MY6Y",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "jdNx2Iob",
+                "token": "2thgmgcq5nyfa1ge8bt2thsa4dkec2rm",
+                "response_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=2thgmgcq5nyfa1ge8bt2thsa4dkec2rm#responses",
+                "landed_at": "2026-03-24T06:40:34Z",
+                "submitted_at": "2026-03-24T06:41:12Z",
+                "definition": {
+                    "id": "jdNx2Iob",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "ToU3ApQXwwWD",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "m74g5aBGlan3",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "iHMnpHFzD5CL",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "k9rAMot8t9c6",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "NrKCDabiyBxB",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "balo",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=2thgmgcq5nyfa1ge8bt2thsa4dkec2rm&fieldId=ToU3ApQXwwWD#responses",
+                        "field": {
+                            "id": "ToU3ApQXwwWD",
+                            "type": "short_text",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "cel",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=2thgmgcq5nyfa1ge8bt2thsa4dkec2rm&fieldId=m74g5aBGlan3#responses",
+                        "field": {
+                            "id": "m74g5aBGlan3",
+                            "type": "short_text",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=2thgmgcq5nyfa1ge8bt2thsa4dkec2rm&fieldId=iHMnpHFzD5CL#responses",
+                        "phone_number": "+12014543532",
+                        "field": {
+                            "id": "iHMnpHFzD5CL",
+                            "type": "phone_number",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=2thgmgcq5nyfa1ge8bt2thsa4dkec2rm&fieldId=k9rAMot8t9c6#responses",
+                        "email": "balo@v.com",
+                        "field": {
+                            "id": "k9rAMot8t9c6",
+                            "type": "email",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "v",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=2thgmgcq5nyfa1ge8bt2thsa4dkec2rm&fieldId=NrKCDabiyBxB#responses",
+                        "field": {
+                            "id": "NrKCDabiyBxB",
+                            "type": "short_text",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        }
+    },
+    "20260324_070402": {
+        "Typeform_webhook": {
+            "event_id": "01KMFAGN8Y0JY8FZP4EXW6XSC9",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "jdNx2Iob",
+                "token": "9fbg95igi686q1o9fbg95llv65dk7ppi",
+                "response_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=9fbg95igi686q1o9fbg95llv65dk7ppi#responses",
+                "landed_at": "2026-03-24T07:03:24Z",
+                "submitted_at": "2026-03-24T07:04:01Z",
+                "definition": {
+                    "id": "jdNx2Iob",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "ToU3ApQXwwWD",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "m74g5aBGlan3",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "iHMnpHFzD5CL",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "k9rAMot8t9c6",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "NrKCDabiyBxB",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "er",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=9fbg95igi686q1o9fbg95llv65dk7ppi&fieldId=ToU3ApQXwwWD#responses",
+                        "field": {
+                            "id": "ToU3ApQXwwWD",
+                            "type": "short_text",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "t",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=9fbg95igi686q1o9fbg95llv65dk7ppi&fieldId=m74g5aBGlan3#responses",
+                        "field": {
+                            "id": "m74g5aBGlan3",
+                            "type": "short_text",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=9fbg95igi686q1o9fbg95llv65dk7ppi&fieldId=iHMnpHFzD5CL#responses",
+                        "phone_number": "+12014364532",
+                        "field": {
+                            "id": "iHMnpHFzD5CL",
+                            "type": "phone_number",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=9fbg95igi686q1o9fbg95llv65dk7ppi&fieldId=k9rAMot8t9c6#responses",
+                        "email": "er@gm.com",
+                        "field": {
+                            "id": "k9rAMot8t9c6",
+                            "type": "email",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "gm",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=9fbg95igi686q1o9fbg95llv65dk7ppi&fieldId=NrKCDabiyBxB#responses",
+                        "field": {
+                            "id": "NrKCDabiyBxB",
+                            "type": "short_text",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        },
+        "hubspot_crm_search": {
+            "total": 0,
+            "results": []
+        },
+        "hubspot_create": {
+            "id": "742718308570",
+            "properties": {
+                "company": "rugar company",
+                "createdate": "2026-03-24T07:04:06.966Z",
+                "email": "er@gm.com",
+                "firstname": "t",
+                "hs_all_contact_vids": "742718308570",
+                "hs_associated_target_accounts": "0",
+                "hs_calculated_phone_number": "+12014364532",
+                "hs_calculated_phone_number_country_code": "US",
+                "hs_currently_enrolled_in_prospecting_agent": "false",
+                "hs_email_domain": "gm.com",
+                "hs_full_name_or_email": "t gm",
+                "hs_is_contact": "true",
+                "hs_is_unworked": "true",
+                "hs_lifecyclestage_lead_date": "1774335846966",
+                "hs_membership_has_accessed_private_content": "0",
+                "hs_object_id": "742718308570",
+                "hs_object_source": "INTEGRATION",
+                "hs_object_source_id": "34331271",
+                "hs_object_source_label": "INTEGRATION",
+                "hs_pipeline": "contacts-lifecycle-pipeline",
+                "hs_prospecting_agent_actively_enrolled_count": "0",
+                "hs_prospecting_agent_total_enrolled_count": "0",
+                "hs_registered_member": "0",
+                "hs_searchable_calculated_international_phone_number": "12014364532",
+                "hs_searchable_calculated_phone_number": "2014364532",
+                "hs_sequences_actively_enrolled_count": "0",
+                "hs_v2_date_entered_current_stage": "2026-03-24T07:04:06.966Z",
+                "hs_v2_time_in_current_stage": "2026-03-24T07:04:06.966Z",
+                "jobtitle": "Marketing Operations",
+                "lastmodifieddate": "2026-03-24T07:04:06.966Z",
+                "lastname": "gm",
+                "lifecyclestage": "lead",
+                "num_notes": "0",
+                "phone": "+12014364532",
+                "website": "http://acme.ai"
+            },
+            "createdAt": "2026-03-24T07:04:06.966Z",
+            "updatedAt": "2026-03-24T07:04:06.966Z",
+            "archived": false,
+            "url": "https://app-eu1.hubspot.com/contacts/148064499/record/0-1/742718308570"
+        },
+        "telegram_bot": {
+            "ok": true,
+            "result": {
+                "message_id": 14,
+                "from": {
+                    "id": 8744513906,
+                    "is_bot": true,
+                    "first_name": "oxi",
+                    "username": "fahar543654bot"
+                },
+                "chat": {
+                    "id": 6878549543,
+                    "first_name": "Victor",
+                    "last_name": "Okon\ud83c\udf45\ud83d\udc3e",
+                    "username": "brov4je",
+                    "type": "private"
+                },
+                "date": 1774335848,
+                "text": "New Lead Created in HubSpot!"
+            }
+        }
+    },
+    "20260324_070448": {
+        "Typeform_webhook": {
+            "event_id": "01KMFAJ2XXFRK7CNSAJ8RQNSV1",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "jdNx2Iob",
+                "token": "d7cwxn6xcqaxf2gjceazued7cwxnamdl",
+                "response_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=d7cwxn6xcqaxf2gjceazued7cwxnamdl#responses",
+                "landed_at": "2026-03-24T07:04:27Z",
+                "submitted_at": "2026-03-24T07:04:48Z",
+                "definition": {
+                    "id": "jdNx2Iob",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "ToU3ApQXwwWD",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "m74g5aBGlan3",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "iHMnpHFzD5CL",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "k9rAMot8t9c6",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "NrKCDabiyBxB",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "er",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=d7cwxn6xcqaxf2gjceazued7cwxnamdl&fieldId=ToU3ApQXwwWD#responses",
+                        "field": {
+                            "id": "ToU3ApQXwwWD",
+                            "type": "short_text",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "lance",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=d7cwxn6xcqaxf2gjceazued7cwxnamdl&fieldId=m74g5aBGlan3#responses",
+                        "field": {
+                            "id": "m74g5aBGlan3",
+                            "type": "short_text",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=d7cwxn6xcqaxf2gjceazued7cwxnamdl&fieldId=iHMnpHFzD5CL#responses",
+                        "phone_number": "+12014536743",
+                        "field": {
+                            "id": "iHMnpHFzD5CL",
+                            "type": "phone_number",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=d7cwxn6xcqaxf2gjceazued7cwxnamdl&fieldId=k9rAMot8t9c6#responses",
+                        "email": "er@gm.com",
+                        "field": {
+                            "id": "k9rAMot8t9c6",
+                            "type": "email",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "gm",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=d7cwxn6xcqaxf2gjceazued7cwxnamdl&fieldId=NrKCDabiyBxB#responses",
+                        "field": {
+                            "id": "NrKCDabiyBxB",
+                            "type": "short_text",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        }
+    },
+    "20260324_073012": {
+        "Typeform_webhook": {
+            "event_id": "01KMFC0J4K7CV1VMWC94B2PFTG",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "jdNx2Iob",
+                "token": "637yo6ra19cfxu13nc6377kodngt04nn",
+                "response_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=637yo6ra19cfxu13nc6377kodngt04nn#responses",
+                "landed_at": "2026-03-24T07:29:42Z",
+                "submitted_at": "2026-03-24T07:30:11Z",
+                "definition": {
+                    "id": "jdNx2Iob",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "ToU3ApQXwwWD",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "m74g5aBGlan3",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "iHMnpHFzD5CL",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "k9rAMot8t9c6",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "NrKCDabiyBxB",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "ra",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=637yo6ra19cfxu13nc6377kodngt04nn&fieldId=ToU3ApQXwwWD#responses",
+                        "field": {
+                            "id": "ToU3ApQXwwWD",
+                            "type": "short_text",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "ch",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=637yo6ra19cfxu13nc6377kodngt04nn&fieldId=m74g5aBGlan3#responses",
+                        "field": {
+                            "id": "m74g5aBGlan3",
+                            "type": "short_text",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=637yo6ra19cfxu13nc6377kodngt04nn&fieldId=iHMnpHFzD5CL#responses",
+                        "phone_number": "+12014355634",
+                        "field": {
+                            "id": "iHMnpHFzD5CL",
+                            "type": "phone_number",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=637yo6ra19cfxu13nc6377kodngt04nn&fieldId=k9rAMot8t9c6#responses",
+                        "email": "ra@w.com",
+                        "field": {
+                            "id": "k9rAMot8t9c6",
+                            "type": "email",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "w",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=637yo6ra19cfxu13nc6377kodngt04nn&fieldId=NrKCDabiyBxB#responses",
+                        "field": {
+                            "id": "NrKCDabiyBxB",
+                            "type": "short_text",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        }
+    },
+    "20260324_073216": {
+        "Typeform_webhook": {
+            "event_id": "01KMFC4BEHT6FGSHCT6PFDC4J7",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "jdNx2Iob",
+                "token": "iokvymcu9erevmi8ls7iokvymtkzs167",
+                "response_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=iokvymcu9erevmi8ls7iokvymtkzs167#responses",
+                "landed_at": "2026-03-24T07:31:49Z",
+                "submitted_at": "2026-03-24T07:32:15Z",
+                "definition": {
+                    "id": "jdNx2Iob",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "ToU3ApQXwwWD",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "m74g5aBGlan3",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "iHMnpHFzD5CL",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "k9rAMot8t9c6",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "NrKCDabiyBxB",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "da",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=iokvymcu9erevmi8ls7iokvymtkzs167&fieldId=ToU3ApQXwwWD#responses",
+                        "field": {
+                            "id": "ToU3ApQXwwWD",
+                            "type": "short_text",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "m",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=iokvymcu9erevmi8ls7iokvymtkzs167&fieldId=m74g5aBGlan3#responses",
+                        "field": {
+                            "id": "m74g5aBGlan3",
+                            "type": "short_text",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=iokvymcu9erevmi8ls7iokvymtkzs167&fieldId=iHMnpHFzD5CL#responses",
+                        "phone_number": "+12018472458",
+                        "field": {
+                            "id": "iHMnpHFzD5CL",
+                            "type": "phone_number",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=iokvymcu9erevmi8ls7iokvymtkzs167&fieldId=k9rAMot8t9c6#responses",
+                        "email": "da@ba.com",
+                        "field": {
+                            "id": "k9rAMot8t9c6",
+                            "type": "email",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "ba",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=iokvymcu9erevmi8ls7iokvymtkzs167&fieldId=NrKCDabiyBxB#responses",
+                        "field": {
+                            "id": "NrKCDabiyBxB",
+                            "type": "short_text",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        },
+        "hubspot_crm_search": {
+            "total": 0,
+            "results": []
+        },
+        "hubspot_create": {
+            "id": "742675942621",
+            "properties": {
+                "company": "rugar company",
+                "createdate": "2026-03-24T07:32:20.174Z",
+                "email": "da@ba.com",
+                "firstname": "m",
+                "hs_all_contact_vids": "742675942621",
+                "hs_associated_target_accounts": "0",
+                "hs_calculated_phone_number": "+12018472458",
+                "hs_calculated_phone_number_country_code": "US",
+                "hs_currently_enrolled_in_prospecting_agent": "false",
+                "hs_email_domain": "ba.com",
+                "hs_full_name_or_email": "m ba",
+                "hs_is_contact": "true",
+                "hs_is_unworked": "true",
+                "hs_lifecyclestage_lead_date": "1774337540174",
+                "hs_membership_has_accessed_private_content": "0",
+                "hs_object_id": "742675942621",
+                "hs_object_source": "INTEGRATION",
+                "hs_object_source_id": "34331271",
+                "hs_object_source_label": "INTEGRATION",
+                "hs_pipeline": "contacts-lifecycle-pipeline",
+                "hs_prospecting_agent_actively_enrolled_count": "0",
+                "hs_prospecting_agent_total_enrolled_count": "0",
+                "hs_registered_member": "0",
+                "hs_searchable_calculated_international_phone_number": "12018472458",
+                "hs_searchable_calculated_phone_number": "2018472458",
+                "hs_sequences_actively_enrolled_count": "0",
+                "hs_v2_date_entered_current_stage": "2026-03-24T07:32:20.174Z",
+                "hs_v2_time_in_current_stage": "2026-03-24T07:32:20.174Z",
+                "jobtitle": "Marketing Operations",
+                "lastmodifieddate": "2026-03-24T07:32:20.174Z",
+                "lastname": "ba",
+                "lifecyclestage": "lead",
+                "num_notes": "0",
+                "phone": "+12018472458",
+                "website": "http://acme.ai"
+            },
+            "createdAt": "2026-03-24T07:32:20.174Z",
+            "updatedAt": "2026-03-24T07:32:20.174Z",
+            "archived": false,
+            "url": "https://app-eu1.hubspot.com/contacts/148064499/record/0-1/742675942621"
+        },
+        "telegram_bot": {
+            "ok": true,
+            "result": {
+                "message_id": 15,
+                "from": {
+                    "id": 8744513906,
+                    "is_bot": true,
+                    "first_name": "oxi",
+                    "username": "fahar543654bot"
+                },
+                "chat": {
+                    "id": 6878549543,
+                    "first_name": "Victor",
+                    "last_name": "Okon\ud83c\udf45\ud83d\udc3e",
+                    "username": "brov4je",
+                    "type": "private"
+                },
+                "date": 1774337541,
+                "text": "New Lead Created in HubSpot!"
+            }
+        }
+    },
+    "20260324_073437": {
+        "Typeform_webhook": {
+            "event_id": "01KMFC8NF6HFJCEDN2DZTZ49X2",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "jdNx2Iob",
+                "token": "tcac83pjgo0jead27ltcac83ab4rz45g",
+                "response_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=tcac83pjgo0jead27ltcac83ab4rz45g#responses",
+                "landed_at": "2026-03-24T07:34:11Z",
+                "submitted_at": "2026-03-24T07:34:36Z",
+                "definition": {
+                    "id": "jdNx2Iob",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "ToU3ApQXwwWD",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "m74g5aBGlan3",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "iHMnpHFzD5CL",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "k9rAMot8t9c6",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "NrKCDabiyBxB",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "lo",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=tcac83pjgo0jead27ltcac83ab4rz45g&fieldId=ToU3ApQXwwWD#responses",
+                        "field": {
+                            "id": "ToU3ApQXwwWD",
+                            "type": "short_text",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "d",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=tcac83pjgo0jead27ltcac83ab4rz45g&fieldId=m74g5aBGlan3#responses",
+                        "field": {
+                            "id": "m74g5aBGlan3",
+                            "type": "short_text",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=tcac83pjgo0jead27ltcac83ab4rz45g&fieldId=iHMnpHFzD5CL#responses",
+                        "phone_number": "+12018373622",
+                        "field": {
+                            "id": "iHMnpHFzD5CL",
+                            "type": "phone_number",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=tcac83pjgo0jead27ltcac83ab4rz45g&fieldId=k9rAMot8t9c6#responses",
+                        "email": "da@ba.com",
+                        "field": {
+                            "id": "k9rAMot8t9c6",
+                            "type": "email",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "ba",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=tcac83pjgo0jead27ltcac83ab4rz45g&fieldId=NrKCDabiyBxB#responses",
+                        "field": {
+                            "id": "NrKCDabiyBxB",
+                            "type": "short_text",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        }
+    },
+    "20260324_075622": {
+        "Typeform_webhook": {
+            "event_id": "01KMFDGG7NJ6DABX1H2YH1E0X8",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "jdNx2Iob",
+                "token": "ex3ne8cjdtr7ev9wva4ex3ne86lubzqp",
+                "response_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=ex3ne8cjdtr7ev9wva4ex3ne86lubzqp#responses",
+                "landed_at": "2026-03-24T07:55:59Z",
+                "submitted_at": "2026-03-24T07:56:22Z",
+                "definition": {
+                    "id": "jdNx2Iob",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "ToU3ApQXwwWD",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "m74g5aBGlan3",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "iHMnpHFzD5CL",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "k9rAMot8t9c6",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "NrKCDabiyBxB",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "f",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=ex3ne8cjdtr7ev9wva4ex3ne86lubzqp&fieldId=ToU3ApQXwwWD#responses",
+                        "field": {
+                            "id": "ToU3ApQXwwWD",
+                            "type": "short_text",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "m",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=ex3ne8cjdtr7ev9wva4ex3ne86lubzqp&fieldId=m74g5aBGlan3#responses",
+                        "field": {
+                            "id": "m74g5aBGlan3",
+                            "type": "short_text",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=ex3ne8cjdtr7ev9wva4ex3ne86lubzqp&fieldId=iHMnpHFzD5CL#responses",
+                        "phone_number": "+12017462443",
+                        "field": {
+                            "id": "iHMnpHFzD5CL",
+                            "type": "phone_number",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=ex3ne8cjdtr7ev9wva4ex3ne86lubzqp&fieldId=k9rAMot8t9c6#responses",
+                        "email": "f@c.com",
+                        "field": {
+                            "id": "k9rAMot8t9c6",
+                            "type": "email",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "c",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=ex3ne8cjdtr7ev9wva4ex3ne86lubzqp&fieldId=NrKCDabiyBxB#responses",
+                        "field": {
+                            "id": "NrKCDabiyBxB",
+                            "type": "short_text",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        },
+        "hubspot_crm_search": {
+            "total": 0,
+            "results": []
+        },
+        "hubspot_create": {
+            "id": "742622824676",
+            "properties": {
+                "company": "rugar company",
+                "createdate": "2026-03-24T07:56:27.872Z",
+                "email": "f@c.com",
+                "firstname": "m",
+                "hs_all_contact_vids": "742622824676",
+                "hs_associated_target_accounts": "0",
+                "hs_calculated_phone_number": "+12017462443",
+                "hs_calculated_phone_number_country_code": "US",
+                "hs_currently_enrolled_in_prospecting_agent": "false",
+                "hs_email_domain": "c.com",
+                "hs_full_name_or_email": "m c",
+                "hs_is_contact": "true",
+                "hs_is_unworked": "true",
+                "hs_lifecyclestage_lead_date": "1774338987872",
+                "hs_membership_has_accessed_private_content": "0",
+                "hs_object_id": "742622824676",
+                "hs_object_source": "INTEGRATION",
+                "hs_object_source_id": "34331271",
+                "hs_object_source_label": "INTEGRATION",
+                "hs_pipeline": "contacts-lifecycle-pipeline",
+                "hs_prospecting_agent_actively_enrolled_count": "0",
+                "hs_prospecting_agent_total_enrolled_count": "0",
+                "hs_registered_member": "0",
+                "hs_searchable_calculated_international_phone_number": "12017462443",
+                "hs_searchable_calculated_phone_number": "2017462443",
+                "hs_sequences_actively_enrolled_count": "0",
+                "hs_v2_date_entered_current_stage": "2026-03-24T07:56:27.872Z",
+                "hs_v2_time_in_current_stage": "2026-03-24T07:56:27.872Z",
+                "jobtitle": "Marketing Operations",
+                "lastmodifieddate": "2026-03-24T07:56:27.872Z",
+                "lastname": "c",
+                "lifecyclestage": "lead",
+                "num_notes": "0",
+                "phone": "+12017462443",
+                "website": "http://acme.ai"
+            },
+            "createdAt": "2026-03-24T07:56:27.872Z",
+            "updatedAt": "2026-03-24T07:56:27.872Z",
+            "archived": false,
+            "url": "https://app-eu1.hubspot.com/contacts/148064499/record/0-1/742622824676"
+        },
+        "telegram_bot": {
+            "ok": true,
+            "result": {
+                "message_id": 16,
+                "from": {
+                    "id": 8744513906,
+                    "is_bot": true,
+                    "first_name": "oxi",
+                    "username": "fahar543654bot"
+                },
+                "chat": {
+                    "id": 6878549543,
+                    "first_name": "Victor",
+                    "last_name": "Okon\ud83c\udf45\ud83d\udc3e",
+                    "username": "brov4je",
+                    "type": "private"
+                },
+                "date": 1774338989,
+                "text": "New Lead Created in HubSpot!"
+            }
+        }
+    },
+    "20260324_075741": {
+        "Typeform_webhook": {
+            "event_id": "01KMFDJWBV6JFPZV7HWD048AJ4",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "jdNx2Iob",
+                "token": "l066tj7fmqf556ql066t76spcf4jkfgf",
+                "response_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=l066tj7fmqf556ql066t76spcf4jkfgf#responses",
+                "landed_at": "2026-03-24T07:57:05Z",
+                "submitted_at": "2026-03-24T07:57:40Z",
+                "definition": {
+                    "id": "jdNx2Iob",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "ToU3ApQXwwWD",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "m74g5aBGlan3",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "iHMnpHFzD5CL",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "k9rAMot8t9c6",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "NrKCDabiyBxB",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "f",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=l066tj7fmqf556ql066t76spcf4jkfgf&fieldId=ToU3ApQXwwWD#responses",
+                        "field": {
+                            "id": "ToU3ApQXwwWD",
+                            "type": "short_text",
+                            "ref": "92c8c328-654a-4815-9469-4f480b6eb072"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "m",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=l066tj7fmqf556ql066t76spcf4jkfgf&fieldId=m74g5aBGlan3#responses",
+                        "field": {
+                            "id": "m74g5aBGlan3",
+                            "type": "short_text",
+                            "ref": "fa37b99d-d3fc-4a77-86f5-d9a4d85fc293"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=l066tj7fmqf556ql066t76spcf4jkfgf&fieldId=iHMnpHFzD5CL#responses",
+                        "phone_number": "+12018728234",
+                        "field": {
+                            "id": "iHMnpHFzD5CL",
+                            "type": "phone_number",
+                            "ref": "dd33b95b-30dd-4792-b4e7-febc520460c2"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=l066tj7fmqf556ql066t76spcf4jkfgf&fieldId=k9rAMot8t9c6#responses",
+                        "email": "f@c.com",
+                        "field": {
+                            "id": "k9rAMot8t9c6",
+                            "type": "email",
+                            "ref": "58127ba6-a6ff-45ca-ba9e-5347132f66c9"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "c",
+                        "answer_url": "https://admin.typeform.com/form/jdNx2Iob/results?responseId=l066tj7fmqf556ql066t76spcf4jkfgf&fieldId=NrKCDabiyBxB#responses",
+                        "field": {
+                            "id": "NrKCDabiyBxB",
+                            "type": "short_text",
+                            "ref": "de96fb54-7ed7-43ef-b327-e8cf600c99ca"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        }
+    },
+    "20260324_084732": {
+        "Typeform_webhook": {
+            "event_id": "01KMFGE5N1WBJE3ZN03NERV62A",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "YWa8SQGQ",
+                "token": "rrlx1lej1m0dooiqrrlx1lt3dqqjb4zx",
+                "response_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=rrlx1lej1m0dooiqrrlx1lt3dqqjb4zx#responses",
+                "landed_at": "2026-03-24T08:45:48Z",
+                "submitted_at": "2026-03-24T08:47:31Z",
+                "definition": {
+                    "id": "YWa8SQGQ",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "V8elAbIRQ2IO",
+                            "ref": "a35dd597-ff0c-4c3d-9a18-0d2e49c5090e",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "LkJRDRTFDHHk",
+                            "ref": "cef42b42-2e97-4643-830b-5f5ed48f6180",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "LoQeUmmFMCnP",
+                            "ref": "380c4f99-5d0b-4cd5-beab-5442d606a22b",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "VIBcvbFgn71B",
+                            "ref": "bf9f79e6-60b0-4192-af78-6f7a38c4b5de",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "V3jWfNh8M5Md",
+                            "ref": "07c4dfcb-5dd6-4a20-9d7c-f34700ae714c",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "fa",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=rrlx1lej1m0dooiqrrlx1lt3dqqjb4zx&fieldId=V8elAbIRQ2IO#responses",
+                        "field": {
+                            "id": "V8elAbIRQ2IO",
+                            "type": "short_text",
+                            "ref": "a35dd597-ff0c-4c3d-9a18-0d2e49c5090e"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "m",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=rrlx1lej1m0dooiqrrlx1lt3dqqjb4zx&fieldId=LkJRDRTFDHHk#responses",
+                        "field": {
+                            "id": "LkJRDRTFDHHk",
+                            "type": "short_text",
+                            "ref": "cef42b42-2e97-4643-830b-5f5ed48f6180"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=rrlx1lej1m0dooiqrrlx1lt3dqqjb4zx&fieldId=LoQeUmmFMCnP#responses",
+                        "phone_number": "+12018373623",
+                        "field": {
+                            "id": "LoQeUmmFMCnP",
+                            "type": "phone_number",
+                            "ref": "380c4f99-5d0b-4cd5-beab-5442d606a22b"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=rrlx1lej1m0dooiqrrlx1lt3dqqjb4zx&fieldId=VIBcvbFgn71B#responses",
+                        "email": "fa@n.com",
+                        "field": {
+                            "id": "VIBcvbFgn71B",
+                            "type": "email",
+                            "ref": "bf9f79e6-60b0-4192-af78-6f7a38c4b5de"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "n",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=rrlx1lej1m0dooiqrrlx1lt3dqqjb4zx&fieldId=V3jWfNh8M5Md#responses",
+                        "field": {
+                            "id": "V3jWfNh8M5Md",
+                            "type": "short_text",
+                            "ref": "07c4dfcb-5dd6-4a20-9d7c-f34700ae714c"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        },
+        "hubspot_crm_search": {
+            "total": 0,
+            "results": []
+        },
+        "hubspot_create": {
+            "id": "742674390257",
+            "properties": {
+                "company": "rugar company",
+                "createdate": "2026-03-24T08:47:36.321Z",
+                "email": "fa@n.com",
+                "firstname": "m",
+                "hs_all_contact_vids": "742674390257",
+                "hs_associated_target_accounts": "0",
+                "hs_calculated_phone_number": "+12018373623",
+                "hs_calculated_phone_number_country_code": "US",
+                "hs_currently_enrolled_in_prospecting_agent": "false",
+                "hs_email_domain": "n.com",
+                "hs_full_name_or_email": "m n",
+                "hs_is_contact": "true",
+                "hs_is_unworked": "true",
+                "hs_lifecyclestage_lead_date": "1774342056321",
+                "hs_membership_has_accessed_private_content": "0",
+                "hs_object_id": "742674390257",
+                "hs_object_source": "INTEGRATION",
+                "hs_object_source_id": "34331271",
+                "hs_object_source_label": "INTEGRATION",
+                "hs_pipeline": "contacts-lifecycle-pipeline",
+                "hs_prospecting_agent_actively_enrolled_count": "0",
+                "hs_prospecting_agent_total_enrolled_count": "0",
+                "hs_registered_member": "0",
+                "hs_searchable_calculated_international_phone_number": "12018373623",
+                "hs_searchable_calculated_phone_number": "2018373623",
+                "hs_sequences_actively_enrolled_count": "0",
+                "hs_v2_date_entered_current_stage": "2026-03-24T08:47:36.321Z",
+                "hs_v2_time_in_current_stage": "2026-03-24T08:47:36.321Z",
+                "jobtitle": "Marketing Operations",
+                "lastmodifieddate": "2026-03-24T08:47:36.321Z",
+                "lastname": "n",
+                "lifecyclestage": "lead",
+                "num_notes": "0",
+                "phone": "+12018373623",
+                "website": "http://acme.ai"
+            },
+            "createdAt": "2026-03-24T08:47:36.321Z",
+            "updatedAt": "2026-03-24T08:47:36.321Z",
+            "archived": false,
+            "url": "https://app-eu1.hubspot.com/contacts/148064499/record/0-1/742674390257"
+        },
+        "telegram_bot": {
+            "ok": true,
+            "result": {
+                "message_id": 17,
+                "from": {
+                    "id": 8744513906,
+                    "is_bot": true,
+                    "first_name": "oxi",
+                    "username": "fahar543654bot"
+                },
+                "chat": {
+                    "id": 6878549543,
+                    "first_name": "Victor",
+                    "last_name": "Okon\ud83c\udf45\ud83d\udc3e",
+                    "username": "brov4je",
+                    "type": "private"
+                },
+                "date": 1774342058,
+                "text": "New Lead Created in HubSpot!"
+            }
+        }
+    },
+    "20260324_084837": {
+        "Typeform_webhook": {
+            "event_id": "01KMFGFT7S0R3H7AJD7Y27B9DZ",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "YWa8SQGQ",
+                "token": "305jzx57vqd6a2j305jzdeok7uwfxfkj",
+                "response_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=305jzx57vqd6a2j305jzdeok7uwfxfkj#responses",
+                "landed_at": "2026-03-24T08:47:48Z",
+                "submitted_at": "2026-03-24T08:48:25Z",
+                "definition": {
+                    "id": "YWa8SQGQ",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "V8elAbIRQ2IO",
+                            "ref": "a35dd597-ff0c-4c3d-9a18-0d2e49c5090e",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "LkJRDRTFDHHk",
+                            "ref": "cef42b42-2e97-4643-830b-5f5ed48f6180",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "LoQeUmmFMCnP",
+                            "ref": "380c4f99-5d0b-4cd5-beab-5442d606a22b",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "VIBcvbFgn71B",
+                            "ref": "bf9f79e6-60b0-4192-af78-6f7a38c4b5de",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "V3jWfNh8M5Md",
+                            "ref": "07c4dfcb-5dd6-4a20-9d7c-f34700ae714c",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "de",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=305jzx57vqd6a2j305jzdeok7uwfxfkj&fieldId=V8elAbIRQ2IO#responses",
+                        "field": {
+                            "id": "V8elAbIRQ2IO",
+                            "type": "short_text",
+                            "ref": "a35dd597-ff0c-4c3d-9a18-0d2e49c5090e"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "l",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=305jzx57vqd6a2j305jzdeok7uwfxfkj&fieldId=LkJRDRTFDHHk#responses",
+                        "field": {
+                            "id": "LkJRDRTFDHHk",
+                            "type": "short_text",
+                            "ref": "cef42b42-2e97-4643-830b-5f5ed48f6180"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=305jzx57vqd6a2j305jzdeok7uwfxfkj&fieldId=LoQeUmmFMCnP#responses",
+                        "phone_number": "+12012847323",
+                        "field": {
+                            "id": "LoQeUmmFMCnP",
+                            "type": "phone_number",
+                            "ref": "380c4f99-5d0b-4cd5-beab-5442d606a22b"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=305jzx57vqd6a2j305jzdeok7uwfxfkj&fieldId=VIBcvbFgn71B#responses",
+                        "email": "fa@n.com",
+                        "field": {
+                            "id": "VIBcvbFgn71B",
+                            "type": "email",
+                            "ref": "bf9f79e6-60b0-4192-af78-6f7a38c4b5de"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "n",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=305jzx57vqd6a2j305jzdeok7uwfxfkj&fieldId=V3jWfNh8M5Md#responses",
+                        "field": {
+                            "id": "V3jWfNh8M5Md",
+                            "type": "short_text",
+                            "ref": "07c4dfcb-5dd6-4a20-9d7c-f34700ae714c"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        }
+    },
+    "20260324_085425": {
+        "Typeform_webhook": {
+            "event_id": "01KMFGTS98M8QJGEWA3ABEFHPK",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "YWa8SQGQ",
+                "token": "olqftjhbq0g7dndfmolqftj2aq59lckv",
+                "response_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=olqftjhbq0g7dndfmolqftj2aq59lckv#responses",
+                "landed_at": "2026-03-24T08:53:39Z",
+                "submitted_at": "2026-03-24T08:54:24Z",
+                "definition": {
+                    "id": "YWa8SQGQ",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "V8elAbIRQ2IO",
+                            "ref": "a35dd597-ff0c-4c3d-9a18-0d2e49c5090e",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "LkJRDRTFDHHk",
+                            "ref": "cef42b42-2e97-4643-830b-5f5ed48f6180",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "LoQeUmmFMCnP",
+                            "ref": "380c4f99-5d0b-4cd5-beab-5442d606a22b",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "VIBcvbFgn71B",
+                            "ref": "bf9f79e6-60b0-4192-af78-6f7a38c4b5de",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "V3jWfNh8M5Md",
+                            "ref": "07c4dfcb-5dd6-4a20-9d7c-f34700ae714c",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "la",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=olqftjhbq0g7dndfmolqftj2aq59lckv&fieldId=V8elAbIRQ2IO#responses",
+                        "field": {
+                            "id": "V8elAbIRQ2IO",
+                            "type": "short_text",
+                            "ref": "a35dd597-ff0c-4c3d-9a18-0d2e49c5090e"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "f",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=olqftjhbq0g7dndfmolqftj2aq59lckv&fieldId=LkJRDRTFDHHk#responses",
+                        "field": {
+                            "id": "LkJRDRTFDHHk",
+                            "type": "short_text",
+                            "ref": "cef42b42-2e97-4643-830b-5f5ed48f6180"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=olqftjhbq0g7dndfmolqftj2aq59lckv&fieldId=LoQeUmmFMCnP#responses",
+                        "phone_number": "+12018373423",
+                        "field": {
+                            "id": "LoQeUmmFMCnP",
+                            "type": "phone_number",
+                            "ref": "380c4f99-5d0b-4cd5-beab-5442d606a22b"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=olqftjhbq0g7dndfmolqftj2aq59lckv&fieldId=VIBcvbFgn71B#responses",
+                        "email": "la@u.com",
+                        "field": {
+                            "id": "VIBcvbFgn71B",
+                            "type": "email",
+                            "ref": "bf9f79e6-60b0-4192-af78-6f7a38c4b5de"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "u",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=olqftjhbq0g7dndfmolqftj2aq59lckv&fieldId=V3jWfNh8M5Md#responses",
+                        "field": {
+                            "id": "V3jWfNh8M5Md",
+                            "type": "short_text",
+                            "ref": "07c4dfcb-5dd6-4a20-9d7c-f34700ae714c"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        },
+        "hubspot_crm_search": {
+            "total": 0,
+            "results": []
+        },
+        "hubspot_create": {
+            "id": "742679716062",
+            "properties": {
+                "company": "rugar company",
+                "createdate": "2026-03-24T08:54:29.719Z",
+                "email": "la@u.com",
+                "firstname": "f",
+                "hs_all_contact_vids": "742679716062",
+                "hs_associated_target_accounts": "0",
+                "hs_calculated_phone_number": "+12018373423",
+                "hs_calculated_phone_number_country_code": "US",
+                "hs_currently_enrolled_in_prospecting_agent": "false",
+                "hs_email_domain": "u.com",
+                "hs_full_name_or_email": "f u",
+                "hs_is_contact": "true",
+                "hs_is_unworked": "true",
+                "hs_lifecyclestage_lead_date": "1774342469719",
+                "hs_membership_has_accessed_private_content": "0",
+                "hs_object_id": "742679716062",
+                "hs_object_source": "INTEGRATION",
+                "hs_object_source_id": "34331271",
+                "hs_object_source_label": "INTEGRATION",
+                "hs_pipeline": "contacts-lifecycle-pipeline",
+                "hs_prospecting_agent_actively_enrolled_count": "0",
+                "hs_prospecting_agent_total_enrolled_count": "0",
+                "hs_registered_member": "0",
+                "hs_searchable_calculated_international_phone_number": "12018373423",
+                "hs_searchable_calculated_phone_number": "2018373423",
+                "hs_sequences_actively_enrolled_count": "0",
+                "hs_v2_date_entered_current_stage": "2026-03-24T08:54:29.719Z",
+                "hs_v2_time_in_current_stage": "2026-03-24T08:54:29.719Z",
+                "jobtitle": "Marketing Operations",
+                "lastmodifieddate": "2026-03-24T08:54:29.719Z",
+                "lastname": "u",
+                "lifecyclestage": "lead",
+                "num_notes": "0",
+                "phone": "+12018373423",
+                "website": "http://acme.ai"
+            },
+            "createdAt": "2026-03-24T08:54:29.719Z",
+            "updatedAt": "2026-03-24T08:54:29.719Z",
+            "archived": false,
+            "url": "https://app-eu1.hubspot.com/contacts/148064499/record/0-1/742679716062"
+        },
+        "telegram_bot": {
+            "ok": true,
+            "result": {
+                "message_id": 18,
+                "from": {
+                    "id": 8744513906,
+                    "is_bot": true,
+                    "first_name": "oxi",
+                    "username": "fahar543654bot"
+                },
+                "chat": {
+                    "id": 6878549543,
+                    "first_name": "Victor",
+                    "last_name": "Okon\ud83c\udf45\ud83d\udc3e",
+                    "username": "brov4je",
+                    "type": "private"
+                },
+                "date": 1774342471,
+                "text": "New Lead Created in HubSpot!"
+            }
+        }
+    },
+    "20260324_085550": {
+        "Typeform_webhook": {
+            "event_id": "01KMFGXC0D9VPG6A6VX4KZ5W3R",
+            "event_type": "form_response",
+            "form_response": {
+                "form_id": "YWa8SQGQ",
+                "token": "xrv3wzccnazxrv3w8rw22lvda0ico4g8",
+                "response_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=xrv3wzccnazxrv3w8rw22lvda0ico4g8#responses",
+                "landed_at": "2026-03-24T08:55:14Z",
+                "submitted_at": "2026-03-24T08:55:49Z",
+                "definition": {
+                    "id": "YWa8SQGQ",
+                    "title": "My new form",
+                    "fields": [
+                        {
+                            "id": "V8elAbIRQ2IO",
+                            "ref": "a35dd597-ff0c-4c3d-9a18-0d2e49c5090e",
+                            "type": "short_text",
+                            "title": "First name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "LkJRDRTFDHHk",
+                            "ref": "cef42b42-2e97-4643-830b-5f5ed48f6180",
+                            "type": "short_text",
+                            "title": "Last name",
+                            "properties": {}
+                        },
+                        {
+                            "id": "LoQeUmmFMCnP",
+                            "ref": "380c4f99-5d0b-4cd5-beab-5442d606a22b",
+                            "type": "phone_number",
+                            "title": "Phone number",
+                            "properties": {}
+                        },
+                        {
+                            "id": "VIBcvbFgn71B",
+                            "ref": "bf9f79e6-60b0-4192-af78-6f7a38c4b5de",
+                            "type": "email",
+                            "title": "Email",
+                            "properties": {}
+                        },
+                        {
+                            "id": "V3jWfNh8M5Md",
+                            "ref": "07c4dfcb-5dd6-4a20-9d7c-f34700ae714c",
+                            "type": "short_text",
+                            "title": "Company",
+                            "properties": {}
+                        }
+                    ],
+                    "endings": [
+                        {
+                            "id": "DefaultTyScreen",
+                            "ref": "default_tys",
+                            "title": "Thanks for completing this typeform\nNow *create your own* \u2014 it's free, easy, & beautiful",
+                            "type": "thankyou_screen",
+                            "properties": {
+                                "button_text": "Create a *typeform*",
+                                "show_button": true,
+                                "share_icons": false,
+                                "button_mode": "default_redirect"
+                            },
+                            "attachment": {
+                                "type": "image",
+                                "href": "https://public-assets.typeform.com/public/admin/2dpnUBBkz2VN.gif"
+                            }
+                        }
+                    ],
+                    "settings": {
+                        "partial_responses_to_all_integrations": true
+                    }
+                },
+                "answers": [
+                    {
+                        "type": "text",
+                        "text": "m",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=xrv3wzccnazxrv3w8rw22lvda0ico4g8&fieldId=V8elAbIRQ2IO#responses",
+                        "field": {
+                            "id": "V8elAbIRQ2IO",
+                            "type": "short_text",
+                            "ref": "a35dd597-ff0c-4c3d-9a18-0d2e49c5090e"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "r",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=xrv3wzccnazxrv3w8rw22lvda0ico4g8&fieldId=LkJRDRTFDHHk#responses",
+                        "field": {
+                            "id": "LkJRDRTFDHHk",
+                            "type": "short_text",
+                            "ref": "cef42b42-2e97-4643-830b-5f5ed48f6180"
+                        }
+                    },
+                    {
+                        "type": "phone_number",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=xrv3wzccnazxrv3w8rw22lvda0ico4g8&fieldId=LoQeUmmFMCnP#responses",
+                        "phone_number": "+12013434545",
+                        "field": {
+                            "id": "LoQeUmmFMCnP",
+                            "type": "phone_number",
+                            "ref": "380c4f99-5d0b-4cd5-beab-5442d606a22b"
+                        }
+                    },
+                    {
+                        "type": "email",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=xrv3wzccnazxrv3w8rw22lvda0ico4g8&fieldId=VIBcvbFgn71B#responses",
+                        "email": "la@u.com",
+                        "field": {
+                            "id": "VIBcvbFgn71B",
+                            "type": "email",
+                            "ref": "bf9f79e6-60b0-4192-af78-6f7a38c4b5de"
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": "u",
+                        "answer_url": "https://admin.typeform.com/form/YWa8SQGQ/results?responseId=xrv3wzccnazxrv3w8rw22lvda0ico4g8&fieldId=V3jWfNh8M5Md#responses",
+                        "field": {
+                            "id": "V3jWfNh8M5Md",
+                            "type": "short_text",
+                            "ref": "07c4dfcb-5dd6-4a20-9d7c-f34700ae714c"
+                        }
+                    }
+                ],
+                "ending": {
+                    "id": "DefaultTyScreen",
+                    "ref": "default_tys"
+                }
+            }
+        },
+        "hubspot_crm_search": {
+            "total": 1,
+            "results": [
+                {
+                    "id": "742679716062",
+                    "properties": {
+                        "createdate": "2026-03-24T08:54:29.719Z",
+                        "email": "la@u.com",
+                        "firstname": "f",
+                        "hs_object_id": "742679716062",
+                        "lastmodifieddate": "2026-03-24T08:54:58.417Z",
+                        "lastname": "u"
+                    },
+                    "createdAt": "2026-03-24T08:54:29.719Z",
+                    "updatedAt": "2026-03-24T08:54:58.417Z",
+                    "archived": false,
+                    "url": "https://app-eu1.hubspot.com/contacts/148064499/record/0-1/742679716062"
+                }
+            ]
+        },
+        "hubspot_update": {
+            "id": "742679716062",
+            "properties": {
+                "createdate": "2026-03-24T08:54:29.719Z",
+                "hs_is_contact": "true",
+                "hs_is_unworked": "true",
+                "hs_lead_status": "OPEN",
+                "hs_object_id": "742679716062",
+                "hs_object_source": "INTEGRATION",
+                "hs_object_source_id": "34331271",
+                "hs_object_source_label": "INTEGRATION",
+                "hs_pipeline": "contacts-lifecycle-pipeline",
+                "hs_v2_date_entered_current_stage": "2026-03-24T08:54:29.719Z",
+                "hs_v2_time_in_current_stage": "2026-03-24T08:54:29.719Z",
+                "lastmodifieddate": "2026-03-24T08:55:54.625Z",
+                "lifecyclestage": "lead"
+            },
+            "createdAt": "2026-03-24T08:54:29.719Z",
+            "updatedAt": "2026-03-24T08:55:54.625Z",
+            "archived": false,
+            "url": "https://app-eu1.hubspot.com/contacts/148064499/record/0-1/742679716062"
+        },
+        "telegram_bot2": {
+            "ok": true,
+            "result": {
+                "message_id": 19,
+                "from": {
+                    "id": 8744513906,
+                    "is_bot": true,
+                    "first_name": "oxi",
+                    "username": "fahar543654bot"
+                },
+                "chat": {
+                    "id": 6878549543,
+                    "first_name": "Victor",
+                    "last_name": "Okon\ud83c\udf45\ud83d\udc3e",
+                    "username": "brov4je",
+                    "type": "private"
+                },
+                "date": 1774342556,
+                "text": "New Lead Created in HubSpot!"
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Typeform_auth",
+    "token_url": "https://api.typeform.com/oauth/token",
+    "auth_link": "https://api.typeform.com/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope={scopes}&response_type=code",
+    "auth_config":{
+        "CLIENT_ID": "2SgqD7aGHGgLcJtrpvJNSoFzETCP2NADGNL5Nk2bhrAx",
+        "CLIENT_SECRET": "JBzqLyEKCkZbjxXSU3uzvyW9KoZkeisSKw2JKBYuQVTk",
+        "scopes": "forms:read webhooks:write offline",
+        "REDIRECT_URI": "http://localhost:8080/callback"
+    }
+}

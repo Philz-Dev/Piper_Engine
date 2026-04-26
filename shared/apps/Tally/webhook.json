@@ -1,0 +1,17 @@
+{
+    "url": "https://api.tally.so/v1/webhooks",
+    "response_navigator": "data",
+    "method": "post", 
+    "class": {
+        "authorization": "{{DataType=str, Default=$.Tally_auth}}"
+    },
+    "headers": {
+        "Authorization": "Bearer {authorization}",
+        "Content-Type": "application/json"
+    },
+    "body": {
+        "formId": "{{DataType=str}}",
+        "url": "{universal_webhook}",
+        "events": ["form_submitted"]
+    }
+}

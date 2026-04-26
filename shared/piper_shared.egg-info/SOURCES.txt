@@ -1,0 +1,5 @@
+pyproject.toml
+piper_shared.egg-info/PKG-INFO
+piper_shared.egg-info/SOURCES.txt
+piper_shared.egg-info/dependency_links.txt
+piper_shared.egg-info/top_level.txt

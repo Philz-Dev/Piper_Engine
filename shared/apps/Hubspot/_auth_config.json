@@ -1,0 +1,12 @@
+{
+    "name": "HubSpot_CRM_Search",
+    "token_url": "https://api.hubapi.com/oauth/v3/token",
+    "auth_link": "https://app.hubspot.com/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope={scopes}",
+    "method": "POST",
+    "class": {
+        "CLIENT_ID": "4d4ef8a9-b12e-43ca-a68b-29695edda560",
+        "CLIENT_SECRET": "0a669fa8-8bab-4c4e-869a-9fd5c32f27db",
+        "scopes": "crm.objects.contacts.read%20crm.objects.contacts.write%20crm.objects.companies.read%20crm.objects.companies.write",
+        "REDIRECT_URI": "http://localhost:8080/callback"
+    }
+}

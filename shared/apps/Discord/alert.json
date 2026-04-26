@@ -1,0 +1,12 @@
+{
+    "name": "discord_post_lead_alert",
+    "method": "POST",
+    "url": "discord_webhook_url",
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "body": {
+        "username": "{{DataType=str}}",
+        "content": "{{DataType=str}}"
+  }
+}

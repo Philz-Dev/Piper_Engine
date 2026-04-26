@@ -1,0 +1,72 @@
+# ---------------------------------------------------------
+# IRON FORTRESS DSL v1.0
+# ---------------------------------------------------------
+
+version: "1.0"
+
+# Metadata block for auditing and security tracking
+metadata:
+  name: "Lead-Gen-Inbound"
+  owner: "agency_alpha"
+  #environment: "production"
+
+# Global Security Guardrails (Weight: 0)
+sentinel:
+  fail_fast: true
+  #max_retries: 3
+  #budget_limit: 150.00
+
+# Dependency/Secret Injection (Weight: 10)
+import:
+    - vault.API_KEY
+    #- vault.telegram_key
+
+# The Execution Pipeline
+pipeline:
+  - id: "Typeform_webhook"
+    trigger: Typeform.webhook
+    with:
+      form_id: "FFeRlEmp"
+      webhook_tag: "my_name"
+
+  - id: "hubspot_crm_search"
+    app_service: "Hubspot.search"
+    with:
+      value: "{{Typeform_webhook.form_response.answers.3.email}}"
+  
+  - id: "hubspot_create"
+    condition: "{{hubspot_crm_search.total}} == 0"
+    app_service: "Hubspot.create_contact"
+    with:
+      "firstname": "{{Typeform_webhook.form_response.answers.1.text}}"
+      "lastname": "{{Typeform_webhook.form_response.answers.4.text}}"
+      "phone": "{{Typeform_webhook.form_response.answers.2.phone_number}}"
+      "company": "rugar company"
+      "website": "acme.ai"
+      "lifecyclestage": "lead"
+      "jobtitle": "Marketing Operations"
+      "email": "{{Typeform_webhook.form_response.answers.3.email}}"
+    #steps:
+      #- id: "telegram_bot"
+      #  app_service: "Telegram.alert"
+      #  with:
+       #   authorization: "{{$.telegram_key}}"
+       #   chat_id: "6878549543"
+       #   text: "New Lead Created in HubSpot!"
+
+  - id: "hubspot_update"
+    firstname: "my name"
+    condition: "{{hubspot_crm_search.total}} > 0"
+    app_service: "Hubspot.update_contact"
+    with:
+      "lifecyclestage": "lead"
+      "hs_lead_status": "OPEN"
+      "contact_id": "{{hubspot_crm_search.results.0.id}}"
+  
+    #steps:
+      #- id: "telegram_bot2"
+      #  app_service: "Telegram.alert"
+       # with:
+       #   authorization: "{{$.telegram_key}}"
+        #  chat_id: "6878549543"
+        #  text: "New Lead Created in HubSpot!"

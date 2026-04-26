@@ -1,0 +1,10 @@
+pyproject.toml
+requirements.txt
+cli_manager/__init__.py
+cli_manager/core.py
+piper_manager.egg-info/PKG-INFO
+piper_manager.egg-info/SOURCES.txt
+piper_manager.egg-info/dependency_links.txt
+piper_manager.egg-info/entry_points.txt
+piper_manager.egg-info/requires.txt
+piper_manager.egg-info/top_level.txt

@@ -4,7 +4,7 @@ from shared.validators_V2 import main_validator
 import yaml
 import json
 from shared.tools import retrieve_file
-from shared.executor import trigger_exe
+from shared.processor import processor
 import click
 from shared.tools import get_registry_package
 from ruamel.yaml import YAML
@@ -59,18 +59,20 @@ def load_yaml_with_metadata(file_path):
 
 async def builder(name, path, crypto_engine, password, dsl_file=None):
     """Now accepts dsl_file and defaults to waterfall.yml if none provided."""
+
     target_file = dsl_file if dsl_file else "waterfall.yml"
     formatted_path = os.path.join(path, target_file)
-    
-    print(f"🛠️  Building {name} -> {target_file}")
     yml_file = load_yaml_with_metadata(file_path=formatted_path)
-    
-    if yml_file is None:
-        print(f"💥 ERROR: {target_file} not found for {name}")
-        return
     registry_package = get_registry_package(yml_file)
     registry = registry_package[0]
     state = registry_package[1]
+    
+    print(f"🛠️  Building {name} -> {target_file}")
+    
+    if yml_file is None:
+        state.add_error(f"💥 ERROR: {target_file} not found for {name}")
+        return
+    
     main_validator(dsl_file=yml_file, name=name, registry=registry, state=state)
     piper_interpreter = await PiperInterpreter.create(
                             registry=registry, 
@@ -78,14 +80,20 @@ async def builder(name, path, crypto_engine, password, dsl_file=None):
                             name=name, 
                             crypto_engine=crypto_engine
                         )
-
+    print(piper_interpreter.manifest)
     
-    """try:
-        validator.run_validator(dsl_file=yml_file, name=name)
-        #interpreted_file = Interpreter()
-        # await trigger_exe(_cont=yml_file, password=password)
-    except Exception as e:
-        print(f"❌ Execution failed for {name} ({target_file}): {e}")"""
+    """
+    if state.info:
+        for i in state.info:
+            print(i)
+    if state.Warning:
+        for w in state.Warning:
+            print(w)
+    if state.errors:
+        for e in state.errors:
+            print(e)
+        return
+    await processor(_cont=piper_interpreter.manifest, _password=password, _client_name=name, _registry=registry)"""
 
 async def test_build(crypto_engine, file_path, name, task):
     """Directly tests a single task within a pipeline."""

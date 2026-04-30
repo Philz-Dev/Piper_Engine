@@ -24,6 +24,9 @@ import yaml
 import textwrap 
 from shared.tools import retrieve_file
 from shared.redis_queuer import handover_password
+from shared.database_manager import ContextDB
+
+DB = ContextDB()
 
 custom_theme = Theme({
     "info": "cyan",
@@ -102,6 +105,19 @@ def cli(ctx):
             ctx.exit()
 
 # --- ENGINE COMMANDS (DOCKER SIDE) ---
+
+@cli.command()
+@click.confirmation_option(prompt='Are you sure you want to wipe Pipeline Storage?')
+def reset():
+    """Wipes and recreates the pipeline_storage table."""
+    # Use your existing 'console' for that sweet Rich formatting
+    with console.status("[info]Resetting Database...", spinner="dots"):
+        try:
+            # This now works because DB is an instance!
+            DB.reset_pipeline_storage()
+            console.print("[success]✅ Table recreated with UNIQUE(client_id) constraint.[/success]")
+        except Exception as e:
+            console.print(f"[danger]❌ Reset failed:[/danger] {e}")
 
 @cli.command()
 @click.argument('clients', nargs=-1)  # Unlimited client names

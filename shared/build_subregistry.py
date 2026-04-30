@@ -2,9 +2,10 @@ from typing import Dict, Any
 
 # Define the Source of Truth based on your schema_reg
 CORE_KEYS = [
-    "type", "weight", "handler", "allowed_keys", "dependency", 
-    "task_manager", "address_book", "file_ext", "validator", 
-    "interpreter", "executor", "sub_handlers", "sub_validators"
+    "type", "weight", "allowed_keys", "dependency", 
+    "address_book", "file_ext", "validator", 
+    "interpreter", "executor", "sub_executors", "sub_validators",
+    "processor", "sub_processors", "sub_interpreters"
 ]
 
 # Mapping the boolean flags to their internal map names

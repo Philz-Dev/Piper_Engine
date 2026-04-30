@@ -34,6 +34,25 @@ class ContextDB:
         except Exception as e:
             print(f"❌ Error checking existing pipeline: {e}")
             return None
+        
+    def reset_pipeline_storage(self):
+        """Surgical strike to fix the UNIQUE constraint issue."""
+        queries = [
+            "DROP TABLE IF EXISTS pipeline_storage;",
+            """
+            CREATE TABLE pipeline_storage (
+                id SERIAL PRIMARY KEY,
+                client_id VARCHAR(255) UNIQUE, -- The critical constraint
+                task_id VARCHAR(255),
+                pipeline_data JSONB,
+                UNIQUE(client_id, task_id)
+            );
+            """
+        ]
+        with self.engine.connect() as conn:
+            for q in queries:
+                conn.execute(text(q))
+            conn.commit()
 
     def update_pipeline(self, client_id: str, task_id: str, pipeline_data: dict):
         """Updates an existing pipeline while keeping the task_id stable."""
@@ -116,12 +135,37 @@ class ContextDB:
                 status VARCHAR(50) DEFAULT 'pending', 
                 UNIQUE(client_id, task_id)
             );
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS version_registry (
+                client_id VARCHAR(255) PRIMARY KEY,
+                version_tag VARCHAR(50) DEFAULT 'latest',
+                updated_at TIMESTAMP DEFAULT NOW()
+            );
             """
         ]
         with self.engine.connect() as conn:
             for q in queries:
                 conn.execute(text(q))
             conn.commit()
+
+    def save_version(self, client_id, version):
+        """Saves only the version tag for a client."""
+        query = text("""
+            INSERT INTO version_registry (client_id, version_tag, updated_at)
+            VALUES (:c_id, :v, NOW())
+            ON CONFLICT (client_id) DO UPDATE SET version_tag = EXCLUDED.version_tag, updated_at = NOW();
+        """)
+        with self.engine.connect() as conn:
+            conn.execute(query, {"c_id": client_id, "v": version})
+            conn.commit()
+
+    def get_version(self, client_id):
+        """Retrieves the version tag for a client."""
+        query = text("SELECT version_tag FROM version_registry WHERE client_id = :c_id")
+        with self.engine.connect() as conn:
+            result = conn.execute(query, {"c_id": client_id}).fetchone()
+            return result[0] if result else "latest"
     
     def get_context(self, client_id: str, task_id: str):
         # Fixed table name to context_manager and column to context

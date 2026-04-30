@@ -1,5 +1,6 @@
 import subprocess
 import json
+from typing import Dict
 
 P_LANGUAGE_IMAGES = {
     "python": "piper-runner-python:v1",
@@ -7,11 +8,11 @@ P_LANGUAGE_IMAGES = {
 }
 
 
-async def execute_in_sandbox(user_code_str, context_data, language="python"):
-    selected_image = P_LANGUAGE_IMAGES.get(language)
+async def execute_in_sandbox(_file_path, _context_data: Dict, runtime: str, timeout: int=30, **_kwargs):
+    selected_image = P_LANGUAGE_IMAGES.get(runtime)
     # Save code to a temp file
-    with open("user_code.py", "w") as f:
-        f.write(user_code_str)
+    """with open("user_code.py", "w") as f:
+        f.write(user_code_str)"""
 
     # Run Docker (Simplified example)
     #cmd = ["docker", "run", "--rm", "-i", "-v", f"{tmp_path}:/app/user_code", selected_image]
@@ -24,7 +25,7 @@ async def execute_in_sandbox(user_code_str, context_data, language="python"):
     ]
     
     process = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
-    stdout, _ = process.communicate(input=json.dumps(context_data))
+    stdout, _ = process.communicate(input=json.dumps(_context_data))
 
     # Extract the JSON between PIPER_RESULT markers
     # This prevents the Context Manager from being corrupted by random prints

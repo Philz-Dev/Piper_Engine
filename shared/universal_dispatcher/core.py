@@ -108,7 +108,7 @@ def format_cont(key_path, content_to_modify, config: dict):
     return content_to_modify
         
 # --- EXECUTION LOGIC ---
-async def dispatcher(_args: dict, _crypto_engine, _client_name, _task_id, timeout: int=10):
+async def dispatcher(_args: dict, _crypto_engine, _client_name, _task_id, timeout: int=10, **_kwargs):
     _args = add_cred(recieved_cont=_args, crypto_engine=_crypto_engine, _client_name=_client_name, _task_id=_task_id)
     engine = UniversalDispatcher()
     print("🚀 Firing Dispatcher...")

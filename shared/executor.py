@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 import ast
 import re
 from shared.unpacked_data import UnZip
-from shared.tools import crawler, retrieve_file, replace_place_value, inspect_function
+from shared.tools import crawler, retrieve_file, replace_place_value, inspect_function, get_registry_package
 # from shared.validators import ACTION_MAP
 from shared.encryption_manager import get_encryption_key
 from datetime import datetime
@@ -19,100 +19,9 @@ import copy
 from shared.database_manager import ContextDB
 import re
 import shared.helpers as helpers
+from typing import Dict
 
 DB = ContextDB()
-async def trigger_exe(_cont, password):
-    _crypto_engine = get_encryption_key(password)
-    trigger_cont = _cont["trigger"]["args"]
-    trig_c = _cont["trigger"]
-    client_id = trig_c["args"]["client_name"]
-    task_id = str(uuid.uuid4())
-    services = {"webhook": start_webhook, "timer": start_timer}
-    print("saving the task to db")
-    task_id = DB.upsert_pipeline(client_id, str(uuid.uuid4()), _cont["Pipeline"])
-    #DB.save_pipeline(client_id, task_id, _cont["Pipeline"])
-    print(f"✅ Pipeline for {client_id} saved to DB (ID: {task_id}).")
-    datas = {
-        "_cont": trigger_cont, 
-        "_all_cont":_cont["Pipeline"], 
-        "crypto_engine":_crypto_engine,
-        "task_id": task_id,
-        "client_name": client_id
-    }
-    
-    await services[_cont["trigger"]["_type"]](**datas)
-
-async def start_webhook(_cont, crypto_engine, client_name, task_id, **kwargs):
-
-    # PHASE 2: Registration
-    print("--- PHASE 2: Registering URL with Provider ---")
-    await dispatcher(_args=_cont, _crypto_engine=crypto_engine, _client_name=client_name, _task_id=task_id)
-
-    print("\n--- System Fully Operational ---")
-
-"""async def start_timer(trig_c, client_id: str, task_id: str, **kwargs):
-    # Mapping your input strings to dateutil keywords
-    # Note: relative delta uses plural (seconds, minutes, etc.)
-    service_map = {
-        "seconds": "seconds",
-        "minutes": "minutes",
-        "hour": "hours",
-        "day": "days",
-        "month": "months",
-        "year": "years"
-    }
-    
-    schedule_time = trig_c["args"].get("schedule_time") # e.g., "2 month"
-    try:
-        value_str, interval_str = schedule_time.split(" ")
-        value = int(value_str)
-    except (ValueError, AttributeError):
-        raise ValueError(f"Invalid format: {schedule_time}. Expected 'value interval'")
-
-    if interval_str not in service_map:
-        raise ValueError(f"Interval '{interval_str}' is not valid. Use: {list(service_map.keys())}")
-
-    # Calculate precise future date
-    # relativedelta handles the 'calendar math' (e.g., Feb 28 + 1 month = March 28)
-    delta_kwargs = {service_map[interval_str]: value}
-    run_at = datetime.now() + relativedelta(**delta_kwargs)
-
-    # Save to your DB (Assuming your DB.schedule_task takes these params)
-    # We pass the calculated 'run_at' datetime object
-    DB.schedule_task(client_id, task_id, run_at, value, schedule_time)
-    
-    print(f"⏰ Task {task_id} scheduled for {run_at} (In {value} {interval_str})")"""
-
-async def start_timer(trig_c, client_id: str, task_id: str, **kwargs):
-    service_map = {
-        "second": "seconds", "seconds": "seconds",
-        "minute": "minutes", "minutes": "minutes",
-        "hour": "hours", "hours": "hours",
-        "day": "days", "days": "days",
-        "month": "months", "months": "months",
-        "year": "years", "years": "years"
-    }
-    
-    schedule_raw = trig_c["args"].get("schedule_time") # e.g., "5 minutes"
-    
-    try:
-        val_part, int_part = schedule_raw.split(" ")
-        num_value = int(val_part)
-        clean_interval = int_part.lower()
-    except (ValueError, AttributeError):
-        raise ValueError(f"Invalid format: {schedule_raw}. Expected '5 minutes'")
-
-    if clean_interval not in service_map:
-        raise ValueError(f"Invalid interval: {clean_interval}")
-
-    # Calculate time using relativedelta
-    delta_args = {service_map[clean_interval]: num_value}
-    run_at = datetime.now() + relativedelta(**delta_args)
-
-    # Hand over to DB - Passing raw strings for intervals
-    DB.schedule_task(client_id, task_id, run_at, num_value, clean_interval)
-    
-    print(f"⏰ Task {task_id} scheduled for {run_at}")
 
 class Executor:
     def __init__(self):
@@ -124,9 +33,10 @@ class PipelineExecutor:
         self.context_manager = {}
         # 1. Initialize the Database connection
         self.db = ContextDB()
+        
 
     async def run_executor(
-            self, manifest, run_id, task_id, client_id, from_trigger=False, 
+            _registry, self, manifest, run_id, task_id, client_id, from_trigger=False, 
             _crypto_engine=None, is_schedule: bool=False):   
         sample_m = next((item for item in manifest if item), None)
         
@@ -144,16 +54,15 @@ class PipelineExecutor:
             if "condition" in m:
                 if not self.eval_condition(condition=m["condition"]):
                     continue
-            
-           # package = await ACTION_MAP[m["service_manager"]](**m["args"], _crypto_engine=_crypto_engine)
-            package = {}
+
+            package = await _registry.executor_map.get(m["service_manager"])(_registry=_registry, _cont=m, _crypto_engine=_crypto_engine, _context_data=context_file)
             if not package or "error" in str(package).lower():
                 return
             
             self.context_manager[m["id"]] = package
             
             if "steps" in m:
-                await self.run_executor(manifest=m["steps"], _crypto_engine=_crypto_engine, from_trigger=from_trigger)
+                await self.run_executor(_registry=_registry, manifest=m["steps"], _crypto_engine=_crypto_engine, from_trigger=from_trigger)
         
         # 3. REPLACED: write_to_context_manager logic
         # Instead of writing to a file path, we send it to the DB
@@ -355,6 +264,10 @@ class PipelineExecutor:
     
     async def call_run_executor(self, _cont, password, run_id, task_id, client_id, from_trigger: bool=False):
         # Reset live memory for each unique trigger run
+        version = DB.get_version(client_id)
+        current_registry = get_registry_package(version)
+        registry = current_registry[0]
+
         self.context_manager = {}
         _crypto_engine = get_encryption_key(password=password)
         
@@ -368,6 +281,7 @@ class PipelineExecutor:
             manifest = fresh_manifest_container
 
         await self.run_executor(
+            _registry=registry,
             manifest=manifest, 
             _crypto_engine=_crypto_engine, 
             from_trigger=from_trigger,
@@ -421,6 +335,83 @@ class PipelineExecutor:
         match = re.search(r"\{\{(\w+)\.(\w+)\}\}", text)
         if match:
             return match.group(1), match.group(2)
+        
+def service_executor(_registry, _cont: Dict, _crypto_engine, _context_data):
+    if args :=_cont.get("args"):
+        args["context_data"] = _context_data
+    exe = _registry.sub_executor_map.get(_cont["prefix"])
+    return exe(**_cont["args"], _crypto_engine=_crypto_engine, _registry=_registry)
+
+
+def schedule_executor(interval: str, **_kwargs):
+    """
+        A function placeholder for schedule sub executor
+    """
+    pass
+
+async def execute_in_sandbox(_file_path: str, _context_data: Dict, runtime: str, timeout: int=30, **_kwargs):
+
+    P_LANGUAGE_IMAGES = {
+        "python": "piper-runner-python:v1",
+        "nodejs": "piper-runner-node:v1",
+    }
+
+    P_EXTENSIONS = {
+        "python": "py",
+        "nodejs": "js"
+    }
+    selected_image = P_LANGUAGE_IMAGES.get(runtime)
+    extension = P_EXTENSIONS.get(runtime, "py")
+
+    # 1. Dynamic Volume Mounting
+    # We map the HOST path (from the interpreter) to a standard CONTAINER path
+    # Example: C:/Users/Dev/my_script.js -> /app/user_code.js
+    container_script_path = f"/app/user_code.{extension}"
+    
+    # Senior Move: Use // for MINGW64/Git Bash path compatibility on Windows
+    volume_mapping = f"{_file_path}:{container_script_path}"
+
+    cmd = [
+        "docker", "run", "--rm", "-i",
+        "--network", "bridge", 
+        "-v", volume_mapping,
+        selected_image
+    ]
+    
+    try:
+        # 2. Process Execution with Timeout
+        process = subprocess.Popen(
+            cmd, 
+            stdin=subprocess.PIPE, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.PIPE, # Capture errors too!
+            text=True
+        )
+
+        # 3. Inject Context & Wait
+        stdout, stderr = process.communicate(
+            input=json.dumps(_context_data), 
+            timeout=timeout
+        )
+
+        # 4. Result Extraction
+        if "PIPER_RESULT_START" in stdout:
+            result_json = stdout.split("PIPER_RESULT_START")[1].split("PIPER_RESULT_END")[0]
+            return json.loads(result_json.strip())
+        
+        # If execution fails, return stderr for debugging
+        return {
+            "error": "Script executed but returned no Piper Result",
+            "stdout": stdout,
+            "stderr": stderr
+        }
+
+    except subprocess.TimeoutExpired:
+        process.kill()
+        return {"error": f"Execution timed out after {timeout}s"}
+    except Exception as e:
+        return {"error": str(e)}
+
         
 
         

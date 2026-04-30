@@ -13,6 +13,7 @@ from difflib import get_close_matches
 class DependencyRule:
     mandatory: bool = False
     support: int = 1
+    managers: List[str] = field(default_factory=list)
 
 @dataclass
 class ValidationState:
@@ -57,6 +58,7 @@ class PiperRegistry:
         self.validator_map    = maps.get("validator_map", {})
         self.interpreter_map  = maps.get("interpreter_map", {})
         self.executor_map     = maps.get("executor_map", {})
+        self.processor_map     = maps.get("processor_map", {})
 
         # 3. Specialized Manager Maps (6 total)
         # These are boolean-triggered lookups
@@ -73,6 +75,9 @@ class PiperRegistry:
         self.populate_list_of_keys()
         self.manager_map = self._build_role_to_keys_map()
         self.sub_validator_map = self.get_all_sub_validators()
+        self.sub_executor_map = self.get_all_sub_executors()
+        self.sub_interpreter_map = self.get_all_sub_interpreters()
+        self.sub_processor_map = self.get_all_sub_processors()
         self.handler_config_keys = []
     
     def populate_list_of_keys(self):
@@ -108,12 +113,12 @@ class PiperRegistry:
     def service_prefix(self, service_key: str, service_value, sub_type: str="sub_validators"):
         """The 'Full Registry' Hydrator."""
         # 1. Resolve the metadata (Mode and Literal Path)
-        service_cfg = self._raw.get(service_key, {})
-        sub = service_cfg.get(sub_type, {})
-        native_prefix = service_cfg.get("native_namespace", "lib")
+        service_cfg = self.allowed_keys_map.get(service_key, {})
+        service_data = self._raw.get(service_key)
+        native_prefix = service_data.get("native_namespace", "lib")
 
         # Determine mode prefix
-        prefix = next((p.rstrip(".") for p in sub.keys() if service_value.startswith(p)), None)
+        prefix = next((p.rstrip(".") for p in service_cfg if service_value.startswith(p)), None)
         if prefix is None:
             prefix = native_prefix
         return prefix
@@ -129,6 +134,71 @@ class PiperRegistry:
                 subs = definition.get("sub_validators", {})
                 all_subs.update({k: v for k, v in subs.items() if callable(v)})
         return all_subs
+    
+    def find_dependency_func(self, sub_type: str, registry, step: Dict, dependencies, prefix: str | List=None):
+        type = {
+            "interpreter": self.sub_interpreter_map, 
+            "executor": self.sub_executor_map,
+            "validator": self.sub_validator_map
+            }
+        sub_func_list = {}
+        if not type.get(sub_type):
+            return
+        
+        if isinstance(prefix, str):
+            prefix = [prefix]
+        
+        for k, value in step.items():
+            for r, v in registry.manager_map.items():
+                if k in v and r in dependencies:
+                    sub_key = type.get(sub_type)
+                    if sub_key:
+                        if prefix:
+                            prefix = prefix
+                        else:
+                            prefix = [k]
+                        for p in prefix:
+                            sub_func = sub_key.get(p)
+                            if sub_func:
+                                sub_func_list[p] = sub_func
+        return sub_func_list
+    
+    def get_all_sub_interpreters(self) -> Dict[str, Callable]:
+        """
+        Returns a flattened dictionary of all sub-validators defined in the registry.
+        Output example: {"ext": <func>, "lib": <func>, "input": <func>}
+        """
+        all_subs = {}
+        for definition in self._raw.values():
+            if isinstance(definition, dict):
+                subs = definition.get("sub_interpreters", {})
+                all_subs.update({k: v for k, v in subs.items() if callable(v)})
+        return all_subs
+    
+    def get_all_sub_executors(self) -> Dict[str, Callable]:
+        """
+        Returns a flattened dictionary of all sub-validators defined in the registry.
+        Output example: {"ext": <func>, "lib": <func>, "input": <func>}
+        """
+        all_subs = {}
+        for definition in self._raw.values():
+            if isinstance(definition, dict):
+                subs = definition.get("sub_executors", {})
+                all_subs.update({k: v for k, v in subs.items() if callable(v)})
+        return all_subs
+    
+    def get_all_sub_processors(self) -> Dict[str, Callable]:
+        """
+        Returns a flattened dictionary of all sub-validators defined in the registry.
+        Output example: {"ext": <func>, "lib": <func>, "input": <func>}
+        """
+        all_subs = {}
+        for definition in self._raw.values():
+            if isinstance(definition, dict):
+                subs = definition.get("sub_processors", {})
+                all_subs.update({k: v for k, v in subs.items() if callable(v)})
+        return all_subs
+
 
     def gather_all_keys(self, service_key: str, service_value, state: ValidationState):
         """The 'Full Registry' Hydrator."""
@@ -139,7 +209,7 @@ class PiperRegistry:
 
 
         # 1. GATHER FROM JSON (API/External Schema)
-        if info["validate_input"]:
+        if info and info["validate_input"]:
             # Logic: internal_api uses a specific base_dir logic in retrieve_file
             is_internal = (info["mode"] == "internal_api")
             
@@ -149,9 +219,7 @@ class PiperRegistry:
                 # We get the flattened type map from the JSON
                 schema_keys = self.hydrate_from_json(schema_data, state)
                 new_types.update(schema_keys)
-        
-        handler = self.get_sub_handler(service_key, prefix)
-
+        handler = self.sub_executor_map.get(prefix)
         if handler:
             handler_keys = self.hydrate_from_handler(handler)
             # These are usually top-level config keys (not inside 'input')
@@ -334,8 +402,14 @@ class PiperRegistry:
         # 4. Convert raw dicts to DependencyRule dataclasses
         return {k: DependencyRule(**v) for k, v in mode_rules.items()}
 
-    def get_sub_handler(self, section_key: str, section_id: str) -> Dict[str, Any]:
-        if h := self.handler_map.get(section_key, {}):
+    def get_sub_validator(self, section_key: str, section_id: str) -> Dict[str, Any]:
+        if h := self.validator_map.get(section_key, {}):
+            if h and isinstance(h, dict):
+                return h.get(section_id, {})
+        return h
+    
+    def get_sub_executor(self, section_key: str, section_id: str) -> Dict[str, Any]:
+        if h := self.executor_map.get(section_key, {}):
             if h and isinstance(h, dict):
                 return h.get(section_id, {})
         return h

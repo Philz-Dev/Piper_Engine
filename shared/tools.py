@@ -59,8 +59,28 @@ def extract_types_from_handler(handler_func) -> Dict[str, Any]:
         if name not in internal_args
     }
 
-def resolve_service_instruction(service_key: str, base_dir: str = "apps/"):
+def find_dependency_func(sub_type: str, registry, step: Dict, dependencies, prefix):
+    type = {
+        "interpreter": registry.sub_interpreter_map, 
+        "executor": registry.get_sub_executor_map,
+        "validator": registry.get_sub_validator_map
+        }
+    sub_func_list = {}
+    if type.get(sub_type):
+        return
+    for k, value in step.items():
+        for r, v in registry.manager_map.items():
+            if k in v and r in dependencies:
+                
+                sub_func = type["sub_type"](prefix)
+                if sub_func:
+                    sub_func_list[k] = sub_func
+    return sub_func_list
+
+def resolve_service_instruction(service_key: str, base_dir: str = "apps/", runtime: str = None):
     # 1. Initialize variables FIRST
+    script_extension = {"python": ".py", "javascript": ".js"}
+
     mode = "internal_api"
     validate_input = True
     extension = ".json"
@@ -68,16 +88,25 @@ def resolve_service_instruction(service_key: str, base_dir: str = "apps/"):
 
     # 2. Process logic overrides
     if service_key.startswith("script."):
+        base_dir = ""
         mode = "external_script"
         validate_input = False
-        extension = ".py"
+        extension = script_extension.get(runtime)
         raw_lookup = service_key.split("script.", 1)[1]
     elif service_key.startswith("ext."):
-        base_dir = "."
+        base_dir = ""
         mode = "external_api"
         validate_input = True
         extension = ".json"
         raw_lookup = service_key.split("ext.", 1)[1]
+
+    elif service_key.startswith("webhook."):
+        mode = "webhook"
+        validate_input = True
+        extension = ".json"
+        raw_lookup = service_key.split("webhook.")[1]
+    elif service_key.startswith("timer"):
+        return {}
 
     # 3. Path construction (Now raw_lookup is guaranteed to exist)
     literal_path = raw_lookup.replace(".", "/")
@@ -178,7 +207,7 @@ def get_all_dsl_keys(dsl_file, registry, state: "ValidationState"):
                 service_id = step[manager_key] # e.g., "Hubspot.search"
                 
                 # This fills registry.type_map with "input.email", "input.id", etc.
-                registry.gather_all_keys(manager_key, service_id, state)
+                registry.gather_all_keys(service_key=manager_key, service_value=service_id, state=state)
 
 def input_manager(registry, step):
     input_manager_definitions = registry.get_keys_by_feature("an_input_manager") 
@@ -309,6 +338,74 @@ def retrieve_file(file_path, file_type: str=None, base_dir=False):
     except Exception as e:
         print(f"❌ [System] Error reading {file_path}: {e}")
         return None
+    
+def replace_place_value_v2(key_path, key, value, content_to_modify=None, is_metadata_replacement=False):
+    for k, v in key_path.items():
+        split_key = k.split(".")
+        
+        if split_key[-1] == key:
+            temp = content_to_modify
+            for ky in split_key[:-1]:
+                if ky.isdigit(): ky = int(ky)
+                temp = temp[ky]
+            
+            final_key = split_key[-1]
+            current_val = temp[final_key]
+
+            if is_metadata_replacement and isinstance(current_val, str) and "{{" in current_val:
+                # 1. Strip braces from incoming value
+                clean_val = str(value).replace("{{", "").replace("}}", "").strip()
+                
+                # 2. IMPROVED REGEX: 
+                # re.DOTALL ensures it matches even if there are newlines in the metadata
+                # the '?' makes it non-greedy so it doesn't eat the whole string
+                pattern = r"\{\{.*?\}\}"
+                replacement = f"{{{{{clean_val}}}}}"
+                
+                new_string = re.sub(pattern, replacement, current_val, flags=re.DOTALL)
+                
+                # DEBUG PRINT - Check your terminal for this!
+                # print(f"DEBUG: Swapping '{current_val}' with '{new_string}'")
+                
+                temp[final_key] = new_string
+            else:
+                temp[final_key] = value
+                
+    return content_to_modify
+
+def replace_place_value_v3(key_path, key, value, content_to_modify=None, is_metadata_replacement=False):
+    for k, v in key_path.items():
+        split_key = k.split(".")
+        
+        if split_key[-1] == key:
+            temp = content_to_modify
+            for ky in split_key[:-1]:
+                if ky.isdigit(): ky = int(ky)
+                temp = temp[ky]
+            
+            final_key = split_key[-1]
+            current_val = temp[final_key]
+
+            # ONLY apply the bracing logic if it's a metadata replacement (e.g., from a 'Default' string)
+            # AND the incoming value itself contains braces (indicating it's a dynamic reference).
+            if is_metadata_replacement and isinstance(current_val, str) and "{{" in current_val:
+                # If the incoming value is already braced (like {{$.Hubspot}}), 
+                # we preserve the structure of the schema's placeholder.
+                if isinstance(value, str) and "{{" in value:
+                    clean_val = str(value).replace("{{", "").replace("}}", "").strip()
+                    pattern = r"\{\{.*?\}\}"
+                    replacement = f"{{{{{clean_val}}}}}"
+                    temp[final_key] = re.sub(pattern, replacement, current_val, flags=re.DOTALL)
+                else:
+                    # If it's a raw value being injected into a metadata placeholder, 
+                    # replace the WHOLE thing with the raw value.
+                    temp[final_key] = value
+            else:
+                # Standard DSL override: Replace the whole placeholder with the DSL value
+                # This fixes "FFeRlEmp" becoming "{{FFeRlEmp}}"
+                temp[final_key] = value
+                
+    return content_to_modify
     
 def replace_place_value(key_path, key, value, content_to_modify=None):
     for k, v in key_path.items():

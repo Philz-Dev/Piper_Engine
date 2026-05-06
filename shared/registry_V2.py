@@ -163,6 +163,22 @@ class PiperRegistry:
                                 sub_func_list[p] = sub_func
         return sub_func_list
     
+    def identify_specific_role(self, key, prefix, role_to_find):
+        """
+        Determines if the current prefix (e.g., 'webhook') 
+        is acting as a specific role (e.g., 'a_cleanup_manager').
+        """
+        # 1. Get the service configuration (e.g., the 'service' block)
+        service_config = self._raw.get(key, {})
+        
+        # 2. Look up the specific prefix (e.g., 'webhook') in the dependency map
+        prefix_config = service_config.get("dependency", {}).get(prefix, {})
+        
+        # 3. Check if the role is in the supported managers list
+        supported = prefix_config.get("supported_manager", {}).get("managers", [])
+        
+        return role_to_find in supported
+    
     def get_all_sub_interpreters(self) -> Dict[str, Callable]:
         """
         Returns a flattened dictionary of all sub-validators defined in the registry.
@@ -212,8 +228,8 @@ class PiperRegistry:
         if info and info["validate_input"]:
             # Logic: internal_api uses a specific base_dir logic in retrieve_file
             is_internal = (info["mode"] == "internal_api")
-            
-            schema_data = retrieve_file(file_path=info["full_path"], base_dir=is_internal)
+            file_path = info.get("full_path")
+            schema_data = retrieve_file(file_path=file_path, base_dir=is_internal)
             
             if schema_data:
                 # We get the flattened type map from the JSON

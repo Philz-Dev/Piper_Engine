@@ -111,10 +111,17 @@ def resolve_service_instruction(service_key: str, base_dir: str = "apps/", runti
     # 3. Path construction (Now raw_lookup is guaranteed to exist)
     literal_path = raw_lookup.replace(".", "/")
     full_path = os.path.normpath(os.path.join(base_dir, f"{literal_path}{extension}"))
+    if not os.path.isabs(full_path):
+        # Anchor to the directory of the current file
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(current_dir, full_path)
+    
+    file_path = os.path.normpath(file_path)
+    
 
     return {
         "mode": mode,
-        "full_path": full_path,
+        "full_path": file_path,
         "validate_input": validate_input,
         "literal_path": raw_lookup
     }
@@ -189,6 +196,36 @@ def get_suggestion(misspelled_key: str, valid_keys: list) -> str:
     # cutoff=0.6 ensures we don't suggest things that are too different
     matches = difflib.get_close_matches(misspelled_key, valid_keys, n=1, cutoff=0.6)
     return matches[0] if matches else None
+
+def get_all_dsl_keys_v2(dsl_file, registry, state: "ValidationState"):
+    """
+    Enhanced Hydrator: Recursively finds all services to ensure 
+    nested schemas (like Telegram inside HubSpot) are loaded.
+    """
+    for section, content in dsl_file.items():
+        # Normalize everything to a list
+        steps = content if isinstance(content, list) else [content]
+        
+        # Helper to dive into nested dictionaries/lists
+        def find_services_recursive(data):
+            if isinstance(data, list):
+                for item in data:
+                    find_services_recursive(item)
+            elif isinstance(data, dict):
+                # 1. Check if this dictionary is a service step
+                service_triggers = [k for k in data.keys() if k in registry.service_map]
+                if service_triggers:
+                    manager_key = service_triggers[0]
+                    service_id = data[manager_key]
+                    # Hydrate the registry for this specific service
+                    registry.gather_all_keys(service_key=manager_key, service_value=service_id, state=state)
+
+                # 2. Recursively look for 'steps' or 'on_error' to find nested services
+                for k in ["steps", "on_error"]:
+                    if k in data:
+                        find_services_recursive(data[k])
+
+        find_services_recursive(steps)
 
 def get_all_dsl_keys(dsl_file, registry, state: "ValidationState"):
     for section, content in dsl_file.items():

@@ -1,4 +1,4 @@
-from shared.tools import retrieve_file, inspect_function, crawler, missing_field, get_suggestion, get_all_dsl_keys, get_line_number, resolve_service_instruction, check_key_matches, input_manager
+from shared.tools import retrieve_file, inspect_function, crawler, missing_field, get_suggestion, get_all_dsl_keys_v2, get_line_number, resolve_service_instruction, check_key_matches, input_manager
 import os
 import inspect
 from shared.unpacked_data import UnZip
@@ -12,7 +12,7 @@ from shared.registry_V2 import PiperRegistry, ValidationState
 
 def main_validator(name: str, dsl_file: Dict[str, Any], registry, state):
     print(f"--- Starting Pre-Flight Validation for: {name} ---")
-    get_all_dsl_keys(dsl_file=dsl_file, registry=registry, state=state)
+    get_all_dsl_keys_v2(dsl_file=dsl_file, registry=registry, state=state)
     bound_validator = partial(check_step_validity, registry=registry, state=state)
     hook = {
         dict: bound_validator, 
@@ -139,16 +139,10 @@ def validate_service(step: Dict, key: str, value: str, registry, state, step_ref
 
     is_list_index = str(key).startswith("index ")
     lookup_key = key if not is_list_index else None
-    file_path = info["full_path"]
+    file_path = info.get("full_path")
     # Get the line number from the parent container
     line_info = get_line_number(step, lookup_key)
     
-    if not os.path.isabs(file_path):
-        # Anchor to the directory of the current file
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_dir, file_path)
-    
-    file_path = os.path.normpath(file_path)
     if not os.path.exists(file_path):
         state.add_error(f"[{step_ref}] System Error: Service resource '{value}' missing.")
         return
@@ -374,12 +368,6 @@ def validate_input(key, current_step: Dict, registry: PiperRegistry, state: Vali
     # Get the line number from the parent container
     line_info = get_line_number(current_step, lookup_key)
     
-    if not os.path.isabs(file_path):
-        # Anchor to the directory of the current file
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_dir, file_path)
-    
-    file_path = os.path.normpath(file_path)
     if info:
         if not os.path.exists(file_path):
             state.add_error(f"[{step_ref}] System Error: Service resource '{value}' missing.")
@@ -421,12 +409,6 @@ def validate_input_v2(key, current_step: Dict, registry: PiperRegistry, state: V
     # Get the line number from the parent container
     line_info = get_line_number(current_step, lookup_key)
     
-    if not os.path.isabs(file_path):
-        # Anchor to the directory of the current file
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(current_dir, file_path)
-    
-    file_path = os.path.normpath(file_path)
     if info:
         if not os.path.exists(file_path):
             state.add_error(f"[{step_ref}] System Error: Service resource '{value}' missing.")
@@ -541,7 +523,6 @@ def validate_timer(key, current_step: Dict, registry: PiperRegistry, state: Vali
     Validates the 'interval' argument for the schedule/timer service.
     Expected format: '30 sec', '1 h', etc.
     """
-    print("am here")
     # 1. Get the interval from the args/step
     # Depending on your DSL, it might be in step['interval'] or step['args']['interval']
     interval = str(current_step.get('interval') or current_step.get('args', {}).get('interval'))

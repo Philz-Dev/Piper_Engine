@@ -23,6 +23,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # 6. Copy the rest of your application code
 COPY servers/ ./servers/
+COPY shared/ ./shared/
+COPY .piper_config/ ./piper_config/
+
+RUN pip install -e ./shared
+
+ENV PYTHONPATH="/app:/app/services:/app/shared"
 
 # 7. Start the service
 CMD ["python", "main.py"]

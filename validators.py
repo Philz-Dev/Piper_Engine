@@ -111,7 +111,7 @@ def check_dependency(dep, package, key):
 
 
 
-            """elif k in self.regs["service_reg"]:
+            elif k in self.regs["service_reg"]:
                 self.manifest[n][id_key] = self.id_name_list[-1]
                 self.manifest[n]["args"] = {}
                 self.manifest[n]["args"] = self.verify_config(regs=self.regs, content=c, key=k, manifest=manifest[n]["args"])
@@ -323,4 +323,4 @@ class PiperValidator:
         if dep := DEPENDENCY_MAP[key]:
             missing = missing_field(required=dep, content_to_check=package)
             if missing:
-                raise SyntaxError(f" {missing} was not inluded")"""
+                raise SyntaxError(f" {missing} was not inluded")

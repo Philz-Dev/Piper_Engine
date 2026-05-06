@@ -1,5 +1,5 @@
 from shared import interpreter
-from shared.executor import trigger_exe
+from shared.processor import trigger_exe
 from shared.universal_dispatcher.core import dispatcher
 from shared.execute_in_sandbox import execute_in_sandbox
 from shared.interpreter import external_script, external_schema

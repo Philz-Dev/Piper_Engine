@@ -142,6 +142,15 @@ class ContextDB:
                 version_tag VARCHAR(50) DEFAULT 'latest',
                 updated_at TIMESTAMP DEFAULT NOW()
             );
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS pipeline_cleanup (
+                id SERIAL PRIMARY KEY,
+                client_id VARCHAR(255),
+                task_id VARCHAR(255) UNIQUE, 
+                delete_schema JSONB,
+                UNIQUE(client_id, task_id)
+            );
             """
         ]
         with self.engine.connect() as conn:
@@ -271,3 +280,59 @@ class ContextDB:
             conn.execute(query_update, {"next_at": next_run, "c_id": client_id, "t_id": task_id})
             conn.commit()
             print(f"🔄 Task {task_id} rescheduled for {next_run}")
+    
+    def save_cleanup_schema(self, client_id, task_id, schema):
+        query = text("""
+            INSERT INTO pipeline_cleanup (client_id, task_id, delete_schema)
+            VALUES (:c_id, :t_id, :schema)
+            ON CONFLICT(task_id) DO UPDATE SET delete_schema = :schema
+        """)
+        with self.engine.connect() as conn:
+            conn.execute(query, {
+                "c_id": client_id, 
+                "t_id": task_id, 
+                "schema": json.dumps(schema)
+            })
+            conn.commit()
+
+    def remove_pipeline_data(self, client_id: str, task_id: str):
+        """
+        Permanently deletes the stored pipeline blueprint and its schedule.
+        """
+        # We delete from both storage and scheduler to ensure the engine 
+        # 'forgets' this task entirely.
+        queries = [
+            text("DELETE FROM pipeline_storage WHERE client_id = :c_id AND task_id = :t_id"),
+            text("DELETE FROM scheduler WHERE client_id = :c_id AND task_id = :t_id"),
+            text("DELETE FROM context_manager WHERE client_id = :c_id AND task_id = :t_id")
+        ]
+        
+        try:
+            with self.engine.connect() as conn:
+                for query in queries:
+                    conn.execute(query, {"c_id": client_id, "t_id": task_id})
+                conn.commit()
+                print(f"🗑️ Successfully purged pipeline and schedule for {task_id}")
+                return True
+        except Exception as e:
+            print(f"❌ Error during pipeline data removal: {e}")
+            return False
+
+    def deactivate_schedule(self, client_id: str, task_id: str):
+        """
+        Optional: Instead of deleting, just set the status to 'stopped'.
+        Useful if you want to keep the data but prevent execution.
+        """
+        query = text("""
+            UPDATE scheduler 
+            SET status = 'stopped' 
+            WHERE client_id = :c_id AND task_id = :t_id
+        """)
+        try:
+            with self.engine.connect() as conn:
+                conn.execute(query, {"c_id": client_id, "t_id": task_id})
+                conn.commit()
+                return True
+        except Exception as e:
+            print(f"❌ Error deactivating schedule: {e}")
+            return False

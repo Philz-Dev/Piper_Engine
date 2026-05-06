@@ -1,7 +1,7 @@
 {
     "url": "https://api.typeform.com/forms/{form_id}/webhooks/{webhook_tag}",
     "response_navigator": "form.response",
-    "method": "put",
+    "method": "post",
     "class": {
         "form_id": "{{DataType=str}}", 
         "webhook_tag": "{{DataType=str}}",
@@ -12,7 +12,7 @@
         "Content-Type": "application/json"
     },
     "body": {
-        "url": "{universal_webhook}",
+        "url": "{{DataType=str, Default=!.universal_webhook}}",
         "enabled": true,
         "secret": "{webhook_tag}"
     }

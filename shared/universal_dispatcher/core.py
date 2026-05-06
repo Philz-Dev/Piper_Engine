@@ -4,6 +4,7 @@ import logging
 import asyncio
 import os
 from shared.tools import crawler, replace_place_value, get_auth_config_file, retrieve_file
+from universal_dispatcher.rategovernor import RateGovernor
 
 # Set up logging to catch errors on the VPS without leaking secrets
 logging.basicConfig(level=logging.INFO)
@@ -108,11 +109,20 @@ def format_cont(key_path, content_to_modify, config: dict):
     return content_to_modify
         
 # --- EXECUTION LOGIC ---
-async def dispatcher(_args: dict, _crypto_engine, _client_name, _task_id, timeout: int=10, **_kwargs):
+async def dispatcher(
+        _args: dict, _crypto_engine, 
+        _client_name, _task_id, timeout: 
+        int=10, max_attempts: int = 3,   
+        min_backoff: int = 2,     
+        max_backoff: int = 10, 
+        rate_limit: int = 5, **_kwargs):
     _args = add_cred(recieved_cont=_args, crypto_engine=_crypto_engine, _client_name=_client_name, _task_id=_task_id)
+
     engine = UniversalDispatcher()
     print("🚀 Firing Dispatcher...")
     print(f"payload:  {_args}")
+    governor = RateGovernor()
+    await governor.yield_control(_args.get("service", "generic"), rate_limit)
     result = await engine.fire(
         app_json=_args, timeout=timeout
     )

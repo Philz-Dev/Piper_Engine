@@ -1,5 +1,5 @@
 from shared import interpreter
-from shared.universal_dispatcher.core import dispatcher
+from shared.universal_dispatcher_v2.core import dispatcher
 from shared.execute_in_sandbox import execute_in_sandbox
 # from shared.interpreter import external_script, external_schema
 from shared import validators_V2
@@ -72,7 +72,8 @@ schema_reg = {
             "timer": processor.schedule
         },
         "sub_interpreters": {
-            "script": interpreter.script_interpreter
+            "script": interpreter.script_interpreter,
+            "webhook": interpreter.webhook_func
         }
     },
     "id": { 
@@ -98,7 +99,7 @@ schema_reg = {
     },
     "input": {
         "type": dict, "weight": 10, "validator": [], "executor": [], "a_pipeline_ma nager": False,
-        "allowed_keys": [], "sub_interpreters": {"input": interpreter.build_input},
+        "allowed_keys": [], "sub_interpreters": {"input": interpreter.build_input_v2},
         "is_section": False, "dependency": {"pattern": r"\{\{\s*([\w\s.$]+(?:=[^,}]+)?(?:\s*,\s*[\w\s.$]+=[^,}]+)*)\s*\}\}"},
         "a_service_manager": False, "address_book": None, "file_ext": None, "sub_executors": {},
         "an_id_manager": False, "a_condition_manager": False, "a_recursive_manager": False, "processor": [],

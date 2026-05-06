@@ -1,34 +1,59 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
-  --background: #020203;
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+.dark {
+  --background: #000000;
   --foreground: #ffffff;
 }
 
-/* Reset for the Canvas */
-html, body, #__next {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background: #020203;
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Make.com Animated Flowing Edges */
-.react-flow__edge-path {
-  stroke-dasharray: 8;
-  animation: flow 1.5s linear infinite;
-  filter: drop-shadow(0 0 5px rgba(34, 211, 238, 0.5));
-  stroke: #22d3ee !important;
-  stroke-width: 3 !important;
+/* THE FIX: Force white text inside black containers by default */
+.bg-black {
+  color: #ffffff !important;
 }
 
-@keyframes flow {
-  from { stroke-dashoffset: 16; }
-  to { stroke-dashoffset: 0; }
+.bg-black .text-white\/40 {
+  color: rgba(255, 255, 255, 0.4) !important;
 }
 
-.react-flow__attribution { display: none; }
+/* LIGHT MODE SIDEBAR FIXES */
+.light aside.bg-black .bg-\[lightgray\] {
+  background-color: #d1d5db !important; /* Proper Light Gray */
+  color: #000000 !important;           /* Flip text to black */
+}
+
+.light aside.bg-black .bg-\[lightgray\] svg {
+  stroke: #000000 !important;         /* Flip icon to black */
+}
+
+/* Keep inactive labels visible as dark gray in light mode */
+.light aside.bg-black .text-slate-500 {
+  color: #64748b !important; 
+}
+
+aside svg {
+  stroke: currentColor;
+}
+
+@layer utilities {
+  .animate-in {
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+  }
+  .fade-in {
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    animation-name: fade-in;
+  }
+}

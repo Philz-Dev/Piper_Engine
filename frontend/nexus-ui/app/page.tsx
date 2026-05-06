@@ -1,104 +1,156 @@
 "use client";
+import { useState, useEffect } from 'react';
+import Sidebar from '@/components/Sidebar';
+import Dashboard from '@/components/Dashboard';
+import InstallationGuide from '@/components/InstallationGuide';
+import { Search, Bell, HelpCircle, Grid, Sun, Moon, Loader2 } from 'lucide-react';
 
-import React, { useCallback } from 'react';
-import ReactFlow, { 
-  Background, 
-  Controls, 
-  useNodesState, 
-  useEdgesState, 
-  addEdge, 
-  Connection, 
-  Panel,
-  Handle,
-  Position
-} from 'reactflow';
-import 'reactflow/dist/style.css';
-import { Plus, Play, Save, Settings, Database, MousePointer2 } from 'lucide-react';
+export default function Home() {
+  const [activeTab, setActiveTab] = useState('containers');
+  const [selectedAutomation, setSelectedAutomation] = useState<string | null>(null);
+  const [theme, setTheme] = useState<'dark' | 'light' | null>(null);
+  const [engineActive, setEngineActive] = useState<boolean>(false);
+  const [engineLoading, setEngineLoading] = useState<boolean>(true);
 
-// --- CUSTOM CIRCULAR NODE COMPONENT ---
-const AutomationNode = ({ data }: any) => (
-  <div className="group relative transition-all">
-    <Handle type="target" position={Position.Left} className="w-3 h-3 bg-indigo-400" />
-    <div className="w-20 h-20 rounded-full bg-white border-4 border-indigo-500 shadow-xl flex flex-col items-center justify-center hover:scale-110 transition-transform">
-      <data.icon className="text-indigo-600" size={24} />
-      <span className="text-[10px] mt-1 font-bold uppercase text-slate-500">{data.label}</span>
-    </div>
-    <Handle type="source" position={Position.Right} className="w-3 h-3 bg-indigo-400" />
-  </div>
-);
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('piper-theme') as 'dark' | 'light';
+    setTheme(savedTheme || 'dark');
+  }, []);
 
-const nodeTypes = { automation: AutomationNode };
-
-// --- MAIN BUILDER PAGE ---
-export default function MakeClone() {
-  const [nodes, setNodes, onNodesChange] = useNodesState([
-    { 
-      id: '1', 
-      type: 'automation', 
-      data: { label: 'Webhook', icon: Database }, 
-      position: { x: 100, y: 200 } 
+  useEffect(() => {
+    if (!theme) return;
+    const root = window.document.documentElement;
+    localStorage.setItem('piper-theme', theme);
+    if (theme === 'light') {
+      root.classList.remove('dark');
+      root.style.setProperty('color-scheme', 'light');
+    } else {
+      root.classList.add('dark');
+      root.style.setProperty('color-scheme', 'dark');
     }
-  ]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  }, [theme]);
 
-  const onConnect = useCallback((params: Connection) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
+  useEffect(() => {
+    let isMounted = true;
+    async function checkEngine() {
+      try {
+        const res = await fetch('/api/v1/engine/status');
+        const data = await res.json();
+        if (isMounted) setEngineActive(data.status === 'active' || data.active === true);
+      } catch (err) {
+        if (isMounted) setEngineActive(false);
+      } finally {
+        if (isMounted) setEngineLoading(false);
+      }
+    }
+    checkEngine();
+    const interval = setInterval(checkEngine, 5000);
+    return () => { isMounted = false; clearInterval(interval); };
+  }, []);
 
-  const addModule = () => {
-    const id = (nodes.length + 1).toString();
-    setNodes((nds) => [
-      ...nds,
-      { 
-        id, 
-        type: 'automation', 
-        data: { label: 'Action', icon: Settings }, 
-        position: { x: 300, y: 200 } 
-      },
-    ]);
-  };
+  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+  const isDark = theme !== 'light';
+
+  if (theme === null) return <div className="h-screen w-screen bg-black" />;
 
   return (
-    <div className="h-screen w-screen bg-slate-50 overflow-hidden flex flex-col">
-      {/* Top Navbar */}
-      <nav className="h-14 bg-white border-b flex items-center justify-between px-6 z-10">
-        <div className="flex items-center gap-4">
-          <div className="bg-indigo-600 p-1.5 rounded-lg text-white font-black italic">M</div>
-          <h1 className="font-semibold text-slate-700">New Scenario</h1>
+    // FIX 1: Changed overflow-y-auto to overflow-hidden here
+    <div className={`flex flex-col h-screen font-sans antialiased overflow-hidden ${isDark ? 'bg-black' : 'bg-white'}`}>
+      
+      {/* HEADER */}
+      <header className="h-[55px] border-b flex items-center px-6 shrink-0 z-[60] bg-black border-[#262626] !text-white">
+        <div className="flex items-center gap-3 w-[180px] shrink-0">
+          <div className="w-6 h-6 border rounded-sm flex items-center justify-center text-[10px] font-bold border-white/40 !text-white">P</div>
+          <span className="font-bold tracking-tight text-sm uppercase !text-white">piper desktop</span>
         </div>
-        <div className="flex gap-2">
-          <button className="flex items-center gap-2 px-4 py-1.5 rounded-md text-sm border hover:bg-slate-50"><Save size={16}/> Save</button>
-          <button className="flex items-center gap-2 px-4 py-1.5 rounded-md text-sm bg-indigo-600 text-white hover:bg-indigo-700"><Play size={16}/> Run once</button>
-        </div>
-      </nav>
 
-      {/* The Canvas */}
-      <div className="flex-1 relative">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          nodeTypes={nodeTypes}
-          fitView
-        >
-          <Background color="#cbd5e1" variant={'dots' as any} gap={20} />
-          <Controls />
+        <div className="flex-1 flex justify-center px-10">
+          <div className="relative w-full max-w-xl">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 !text-white/20" size={14} />
+            <input 
+              type="text" 
+              placeholder="Search..." 
+              className="w-full border rounded-md px-10 py-1.5 text-xs focus:outline-none bg-[#111] border-[#262626] !text-white placeholder:!text-white/20"
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-6 ml-auto shrink-0">
+          <button onClick={toggleTheme} className="p-1.5 rounded-md hover:bg-white/10 !text-white/40">
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <HelpCircle size={18} className="!text-white/40 hover:!text-white cursor-pointer" />
+          <div className="relative cursor-pointer">
+            <Bell size={18} className="!text-white/40 hover:!text-white" />
+            <span className="absolute -top-1 -right-1 text-[8px] px-1 font-bold rounded-full border bg-white !text-black border-black">3</span>
+          </div>
+          <Grid size={18} className="!text-white/40 hover:!text-white cursor-pointer" />
+          <button className="border px-4 py-1 rounded text-xs font-bold transition-all border-white/20 bg-white !text-black hover:bg-white/90">Sign in</button>
+        </div>
+      </header>
+
+      {/* CONTENT AREA */}
+      {engineLoading ? (
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="animate-spin text-blue-500" size={32} />
+        </div>
+      ) : !engineActive ? (
+        <div className="flex-1 overflow-y-auto">
+          <InstallationGuide 
+            theme={theme || 'dark'} 
+            installToken="PIPER-772-X90" 
+            engineActive={engineActive} 
+          />
+        </div>
+      ) : (
+        <div className="flex flex-1 overflow-hidden animate-in fade-in duration-500">
+          <Sidebar 
+            activeTab={activeTab} 
+            setActiveTab={(tab) => { setActiveTab(tab); setSelectedAutomation(null); }} 
+            theme={theme} 
+          />
           
-          {/* Bottom Toolbar - This is very "Make" style */}
-          <Panel position="bottom-center" className="mb-10">
-            <div className="bg-white/80 backdrop-blur-md px-6 py-3 rounded-full shadow-2xl border flex items-center gap-8 border-slate-200">
-              <button onClick={addModule} className="p-3 bg-indigo-600 text-white rounded-full hover:scale-110 transition-all shadow-lg active:scale-95">
-                <Plus size={28} />
-              </button>
-              <div className="h-8 w-[1px] bg-slate-300" />
-              <div className="flex gap-6 text-slate-500">
-                <MousePointer2 size={20} className="cursor-pointer hover:text-indigo-600" />
-                <Settings size={20} className="cursor-pointer hover:text-indigo-600" />
-              </div>
+          <main className={`flex-1 flex flex-col overflow-hidden ${isDark ? 'bg-black text-white' : 'bg-[#fafafa] text-black'}`}>
+            
+            {/* FIX 2: Changed overflow-y-auto to overflow-hidden and removed p-10 */}
+            <div className="flex-1 overflow-hidden">
+              {selectedAutomation ? (
+                <div className="h-full flex flex-col p-10 animate-in fade-in duration-300">
+                  <button 
+                    onClick={() => setSelectedAutomation(null)}
+                    className={`mb-8 text-[10px] uppercase tracking-widest flex items-center gap-2 ${isDark ? 'text-white/40 hover:text-white' : 'text-black/40 hover:text-black'}`}
+                  >
+                    ← Back to Containers
+                  </button>
+                  <div className={`w-full flex-1 border rounded-lg border-dashed flex flex-col items-center justify-center ${isDark ? 'border-[#262626] bg-[#050505]' : 'border-gray-300 bg-white'}`}>
+                     <p className={`text-xs uppercase tracking-[0.3em] font-bold italic ${isDark ? 'text-white/20' : 'text-black/20'}`}>Module Details: {selectedAutomation}</p>
+                  </div>
+                </div>
+              ) : (
+                // Dashboard will now handle its own layout and scroll internal table only
+                activeTab === 'containers' && <Dashboard onSelectRow={setSelectedAutomation} theme={theme!} />
+              )}
             </div>
-          </Panel>
-        </ReactFlow>
-      </div>
+
+            <footer className="h-10 border-t flex items-center px-6 text-[10px] justify-between shrink-0 bg-black border-[#262626] !text-white/40">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full animate-pulse bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)]" />
+                  <span className="font-bold uppercase !text-white/80">Engine running</span>
+                </div>
+                <div className="flex items-center gap-4 border-l pl-4 uppercase tracking-tighter font-mono border-[#262626]">
+                  <span>RAM 2.70 GB</span>
+                  <span>CPU 14.80%</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 uppercase font-bold">
+                 <span>Piper Engine</span>
+                 <span className="underline decoration-dotted !text-white/80">v4.57.0</span>
+              </div>
+            </footer>
+          </main>
+        </div>
+      )}
     </div>
   );
 }

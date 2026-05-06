@@ -1,0 +1,13 @@
+{
+    "url": "https://api.typeform.com/forms/{form_id}/webhooks/{webhook_tag}",
+    "method": "delete",
+    "class": {
+        "form_id": "{{DataType=str}}", 
+        "webhook_tag": "{{DataType=str}}",
+        "authorization": "{{DataType=str, Default=$.Typeform}}"
+    },
+    "headers": {
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {} 
+}

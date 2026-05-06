@@ -1,6 +1,6 @@
 #!/bin/bash
 # 🚀 Piper Engine Bootstrap: High-Speed Provisioning (Global Persistence Version)
-set -e
+#set -e
 
 # ✅ GLOBAL FIX: Prevent Git Bash from mangling Windows paths into Linux paths
 export MSYS_NO_PATHCONV=1
@@ -122,20 +122,23 @@ services:
     image: ghcr.io/philz-dev/piper-servers:v1
     container_name: piper-engine-servers
     restart: always
-    entrypoint: ["python", "/app/controller/watcher.py"]
+    entrypoint: ["python", "/app/servers/main.py"]
     ports:
-      - "8002:8002"
+      - "8099:8099"
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     environment:
       - DATABASE_URL=postgresql://piper_admin:$DB_PASSWORD@db:5432/piper_data
       - MASTER_PASSWORD=$MASTER_PASSWORD
-      - PYTHONPATH=/app/services
+      - PYTHONPATH=/app
     volumes:
       - ./.env:/app/.env
       - piper_storage:/app/piper_storage
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/app
     networks:
       - piper-network
+    command: python -m servers.main
     
   piper-services:
     image: ghcr.io/philz-dev/piper-services:v1
@@ -230,6 +233,74 @@ echo -e "\n🚀 Running Core Initialization..."
 "$INSTALL_DIR/piper" init
 alias piper="$INSTALL_DIR/piper"
 
+# 7. 🔗 PHONE HOME (Connect to Supabase)
+echo "📡 Registering Engine with Piper Cloud..."
+
+# --- ROBUST PUBLIC IP DETECTION ---
+# We try multiple services to ensure we get the PUBLIC address your dashboard needs.
+GET_IP_SERVICES=(
+    "https://ifconfig.me"
+    "https://api.ipify.org"
+    "https://ident.me"
+    "https://checkip.amazonaws.com"
+)
+
+PUBLIC_IP=""
+for service in "${GET_IP_SERVICES[@]}"; do
+    echo "🔍 Attempting to reach $service..."
+    PUBLIC_IP=$(curl -s --max-time 3 "$service")
+    if [[ $PUBLIC_IP =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        break
+    fi
+done
+
+# Check if we actually got a Public IP
+if [[ -z "$PUBLIC_IP" || "$PUBLIC_IP" =~ ^(127\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.) ]]; then
+    echo "⚠️ Warning: Could not detect a Public IP address."
+    echo "   The script found: ${PUBLIC_IP:-'None'}"
+    echo "   Your dashboard might not be able to connect to this engine."
+    # We still use what we found as a fallback
+    LOCAL_IP=${PUBLIC_IP:-"127.0.0.1"}
+else
+    echo "🌍 Public IP Detected: $PUBLIC_IP"
+    LOCAL_IP=$PUBLIC_IP
+fi
+
+PIPER_API_URL="http://localhost:3000/api/v1/engine/register"
+INSTALL_TOKEN="PIPER-772-X90"
+
+# Note: In production, PIPER_API_URL will be your actual website domain
+echo "📡 Sending registration to Piper Cloud..."
+
+RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${PIPER_API_URL}" \
+  -H "Content-Type: application/json" \
+  -d @- <<EOF
+{
+  "token": "$INSTALL_TOKEN",
+  "ip_address": "$LOCAL_IP",
+  "port": "8001",
+  "status": "active"
+}
+EOF
+)
+
+if [ "$RESPONSE" == "200" ]; then
+    echo "✅ Registration Successful!"
+else
+    echo "❌ ERROR: Cloud Link Failed (Status $RESPONSE)"
+    exit 1
+fi
+
+echo "📡 Checking Piper Engine API Health (Port 8099)..."
+API_HEALTH_URL="http://localhost:8099/api/v1/clients"
+
+until $(curl -sSf $API_HEALTH_URL > /dev/null 2>&1); do
+    echo -n "⏳"
+    sleep 2
+done
+
+echo -e "\n✅ Piper Engine API is LIVE and responding!"
+
 echo "------------------------------------------------"
-echo "✅ SUCCESS: Piper Engine Online"
+echo "✅ SUCCESS: Piper Engine Online & Linked"
 echo "------------------------------------------------"

@@ -5,7 +5,6 @@ import sys
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
-from manager.setup_build import init_build, test_build
 from shared.encryption_manager import get_encryption_key, load_vault, initialize_salt, verify_password, encrypt_value
 from shared.interpreter import retrieve_file
 from shared.unpacked_data import UnZip
@@ -25,6 +24,7 @@ import textwrap
 from shared.tools import retrieve_file
 from shared.redis_queuer import handover_password
 from shared.database_manager import ContextDB
+from shared.setup_build import execute_piper_start
 
 DB = ContextDB()
 
@@ -119,11 +119,11 @@ def reset():
         except Exception as e:
             console.print(f"[danger]❌ Reset failed:[/danger] {e}")
 
-@cli.command()
+"""@cli.command()
 @click.argument('clients', nargs=-1)  # Unlimited client names
 @click.option('--dsl', '-d', multiple=True, help="Specific DSL files to run (e.g., waterfall.yml)")
 @click.password_option('--password', envvar='PIPER_MASTER_PASSWORD', prompt=True, hide_input=True)
-def start(clients, dsl, password):
+def startttt(clients, dsl, password):
     if not verify_password(password):
         click.echo("❌ Error: Incorrect Master Password. Access Denied.")
         return
@@ -150,13 +150,27 @@ def start(clients, dsl, password):
                 click.echo(f"Processing all DSLs for client: {client}...")
                 await init_build(file_name=client, crypto_engine=fernet, password=password)
 
-    asyncio.run(run_deploy())
-
+    asyncio.run(run_deploy())"""
 
 @cli.command()
+@click.argument('clients', nargs=-1)
+@click.option('--dsl', '-d', multiple=True)
+@click.password_option('--password', envvar='PIPER_MASTER_PASSWORD')
+def start(clients, dsl, password):
+    import asyncio
+    from shared.setup_build import execute_piper_start
+
+    success, message = asyncio.run(
+        execute_piper_start(clients=clients, dsl=dsl, password=password, logger=click.echo)
+    )
+    
+    if not success:
+        click.echo(f"❌ {message}")
+
+"""@cli.command()
 @click.password_option('--password', envvar='MASTER_PASSWORD', help="Master Password to decrypt secrets", prompt=False)
 def run(password):
-    """🚀 [Internal] The Worker Entrypoint: Launches automation inside Docker."""
+    🚀 [Internal] The Worker Entrypoint: Launches automation inside Docker.
     if not password:
         console.print("[danger]❌ Error:[/danger] No MASTER_PASSWORD environment variable found.")
         return
@@ -190,7 +204,7 @@ def run(password):
     except KeyboardInterrupt:
         console.print("\n[warning]Worker stopped by user.[/warning]")
     except Exception as e:
-        console.print(f"[danger]💥 Runtime Error:[/danger] {e}")
+        console.print(f"[danger]💥 Runtime Error:[/danger] {e}")"""
 
 # --- CLIENT MANAGEMENT (WINDOWS SIDE) ---
 

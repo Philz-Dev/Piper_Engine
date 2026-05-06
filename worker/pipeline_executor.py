@@ -4,7 +4,7 @@ import os
 import json
 from shared.unpacked_data import UnZip
 from shared.tools import crawler, retrieve_file, replace_place_value, inspect_function
-from shared.validators import ACTION_MAP
+from shared.validators_V2 import ACTION_MAP
 from shared.encryption_manager import get_encryption_key
 from datetime import datetime
 import copy
@@ -40,7 +40,7 @@ class PipelineExecutor:
                 if not self.eval_condition(condition=m["condition"]):
                     continue
             
-            package = await ACTION_MAP[m["service_manager"]](**m["args"], _crypto_engine=_crypto_engine)
+            package = await ACTION_MAP[m["service_manager"]](**m["args"], _crypto_engine=_crypto_engine, _app_name=m.get("app_name"))
             
             if not package or "error" in str(package).lower():
                 return

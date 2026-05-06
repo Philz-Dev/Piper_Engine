@@ -2,11 +2,10 @@ import subprocess
 import asyncio # Changed from time for better async handling
 import os
 import json
-from shared.universal_dispatcher.core import dispatcher
+from shared.universal_dispatcher_v2.core import dispatcher
 from shared.encryption_manager import get_encryption_key
 from shared.database_manager import ContextDB
 import uuid
-from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import ast
 import re
@@ -84,16 +83,28 @@ async def trigger_processor(_cont, _task_id, _client_name, _key, _crypto_engine,
                 **dynamic_args,        # Dynamic DSL arguments
                 _client_id=_client_name, # System arguments
                 _task_id=_task_id,
-                _registry=_registry
+                _registry=_registry,
+                _cont=step,
+                _step=step,
+                _crypto_engine=_crypto_engine
             )
-        print(f"_cont:    {_cont[n]}")
 
-async def start_webhook(_cont, _crypto_engine, _client_name, _task_id, **kwargs):
+async def start_webhook(_cont, _crypto_engine, _client_id, _task_id, _step, **kwargs):
 
     # PHASE 2: Registration
     print("--- PHASE 2: Registering URL with Provider ---")
-    await dispatcher(_args=_cont, _crypto_engine=_crypto_engine, _client_name=_client_name, _task_id=_task_id)
-
+    args = _cont.get("args")
+    app_name = _cont.get("app_name")
+    await dispatcher(**args, _crypto_engine=_crypto_engine, _client_name=_client_id, _task_id=_task_id, _app_name=app_name)
+    prefix = _step.get("service_type")
+    if exe := _cont.get("engine_internal"):
+        if cleanup_schema := exe.get(prefix):
+            DB.save_cleanup_schema(
+                        client_id=_client_id, 
+                        task_id=_task_id, 
+                        schema=cleanup_schema
+                    )
+            print(f"🛡️ Cleanup schema persisted for task: {_task_id}")
     print("\n--- System Fully Operational ---")
 
 async def schedule(interval: str, _client_id: str, _task_id: str, **_kwargs):

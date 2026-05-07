@@ -1,9 +1,10 @@
 import httpx
 import logging
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_result, retry_if_exception_type
-from universal_dispatcher_v2.rategovernor import RateGovernor
 from shared.tools import crawler, replace_place_value, get_auth_config_file, retrieve_file
 import os
+import asyncio
+from .rategovernor import RateGovernor
 
 # Logging setup
 logging.basicConfig(level=logging.INFO)

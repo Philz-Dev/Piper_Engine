@@ -1,17 +1,19 @@
 import os
 from pathlib import Path
-from shared.validators_V2 import main_validator
+from .validators_V2 import main_validator
 import yaml
 import json
-from shared.tools import retrieve_file
-from shared.processor import processor
-from shared.tools import get_registry_package
+from .tools import retrieve_file
+from .processor import processor
+from .tools import get_registry_package
 from ruamel.yaml import YAML
-from shared.interpreter import PiperInterpreter
-from shared.encryption_manager import verify_password, get_encryption_key
-from shared.database_manager import ContextDB
-from shared.redis_queuer import remove_from_redis_queue
-from shared.universal_dispatcher_v2 import core
+from .interpreter import PiperInterpreter
+from .encryption_manager import verify_password, get_encryption_key
+from .database_manager import ContextDB
+from .redis_queuer import remove_from_redis_queue
+from .universal_dispatcher_v2 import core
+import click
+from .redis_queuer import handover_password
 
 DB = ContextDB()
 
@@ -23,15 +25,17 @@ async def execute_piper_start(clients=None, dsl=None, password=None, logger=prin
     Core execution logic shared by CLI and FastAPI.
     """
     if not verify_password(password):
-        return False, "Incorrect Master Password. Access Denied."
-
+        click.secho("❌ Error: Incorrect Master Password. Access Denied.", fg="red")
+        return False, "Invalid Master Password"
+    
+    handover_password(password=password)
     # Initialize encryption
     fernet = get_encryption_key(password)
     
     # Logic for deployment
     if not clients:
         logger("🚀 Initiating Piper: All client files")
-        # await init_build(crypto_engine=fernet, password=password)
+        await init_build(crypto_engine=fernet, password=password)
         return True, "All clients initiated"
 
     for client in clients:
@@ -95,9 +99,7 @@ async def builder(name, path, crypto_engine, password, dsl_file=None):
     target_file = dsl_file if dsl_file else "waterfall.yml"
     formatted_path = os.path.join(path, target_file)
     yml_file = load_yaml_with_metadata(file_path=formatted_path)
-    registry_package = get_registry_package(yml_file)
-    registry = registry_package[0]
-    state = registry_package[1]
+    registry, state = get_registry_package(yml_file)
     
     print(f"🛠️  Building {name} -> {target_file}")
     
@@ -147,9 +149,12 @@ async def test_build(crypto_engine, file_path, name, task):
     if not found_task:
         print(f"no such task name {task} in {name} to test")
 
-async def execute_piper_stop(client_id, task_id, password):
+async def execute_piper_stop_v2(client_id, task_id, password):
     # 1. Setup crypto
     # Verifies the engine state using your master salt logic
+    if not verify_password(password):
+        return False, "Invalid Master Password"
+    
     crypto_engine = get_encryption_key(password)
     
     # 2. Get the cleanup schema from the database
@@ -177,8 +182,8 @@ async def execute_piper_stop(client_id, task_id, password):
         
         # Additionally, if you use a set for active tracking (as mentioned in step 3 comments)
         # r.srem(f"active_tasks:{client_id}", task_id) 
-        
         print(f"🗑️ Redis cleanup result: {redis_status.get('status')}")
+
     except Exception as e:
         print(f"⚠️ Redis cleanup warning: {e}")
 
@@ -190,7 +195,66 @@ async def execute_piper_stop(client_id, task_id, password):
         
         if db_purge_success:
             print(f"✅ Database record for {task_id} successfully removed.")
+            return True, f"Successfully stopped and cleaned up {client_id}."
     except Exception as e:
         print(f"❌ Critical error during DB cleanup: {e}")
+        return False, f"Cleanup Error: {str(e)}"
 
-    return {"status": "stopped", "task_id": task_id}
+    #return {"status": "stopped", "task_id": task_id}
+
+async def execute_piper_stop(clients=None, dsl=None, password=None):
+    """
+    Handles the logic for stopping clients. 
+    If no clients are provided, it attempts to stop everything active.
+    """
+    if not verify_password(password):
+        click.secho("❌ Error: Incorrect Master Password. Access Denied.", fg="red")
+        return False, "Invalid Master Password"
+    
+    # Case 1: No clients specified -> Stop everything in the DB/Queue
+    if not clients:
+        print("🛑 Shutting down all active pipelines...")
+        # Get all active client/task pairs from your DB
+        active_pipelines = DB.get_all_active_pipelines() # Ensure this exists in ContextDB
+        if not active_pipelines:
+            return True, "No active pipelines to stop."
+        
+        for pipe in active_pipelines:
+            await perform_cleanup(pipe['client_id'], pipe['task_id'], password)
+        return True, "Entire fleet shutdown complete."
+
+    # Case 2: Specific clients specified
+    for client in clients:
+        # If specific DSLs/TaskIDs are provided
+        if dsl:
+            for d in dsl:
+                # Remove .yml extension if user typed it, to match Task ID
+                task_id = d.replace(".yml", "")
+                await perform_cleanup(client, task_id, password)
+        else:
+            # No DSL specified? Find all tasks for this client in DB and stop them
+            tasks = DB.get_tasks_by_client(client) 
+            for t_id in tasks:
+                await perform_cleanup(client, t_id, password)
+                
+    return True, "Stop sequence executed for requested targets."
+
+async def perform_cleanup(client_id, task_id, password):
+    """Internal helper to do the actual heavy lifting for one task."""
+    crypto_engine = get_encryption_key(password)
+    cleanup_data = DB.get_cleanup_schema(client_id, task_id)
+    
+    if cleanup_data:
+        response = await core.dispatcher(
+            **cleanup_data.get("args"), 
+            _crypto_engine=crypto_engine, 
+            _client_name=client_id, 
+            _task_id=task_id,
+            _app_name=cleanup_data.get("app_name")
+        )
+        if response.get("status") == "error":
+             print(f"⚠️ External cleanup failed for {task_id}")
+    
+    remove_from_redis_queue(task_id)
+    DB.remove_pipeline_data(client_id, task_id)
+    print(f"✅ Cleaned up: {client_id} (Task: {task_id})")

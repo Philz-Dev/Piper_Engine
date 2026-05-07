@@ -24,7 +24,7 @@ import textwrap
 from shared.tools import retrieve_file
 from shared.redis_queuer import handover_password
 from shared.database_manager import ContextDB
-from shared.setup_build import execute_piper_start
+from shared.setup_build import execute_piper_start, execute_piper_stop
 
 DB = ContextDB()
 
@@ -154,9 +154,70 @@ def startttt(clients, dsl, password):
 
 @cli.command()
 @click.argument('clients', nargs=-1)
-@click.option('--dsl', '-d', multiple=True)
+@click.option('--dsl', '-d', multiple=True, help="Specific DSL files to run")
 @click.password_option('--password', envvar='PIPER_MASTER_PASSWORD')
 def start(clients, dsl, password):
+    """🚀 Start Piper: Deploy specific clients or the entire fleet."""
+    import asyncio
+    from shared.setup_build import execute_piper_start
+
+    success, message = asyncio.run(
+        execute_piper_start(clients=clients, dsl=dsl, password=password, logger=click.echo)
+    )
+    
+    if not success:
+        click.secho(f"❌ {message}", fg="red")
+
+@cli.command()
+@click.argument('clients', nargs=-1)
+@click.option('--dsl', '-d', multiple=True, help="Specific tasks/DSLs to stop")
+@click.password_option('--password', envvar='PIPER_MASTER_PASSWORD')
+def stop(clients, dsl, password):
+    """🛑 Stop Piper: Graceful shutdown for clients or the entire fleet."""
+    import asyncio
+    from shared.setup_build import execute_piper_stop
+
+    with console.status("[danger]Initiating stop sequence...", spinner="earth"):
+        success, message = asyncio.run(
+            execute_piper_stop(clients=clients, dsl=dsl, password=password)
+        )
+
+    if success:
+        console.print(f"[success]✅ {message}[/success]")
+    else:
+        console.print(f"[danger]❌ Stop Sequence Failed: {message}[/danger]")
+
+@cli.command()
+@click.argument('client_name', nargs=-1)
+@click.option('--dsl', '-d', multiple=True)
+@click.password_option('--password', envvar='PIPER_MASTER_PASSWORD')
+def stopoooo(client_name, task_id, password):
+    """🛑 Graceful Shutdown: Cleans providers, Redis, and Docker."""
+    import asyncio
+    from shared.setup_build import execute_piper_stop
+
+    # Default to 'waterfall' if no specific task_id is provided
+    t_id = task_id or "waterfall"
+
+    with console.status(f"[danger]Shutting down {client_name}...", spinner="earth"):
+        success, message = asyncio.run(
+            execute_piper_stop(
+                client_id=client_name, 
+                task_id=t_id, 
+                password=password
+            )
+        )
+
+    if success:
+        console.print(f"[success]✅ {message}[/success]")
+    else:
+        console.print(f"[danger]❌ Stop Sequence Failed: {message}[/danger]")
+
+@cli.command()
+@click.argument('clients', nargs=-1)
+@click.option('--dsl', '-d', multiple=True)
+@click.password_option('--password', envvar='PIPER_MASTER_PASSWORD')
+def startooo(clients, dsl, password):
     import asyncio
     from shared.setup_build import execute_piper_start
 
@@ -343,7 +404,7 @@ def dep(client_name, password):
 
 @cli.command()
 @click.option('-c', '--client', 'client_name', required=True)
-def stop(client_name):
+def stoppppppp(client_name):
     """🛑 Shutdown a specific client's worker."""
     internal_base = "/app" if os.path.exists("/app") else os.getcwd()
     internal_client_dir = os.path.join(internal_base, "templates", client_name)

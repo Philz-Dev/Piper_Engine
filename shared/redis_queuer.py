@@ -24,6 +24,13 @@ def add_to_redis(dsl_name, agency_id, pipeline=None, from_trigger=False, is_sche
 def handover_password(password):
     # We save the password with an expiry of 300 seconds (5 minutes)
     # This ensures the password doesn't sit in RAM forever
+    r.set(f"MASTER_PASSWORD", password)
+    print(f"MASTER_PASSWORD credentials Stored")
+
+
+def handover_password_v2(password):
+    # We save the password with an expiry of 300 seconds (5 minutes)
+    # This ensures the password doesn't sit in RAM forever
     r.set(f"MASTER_PASSWORD", password, ex=300)
     print(f"MASTER_PASSWORD credentials Stored")
 

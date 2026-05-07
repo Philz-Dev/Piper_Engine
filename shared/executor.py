@@ -337,10 +337,14 @@ class PipelineExecutor:
             return match.group(1), match.group(2)
         
 def service_executor(_registry, _cont: Dict, _crypto_engine, _context_data):
+    prefix = _cont.get("prefix")
     if args :=_cont.get("args"):
         args["context_data"] = _context_data
-    exe = _registry.sub_executor_map.get(_cont["prefix"])
-    return exe(**_cont["args"], _crypto_engine=_crypto_engine, _registry=_registry)
+    engine_internal = _cont.get("engine_internal")
+    exe = _registry.sub_executor_map.get(prefix) if prefix else None
+    if exe:
+        return exe(**_cont["args"], _crypto_engine=_crypto_engine, _registry=_registry, _engine_internal=engine_internal, _prefix=prefix)
+    return {}
 
 
 def schedule_executor(interval: str, **_kwargs):
@@ -349,7 +353,10 @@ def schedule_executor(interval: str, **_kwargs):
     """
     pass
 
-async def execute_in_sandbox(_file_path: str, _context_data: Dict, runtime: str, timeout: int=30, **_kwargs):
+async def execute_in_sandbox(_prefix: str, _engine_internal: Dict, _context_data: Dict, runtime: str, timeout: int=30, **_kwargs):
+    
+    system_items = _engine_internal.get(_prefix)
+    file_path = system_items.get("_file_path" ) if system_items else None
 
     P_LANGUAGE_IMAGES = {
         "python": "piper-runner-python:v1",
@@ -367,9 +374,11 @@ async def execute_in_sandbox(_file_path: str, _context_data: Dict, runtime: str,
     # We map the HOST path (from the interpreter) to a standard CONTAINER path
     # Example: C:/Users/Dev/my_script.js -> /app/user_code.js
     container_script_path = f"/app/user_code.{extension}"
+    if not file_path:
+        return {}
     
     # Senior Move: Use // for MINGW64/Git Bash path compatibility on Windows
-    volume_mapping = f"{_file_path}:{container_script_path}"
+    volume_mapping = f"{file_path}:{container_script_path}"
 
     cmd = [
         "docker", "run", "--rm", "-i",

@@ -15,7 +15,7 @@ from typing import Dict, Any, List
 from shared.tools import retrieve_file, replace_place_value, crawler, missing_field, load_schema_registry
 from shared.registry_V2 import PiperRegistry
 from shared.database_manager import ContextDB
-from tools import resolve_service_instruction
+from shared.tools import resolve_service_instruction
 
 class PiperInterpreter:
     def __init__(self, registry, crypto_engine=None):
@@ -164,6 +164,7 @@ async def app_service(registry, step, key: str, value: str, crypto_engine, name,
         
     return {
         "service_manager": key,
+        'prefix': prefix,
         "app_name": app_name,
         "action": action,
         "service_type": prefix,

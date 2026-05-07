@@ -20,6 +20,20 @@ class ContextDB:
             return True
         except Exception:
             return False
+        
+    def get_cleanup_schema(self, client_id, task_id):
+        """Retrieves the delete/cleanup schema for a specific task."""
+        query = text("SELECT delete_schema FROM pipeline_cleanup WHERE client_id = :c_id AND task_id = :t_id")
+        try:
+            with self.engine.connect() as conn:
+                result = conn.execute(query, {"c_id": client_id, "t_id": task_id}).fetchone()
+                if result:
+                    # Parse the JSON string back into a dict
+                    return json.loads(result[0]) if isinstance(result[0], str) else result[0]
+                return None
+        except Exception as e:
+            print(f"❌ Error fetching cleanup schema: {e}")
+            return None
     
     def get_pipeline_by_client(self, client_id: str):
         """Checks if a pipeline exists for a client and returns the record."""
@@ -295,6 +309,36 @@ class ContextDB:
             })
             conn.commit()
 
+    def get_all_active_pipelines(self):
+        """
+        Retrieves all unique client and task combinations currently in storage.
+        Used for a global system shutdown.
+        """
+        query = text("SELECT client_id, task_id FROM pipeline_storage")
+        try:
+            with self.engine.connect() as conn:
+                result = conn.execute(query).fetchall()
+                # Returns a list of dicts for the loop in execute_piper_stop
+                return [{"client_id": row[0], "task_id": row[1]} for row in result]
+        except Exception as e:
+            print(f"❌ Error fetching all active pipelines: {e}")
+            return []
+
+    def get_tasks_by_client(self, client_id: str):
+        """
+        Retrieves all task IDs associated with a specific client from the pipeline storage.
+        """
+        # We query pipeline_storage to find every task registered to this client
+        query = text("SELECT task_id FROM pipeline_storage WHERE client_id = :c_id")
+        try:
+            with self.engine.connect() as conn:
+                result = conn.execute(query, {"c_id": client_id}).fetchall()
+                # Returns a list of strings: ['waterfall', 'task_1', ...]
+                return [row[0] for row in result]
+        except Exception as e:
+            print(f"❌ Error fetching tasks for client {client_id}: {e}")
+            return []
+
     def remove_pipeline_data(self, client_id: str, task_id: str):
         """
         Permanently deletes the stored pipeline blueprint and its schedule.
@@ -304,7 +348,8 @@ class ContextDB:
         queries = [
             text("DELETE FROM pipeline_storage WHERE client_id = :c_id AND task_id = :t_id"),
             text("DELETE FROM scheduler WHERE client_id = :c_id AND task_id = :t_id"),
-            text("DELETE FROM context_manager WHERE client_id = :c_id AND task_id = :t_id")
+            text("DELETE FROM context_manager WHERE client_id = :c_id AND task_id = :t_id"),
+            text("DELETE FROM pipeline_cleanup WHERE client_id = :c_id AND task_id = :t_id") # Add this!
         ]
         
         try:

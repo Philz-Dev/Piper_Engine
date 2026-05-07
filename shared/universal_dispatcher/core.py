@@ -4,7 +4,7 @@ import logging
 import asyncio
 import os
 from shared.tools import crawler, replace_place_value, get_auth_config_file, retrieve_file
-from universal_dispatcher.rategovernor import RateGovernor
+from .rategovernor import RateGovernor
 
 # Set up logging to catch errors on the VPS without leaking secrets
 logging.basicConfig(level=logging.INFO)

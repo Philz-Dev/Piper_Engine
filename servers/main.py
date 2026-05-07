@@ -4,16 +4,23 @@ import docker
 import uvicorn
 import os
 import yaml
+import sys
+root_path = os.path.dirname(os.path.abspath(__file__))
+if root_path not in sys.path:
+    sys.path.append(root_path)
+
 import subprocess
 import glob
 import hashlib
 import base64
 from typing import List, Dict
 from shared.encryption_manager import verify_password, initialize_salt, MASTER_SALT, CONFIG_DIR
-from shared.setup_build import execute_piper_start
+from shared.setup_build import execute_piper_start, execute_piper_stop
+from shared. database_manager import ContextDB
 
 client = docker.from_env()
 app = FastAPI(title="Piper Engine API")
+DB = ContextDB()
 
 # Configuration
 PROJECT_ROOT = "/app"
@@ -126,19 +133,24 @@ async def toggle_container(
                 dsl=[f"{container_name}.yml"], 
                 password=MASTER_PASSWORD
             )
-            if not success:
-                raise HTTPException(status_code=500, detail=message)
-            return {"status": "success", "message": message}
-
-        else:
-            # Stop logic still uses subprocess (unless you extract stop logic too)
-            command = f"piper stop {container_name}"
-            result = subprocess.run(command, shell=True, capture_output=True, text=True)
             
-            if result.returncode != 0:
-                raise HTTPException(status_code=500, detail=result.stderr)
-
-            return {"status": "success", "output": result.stdout}
+        else:
+            pipeline_info = DB.get_pipeline_by_client(client_name)
+            
+            active_task_id = pipeline_info.get("task_id") if pipeline_info else container_name
+            
+            print(f"DEBUG: Stopping client {client_name} with Task ID {active_task_id}")
+            # Stop logic still uses subprocess (unless you extract stop logic too)
+            success, message = await execute_piper_stop(
+                clients=[client_name],           
+                dsl=[f"{active_task_id}.yml"],   
+                password=MASTER_PASSWORD
+            )
+            
+        if not success:
+            raise HTTPException(status_code=500, detail=message)
+    
+        return {"status": "success", "message": message}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

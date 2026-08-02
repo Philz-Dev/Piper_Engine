@@ -27,12 +27,16 @@ COPY manager/ ./manager/
 COPY shared/ ./shared/
 COPY .piper_config/ ./.piper_config/
 
+
 RUN pip install -e ./shared
 
 # 3. Install 'manager' 
 RUN pip install -e ./manager
+# Make sure it is executable
+#RUN chmod +x /app/manager/entrypoint.sh
 
 
 ENV PYTHONPATH="/app:/app/manager:/app/shared"
 
 ENTRYPOINT ["python", "/app/manager/cli_manager/core.py"]
+#ENTRYPOINT ["/app/manager/entrypoint.sh"]

@@ -6,12 +6,15 @@ pydantic==2.12.5
 pydantic-settings==2.13.1
 pydantic-extra-types==2.11.1
 pydantic_core==2.41.5
+simpleeval>=0.9.13
 
 # --- Database & Task Scheduling ---
 SQLAlchemy==2.0.49
 redis==7.4.0
 APScheduler==3.11.2
 greenlet==3.3.2
+psycopg2-binary
+requests
 
 # --- Infrastructure & Automation ---
 docker==7.1.0

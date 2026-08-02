@@ -3,7 +3,7 @@
     "method": "PATCH",
     "url": "https://api.hubapi.com/crm/v3/objects/contacts/{contact_id}",
     "class": {
-        "authorization": "{{DataType=str, Default=$.Hubspot}}",
+        "authorization": "{{DataType=str, Default=$env.Hubspot}}",
         "contact_id": "{{DataType=str}}"
     },
     "headers": {

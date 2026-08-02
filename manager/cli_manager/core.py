@@ -25,6 +25,7 @@ from shared.tools import retrieve_file
 from shared.redis_queuer import handover_password
 from shared.database_manager import ContextDB
 from shared.setup_build import execute_piper_start, execute_piper_stop
+import docker
 
 DB = ContextDB()
 
@@ -87,7 +88,7 @@ def cli(ctx):
     
     exempt_paths = [
         ['create', 'password'],
-        ['drop'],
+        ['dropall'],
         ['change', 'password'],
         ['run'] # Docker workers don't need to trigger the setup check
     ]
@@ -104,6 +105,38 @@ def cli(ctx):
             click.echo("Aborted. A Master Password is required to use this tool.")
             ctx.exit()
 
+@cli.command()
+@click.confirmation_option(
+    prompt='🚨 DANGER ZONE 🚨\nAre you sure you want to permanently drop EVERY single schema table within the piper application database?'
+)
+@click.password_option(
+    '--password', 
+    envvar='PIPER_MASTER_PASSWORD', 
+    help="Master Password required to execute full database purge", 
+    prompt="Enter Master Password to authorize nuclear wipe"
+)
+def dropall(password):
+    """🚨 Nuke Database: Permanently drops EVERY table in the system schema."""
+    
+    # 1. Identity Verification Security Check
+    if not verify_password(password):
+        console.print("[danger]❌ Access Denied:[/danger] Incorrect Master Password. Database purge aborted.")
+        return
+
+    # 2. Execute Atomic Database Drop Transaction
+    with console.status("[danger]💥 Initiating complete system database purge...[/danger]", spinner="bouncingBar"):
+        try:
+            success = DB.danger_drop_all_tables()
+            
+            if success:
+                console.print("\n[success]💥 System Purge Successful: All piper tables dropped. Database is completely empty.[/success]")
+                console.print("[info]Tip: Run 'piper init' if you need to reconstruct empty default schema structures.[/info]")
+            else:
+                console.print("\n[danger]❌ Drop operation encountered an internal transactional error.[/danger]")
+                
+        except Exception as e:
+            console.print(f"\n[danger]❌ Critical execution failure:[/danger] {e}")
+
 # --- ENGINE COMMANDS (DOCKER SIDE) ---
 
 @cli.command()
@@ -118,6 +151,44 @@ def reset():
             console.print("[success]✅ Table recreated with UNIQUE(client_id) constraint.[/success]")
         except Exception as e:
             console.print(f"[danger]❌ Reset failed:[/danger] {e}")
+
+@cli.group()
+def secrets():
+    """Manage pipeline secrets."""
+    pass
+
+@cli.command()
+@click.argument('service_key')
+@click.option('--client', '-c', 'client_name', required=True, help="The client name")
+@click.password_option('--password', envvar='PIPER_MASTER_PASSWORD', help="Master Password to authorize removal", prompt=True)
+def removeapi(service_key, client_name, password):
+    """✂️ Surgically remove a service key from the vault (e.g., 'Typeform')."""
+    
+    # 1. Verify Identity
+    if not verify_password(password):
+        console.print("[danger]❌ Access Denied:[/danger] Incorrect Master Password.")
+        return
+
+    # 2. Execute via Database Manager
+    with console.status(f"[info]Removing {service_key} from {client_name}'s vault...", spinner="dots"):
+        # Calling the function you defined in your database manager
+        success = DB.remove_service_from_vault(client_name=client_name, service_key=service_key)
+        
+        if success:
+            console.print(f"[success]✅ Successfully removed [key]{service_key}[/key] from [info]{client_name}[/info].[/success]")
+        else:
+            console.print(f"[danger]❌ Operation failed.[/danger] Ensure the client exists in the vault.")
+
+@cli.command()
+@click.confirmation_option(prompt='Are you sure you want to wipe Pipeline Storage?')
+def resetcontext():
+    with console.status("[info]Resetting Database...", spinner="dots"):
+        try:
+            console.print("[success]✅ Table recreated with UNIQUE(client_id) constraint.[/success]")
+            DB.danger_drop_context_table()
+        except Exception as e:
+                console.print(f"[danger]❌ Reset context failed:[/danger] {e}")
+
 
 """@cli.command()
 @click.argument('clients', nargs=-1)  # Unlimited client names
@@ -167,6 +238,65 @@ def start(clients, dsl, password):
     
     if not success:
         click.secho(f"❌ {message}", fg="red")
+
+@cli.command()
+def stats():
+    """📊 View Global Engine Resource Usage."""
+    import docker
+    
+    # Force connection to the local socket (standard for Windows/Linux)
+    try:
+        # On Windows/MINGW64, this usually maps correctly if Docker Desktop is running
+        client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+    except:
+        # Fallback to default env discovery
+        client = docker.from_env()
+
+    total_cpu = 0.0
+    total_mem_mb = 0.0
+    
+    try:
+        containers = client.containers.list(filters={"status": "running"})
+        
+        if not containers:
+            console.print("[yellow]📭 No containers are currently running.[/yellow]")
+            return
+
+        with console.status("[info]Calculating resource usage...", spinner="dots"):
+            for container in containers:
+                try:
+                    stats = container.stats(stream=False)
+                    
+                    # CPU Calc
+                    cpu_delta = stats["cpu_stats"]["cpu_usage"]["total_usage"] - \
+                                stats["precpu_stats"]["cpu_usage"]["total_usage"]
+                    system_delta = stats["cpu_stats"]["system_cpu_usage"] - \
+                                   stats["precpu_stats"]["system_cpu_usage"]
+                    
+                    if system_delta > 0.0:
+                        # len(percpu_usage) gives number of cores
+                        cores = len(stats["cpu_stats"]["cpu_usage"].get("percpu_usage", [1]))
+                        cpu_pct = (cpu_delta / system_delta) * cores * 100.0
+                        total_cpu += cpu_pct
+
+                    # Memory Calc
+                    mem_usage = stats["memory_stats"].get("usage", 0)
+                    total_mem_mb += (mem_usage / 1024 / 1024)
+                except (KeyError, TypeError):
+                    continue
+
+        # Display result in a nice Rich Panel
+        console.print(Panel(
+            f"[bold cyan]Total CPU Usage:[/bold cyan] [success]{total_cpu:.2f}%[/success]\n"
+            f"[bold cyan]Total Memory usage:[/bold cyan] [success]{total_mem_mb:.2f} MB[/success]\n"
+            f"[info]Active Containers:[/info] {len(containers)}",
+            title="[bold magenta]🛰️ Global Engine Stats[/bold magenta]",
+            border_style="blue"
+        ))
+
+    except Exception as e:
+        console.print(f"[danger]❌ Docker Connection Error:[/danger] {e}")
+        console.print("[info]Tip: Ensure Docker Desktop is running and 'Expose daemon on tcp://localhost:2375' is OFF if using unix socket.[/info]")
 
 @cli.command()
 @click.argument('clients', nargs=-1)

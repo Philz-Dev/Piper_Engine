@@ -11,18 +11,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # 3. Install Python dependencies
 COPY controller/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # 4. Copy the Engine source code 
 COPY controller/ ./controller/
+COPY shared/ ./shared/
 COPY .piper_config ./.piper_config/
 
+RUN pip install -e ./shared
+
 # 5. Set Environment
-ENV PYTHONPATH="/app"
+ENV PYTHONPATH="/app:/app/controller:/app/shared"
 ENV PATH="/usr/local/bin:/usr/bin:/bin:${PATH}"
 ENV PYTHONUNBUFFERED=1
 
 RUN groupadd -g 999 docker && usermod -aG docker root
 
 # 6. The Entrypoint
-ENTRYPOINT ["python", "controller/watcher.py"]
+#CMD ["python", "watcher.py"]
+#ENTRYPOINT ["python", "controller/watcher.py"]
+CMD ["python", "-m", "controller.watcher"]

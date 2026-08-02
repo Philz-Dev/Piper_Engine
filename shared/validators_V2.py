@@ -9,6 +9,77 @@ import re
 import shared.helpers as helpers
 from typing import Dict, List, Any, Optional
 from shared.registry_V2 import PiperRegistry, ValidationState 
+from shared.reg_schema.schemaid import SchemaID
+import inspect
+from typing import Dict, Any
+from shared.tools import parse_pipe_args
+import re
+import inspect
+import shared.system_functions as system_functions
+from shared.tools import split_args_smart, unescape_dsl_content # Import the shared utility
+import shlex  # Add this to your imports
+
+def validate_dependencies_with_prefix(section_key: str, content: Any, registry: PiperRegistry, state: ValidationState, line_info: str):
+    """
+    Checks dependencies for a section. Safely handles both Dict and List content types.
+    """
+
+    # 1. Defensive Check: Ensure content is a dictionary
+    if not isinstance(content, dict):
+        # If content is a list (CommentedSeq), we cannot resolve a prefix 
+        # from a dictionary key. Log a warning or return safely.
+        return
+
+    # 2. Safe retrieval of value
+    # Use .get() to prevent KeyErrors
+    raw_val = content.get(section_key)
+    
+    # Ensure the value is a string before attempting .split()
+    if not isinstance(raw_val, str):
+        # If the value is None or not a string, we cannot determine a prefix
+        prefix = None
+    else:
+        # Determine prefix safely
+        # Check if the registry has a prefix map for this key
+        if hasattr(registry, 'has_prefix') and registry.has_prefix(key=section_key):
+            prefix = raw_val.split(".")[0]
+            
+            # Verify prefix existence in registry map
+            if prefix not in registry.prefix_map.get(section_key, []):
+                # Fallback to native namespace
+                prefix = registry._raw.get(section_key, {}).get("native_namespace")
+        else:
+            prefix = None
+
+    # 3. Get the appropriate rules
+    if prefix:
+        sibling_rules = registry.get_service_dependency_rules(section_key, prefix)
+    else:
+        sibling_rules = registry.get_dependency_rules(section_key)
+
+    if not sibling_rules:
+        return
+    
+    for id_map_name, rule in sibling_rules.items():
+        map_name = registry.get_key_from_id(target_id=id_map_name)
+        
+        # Use .get() if 'rule' is a dict, or getattr() if it is a class instance.
+        # Since your registry returns a dict, use .get()
+        is_mandatory = rule.get('mandatory', False) if isinstance(rule, dict) else getattr(rule, 'mandatory', False)
+        is_supported = rule.get('support', False) if isinstance(rule, dict) else getattr(rule, 'support', False)
+        
+        if is_mandatory and map_name not in content:
+            state.add_error(
+                f"in Line {line_info}: Missing mandatory dependency '{map_name}' "
+                f"for {section_key} (Prefix: {prefix if prefix else 'None'})  "
+            )
+
+        if not is_supported and map_name in content:
+            state.add_error(
+                f"in Line {line_info}: this service does not support the key '{map_name}' "
+                f"for {section_key} (Prefix: {prefix if prefix else 'None'}) "
+                f"in Line {get_line_number(content, map_name)}"
+            )
 
 def main_validator(name: str, dsl_file: Dict[str, Any], registry, state):
     print(f"--- Starting Pre-Flight Validation for: {name} ---")
@@ -21,14 +92,44 @@ def main_validator(name: str, dsl_file: Dict[str, Any], registry, state):
     }
     unzip = UnZip()
     unzip.unpack_bulk_data(content=dsl_file, hooks=hook)
+    allowed_main_ids = registry.get_allowed_ids("__main__")
 
     for section, content in dsl_file.items():
         # Skip metadata keys like 'version'
-        if section == "version":
+        # 2. Structural Placement Check
+        line_info = get_line_number(content, section)
+
+        validate_dependencies_with_prefix(
+            section_key=section, 
+            content=dsl_file, # Assuming dsl_file is the sibling scope
+            registry=registry, 
+            state=state, 
+            line_info=line_info
+        )
+        if isinstance(content, str):
+            validate_expression(
+                expr_content=content, 
+                line_info=line_info, 
+                state=state
+            )
+
+        section_id = registry.id_map.get(section)
+        if section_id is None:
+             state.add_error(f"Unknown top-level section: '{section}'")
+             continue
+        if section_id == SchemaID.VERSION:
+            continue
+
+        # Check if this section is allowed in __main__
+        if section in registry.list_of_keys and section_id not in allowed_main_ids:
+            state.add_error(
+                f"in Line {line_info}: [Top-Level] '{section}' is a utility key and cannot be used as a top-level section."
+                f"Allowed sections are: {[id.name for id in allowed_main_ids]}"
+            )
             continue
     
         # 2. Check for Structural Placement (Top-Level Authorization)
-        if section in registry.list_of_keys and not registry.is_section_manager(section):
+        if registry.id_map.get(section) in registry.list_of_keys and not registry.is_section_manager(section):
             line_info = get_line_number(content, section)
             state.add_error(f"in Line {line_info}: [Top-Level] '{section}' is a utility key and cannot be used as a top-level section.")
             continue
@@ -37,54 +138,455 @@ def main_validator(name: str, dsl_file: Dict[str, Any], registry, state):
         if specialist:
             # Specialist handles deep-logic validation (IDs, webhooks, etc.)
             specialist(section, content, registry, state)
+
+    print(state.errors)
     return state.errors
 
-def validate_pipeline(section_key: Any, content: List[Dict], registry: PiperRegistry, state: Optional[ValidationState] = None, **kwargs) -> List:
-    # Initialize state once at the start
+def validate_expression_v2(expr_content: str, line_info: str, state: ValidationState, context_ref: str = ""):
+    """
+    Orchestrates the validation of all {{...}} blocks within a string.
+    """
+    if not isinstance(expr_content, str):
+        return
+
+    # Find all occurrences of {{ ... }}
+    matches = re.findall(r"\{\{(.*?)\}\}", expr_content)
+    
+    for expr in matches:
+        _validate_single_pipe_chain(expr.strip(), line_info, state, context_ref)
+
+def validate_expression(expr_content: str, line_info: str, state: ValidationState, context_ref: str = ""):
+    if not isinstance(expr_content, str):
+        return
+
+    # Regex: Matches {{...}} only if NOT preceded by \
+    # We use re.DOTALL to ensure it captures multi-line expressions if needed
+    pattern = r"(?<!\\)\{\{(.*?)(?<!\\)\}\}"
+    matches = re.findall(pattern, expr_content, re.DOTALL)
+    
+    for expr in matches:
+        # Before validating, we "clean" the expression of escape characters
+        # so logic sees '{{ $env.var }}' instead of '{{ \$env.var }}'
+        cleaned_expr = unescape_dsl_content(expr.strip())
+        _validate_single_pipe_chain(cleaned_expr, line_info, state, context_ref)
+
+def _validate_single_pipe_chain(pipe_chain: str, line_info: str, state: ValidationState, context_ref: str):
+    """
+    Validates a single chain: '$variable | func1 | func2(args) | func3 arg1 arg2'
+    Supports recursive validation for nested functions: func1(func2(arg))
+    """
+    # 1. FIXED: Split by | but not \| using regex
+    parts = [p.strip() for p in re.split(r'(?<!\\)\|', pipe_chain)]
+    if not parts:
+        return
+
+    # 1. Validate Source
+    source = parts[0]
+    # Note: If source can have escapes, you might unescape this too, 
+    # but typically sources like $env.var are literal keys.
+    if not (source.startswith("$") or source.startswith("'") or source.startswith('"')):
+        state.add_error(f"[{context_ref}] Line {line_info}: Invalid source '{source}'. Must start with '$' or be a literal.")
+
+    # 2. Nested validator to handle recursive function calls
+    def validate_call(segment: str):
+        segment = segment.strip()
+        # Basic check to see if it is a function call
+        if "(" in segment and segment.endswith(")"):
+            match = re.match(r"^([\w.]+)\((.*)\)$", segment)
+            if not match:
+                state.add_error(f"[{context_ref}] Line {line_info}: Invalid function syntax '{segment}'")
+                return
+            
+            func_name, args_raw = match.groups()
+            func = getattr(helpers, func_name, None)
+            if not func:
+                state.add_error(f"[{context_ref}] Line {line_info}: Function '{func_name}' not found in system functions")
+                return
+
+            # RECURSION: Get arguments and validate them
+            arg_list = split_args_smart(args_raw)
+            for arg in arg_list:
+                # UNESCAPE: Clean the arg of escapes for validation purposes
+                clean_arg = unescape_dsl_content(arg.strip())
+                # If the argument is another function, recurse
+                if "(" in clean_arg and clean_arg.endswith(")"):
+                    validate_call(clean_arg)
+            
+            # Validate contract for the current function
+            pos_args, parsed_kwargs = parse_pipe_args(arg_list)
+            contract = inspect_function(func=func)
+
+            if len(pos_args) > len(contract):
+                state.add_error(f"[{context_ref}] Line {line_info}: Too many arguments for '{func_name}'. Expected max {len(contract)}, got {len(pos_args)}.")
+            
+            for key in parsed_kwargs.keys():
+                if key not in contract:
+                    state.add_error(f"[{context_ref}] Line {line_info}: Argument '{key}' is invalid for '{func_name}'.")
+            
+            for param_name, info in contract.items():
+                is_mandatory = info.get("default") is inspect.Parameter.empty
+                if is_mandatory and param_name not in parsed_kwargs:
+                    state.add_error(f"[{context_ref}] Line {line_info}: Missing mandatory argument '{param_name}' for '{func_name}'.")
+
+    # 3. Validate Pipe Functions
+    for pipe_segment in parts[1:]:
+        # UNESCAPE: Clean the segment of escapes before processing
+        pipe_segment = unescape_dsl_content(pipe_segment.strip())
+        
+        # Determine Mode
+        if "(" in pipe_segment:
+            # --- MODE: FUNCTION-STYLE (Calls our recursive helper) ---
+            validate_call(pipe_segment)
+        else:
+            # --- MODE: CLI-STYLE ---
+            try:
+                tokens = shlex.split(pipe_segment)
+            except ValueError:
+                tokens = pipe_segment.split()
+                
+            if not tokens:
+                continue
+            func_name = tokens[0]
+            arg_list = tokens[1:] 
+
+            # Check Function Existence
+            func = getattr(helpers, func_name, None)
+            if not func:
+                state.add_error(f"[{context_ref}] Line {line_info}: Function '{func_name}' not found in system functions")
+                continue
+                
+            # Parse arguments
+            pos_args, parsed_kwargs = parse_pipe_args(arg_list)
+            contract = inspect_function(func=func)
+
+            if len(pos_args) > len(contract):
+                state.add_error(f"[{context_ref}] Line {line_info}: Too many arguments for '{func_name}'. Expected max {len(contract)}, got {len(pos_args)}.")
+            
+            # Check for Invalid Arguments
+            for key in parsed_kwargs.keys():
+                if key not in contract:
+                    state.add_error(f"[{context_ref}] Line {line_info}: Argument '{key}' is invalid for '{func_name}'.")
+
+            for param_name, info in contract.items():
+                if info.get("default") is inspect.Parameter.empty:
+                    # If the user didn't explicitly provide this argument, assume it's filled by the pipe
+                    if param_name not in parsed_kwargs:
+                        parsed_kwargs[param_name] = "PIPED_INPUT"
+                    break  # We only automatically satisfy the first positional input
+            
+            # Check for Missing Mandatory Arguments
+            for param_name, info in contract.items():
+                is_mandatory = info.get("default") is inspect.Parameter.empty
+                if is_mandatory and param_name not in parsed_kwargs:
+                    state.add_error(f"[{context_ref}] Line {line_info}: Missing mandatory argument '{param_name}' for '{func_name}'.")
+
+def _validate_single_pipe_chain_v2(pipe_chain: str, line_info: str, state: ValidationState, context_ref: str):
+    """
+    Validates a single chain: '$variable | func1 | func2(args) | func3 arg1 arg2'
+    Supports recursive validation for nested functions: func1(func2(arg))
+    """
+    parts = [p.strip() for p in pipe_chain.split('|')]
+    if not parts:
+        return
+
+    # 1. Validate Source
+    source = parts[0]
+    if not (source.startswith("$") or source.startswith("'") or source.startswith('"')):
+        state.add_error(f"[{context_ref}] Line {line_info}: Invalid source '{source}'. Must start with '$' or be a literal.")
+
+    # NEW: Nested validator to handle recursive function calls
+    def validate_call(segment: str):
+        segment = segment.strip()
+        # Basic check to see if it is a function call
+        if "(" in segment and segment.endswith(")"):
+            match = re.match(r"^([\w.]+)\((.*)\)$", segment)
+            if not match:
+                state.add_error(f"[{context_ref}] Line {line_info}: Invalid function syntax '{segment}'")
+                return
+            
+            func_name, args_raw = match.groups()
+            func = getattr(helpers, func_name, None)
+            if not func:
+                state.add_error(f"[{context_ref}] Line {line_info}: Function '{func_name}' not found in system functions")
+                return
+
+            # RECURSION: Get arguments and validate them
+            arg_list = split_args_smart(args_raw)
+            for arg in arg_list:
+                # If the argument is another function, recurse
+                if "(" in arg and arg.strip().endswith(")"):
+                    validate_call(arg.strip())
+            
+            # Validate contract for the current function
+            pos_args, parsed_kwargs = parse_pipe_args(arg_list)
+            contract = inspect_function(func=func)
+
+            if len(pos_args) > len(contract):
+                state.add_error(f"[{context_ref}] Line {line_info}: Too many arguments for '{func_name}'. Expected max {len(contract)}, got {len(pos_args)}.")
+            # --- FIXED LOGIC END ---
+            
+            for key in parsed_kwargs.keys():
+                if key not in contract:
+                    state.add_error(f"[{context_ref}] Line {line_info}: Argument '{key}' is invalid for '{func_name}'.")
+            
+            for param_name, info in contract.items():
+                is_mandatory = info.get("default") is inspect.Parameter.empty
+                if is_mandatory and param_name not in parsed_kwargs:
+                    state.add_error(f"[{context_ref}] Line {line_info}: Missing mandatory argument '{param_name}' for '{func_name}'.")
+
+    # 2. Validate Pipe Functions
+    for pipe_segment in parts[1:]:
+        pipe_segment = pipe_segment.strip()
+        
+        # Determine Mode
+        if "(" in pipe_segment:
+            # --- MODE: FUNCTION-STYLE (Calls our recursive helper) ---
+            validate_call(pipe_segment)
+        else:
+            # --- MODE: CLI-STYLE ---
+            try:
+                tokens = shlex.split(pipe_segment)
+            except ValueError:
+                tokens = pipe_segment.split()
+                
+            if not tokens:
+                continue
+            func_name = tokens[0]
+            arg_list = tokens[1:] 
+
+            # Check Function Existence
+            func = getattr(helpers, func_name, None)
+            if not func:
+                state.add_error(f"[{context_ref}] Line {line_info}: Function '{func_name}' not found in system functions")
+                continue
+                
+            # Parse arguments
+            pos_args, parsed_kwargs = parse_pipe_args(arg_list)
+            contract = inspect_function(func=func)
+
+            if len(pos_args) > len(contract):
+                state.add_error(f"[{context_ref}] Line {line_info}: Too many arguments for '{func_name}'. Expected max {len(contract)}, got {len(pos_args)}.")
+            
+            # Check for Invalid Arguments
+            for key in parsed_kwargs.keys():
+                if key not in contract:
+                    state.add_error(f"[{context_ref}] Line {line_info}: Argument '{key}' is invalid for '{func_name}'.")
+
+            for param_name, info in contract.items():
+                if info.get("default") is inspect.Parameter.empty:
+                    # If the user didn't explicitly provide this argument, assume it's filled by the pipe
+                    if param_name not in parsed_kwargs:
+                        parsed_kwargs[param_name] = "PIPED_INPUT"
+                    break  # We only automatically satisfy the first positional input
+            
+            # Check for Missing Mandatory Arguments
+            for param_name, info in contract.items():
+                is_mandatory = info.get("default") is inspect.Parameter.empty
+                if is_mandatory and param_name not in parsed_kwargs:
+                    state.add_error(f"[{context_ref}] Line {line_info}: Missing mandatory argument '{param_name}' for '{func_name}'.")
+
+def get_service_keys(value, registry, key, state, step_ref):
+    prefix = registry.service_prefix(service_key=key, service_value=value)
+    config_keys = {}
+    handler = registry.prefix_executor(key=key, prefix_name=prefix)
+    
+    if not handler:
+        state.add_error(f"[{step_ref}] Registry Error: No handler for '{prefix}' mode.")
+        return config_keys
+        
+    inspect = inspect_function(func=handler)
+
+    for ky, vl in inspect.items():
+        # Set mandatory status correctly based on the 'default' value
+        is_mandatory = not vl.get("default", False)
+        config_keys[ky] = {"mandatory": is_mandatory}
+    
+    return config_keys
+
+def get_action_keys(value, registry, key, state, step_ref):
+    """
+    Retrieves the required arguments for an 'action' by inspecting 
+    the underlying Python function signature.
+    """
+    config_keys = {}
+    
+    # 1. Retrieve the handler from the registry
+    # Ensure this matches the method added to PiperRegistry
+    handler = registry.get_action_handler(value)
+    
+    if not handler:
+        state.add_error(f"[{step_ref}] Registry Error: No action handler found for '{value}'.")
+        return config_keys
+        
+    # 2. Inspect the Python function signature
+    # (Assuming inspect_function is available from your tools import)
+    contract = inspect_function(func=handler)
+
+    # 3. Build the config keys mapping
+    for arg_name, info in contract.items():
+        # Mandatory if the argument has no default value (inspect.Parameter.empty)
+        is_mandatory = (info.get("default") is inspect.Parameter.empty)
+        config_keys[arg_name] = {"mandatory": is_mandatory}
+    
+    return config_keys
+
+def validate_condition(section_key, line_info, content, key: Any, value: Any, registry, state: ValidationState, step_ref: str, func, **kwargs) -> None:
+    if not isinstance(content, list):
+        state.add_error(f"in Line {line_info}: {step_ref}: Condition must be a list of blocks.")
+        return
+
+    # Track validation state
+    seen_if = False
+    seen_else = False
+
+    for i, block in enumerate(content):
+        if not isinstance(block, dict):
+            state.add_error(f"in Line {line_info}: {step_ref}: Item at index {i} is not a valid block.")
+            continue
+
+        # Check which keys exist in this block
+        has_if = registry.get_key_from_id(SchemaID.IF) in block
+        has_elif = registry.get_key_from_id(SchemaID.ELIF) in block  # Assuming your user uses 'elif' key
+        has_else = registry.get_key_from_id(SchemaID.ELSE) in block
+
+        # Rule 1: A single block cannot contain multiple types
+        if (has_if + has_elif + has_else) > 1:
+            state.add_error(f"in Line {line_info}: {step_ref}: Block {i} cannot contain more than one of 'if', 'elif', or 'else'.")
+            continue
+
+        # Rule 2: Handle 'if'
+        if has_if:
+            if seen_else:
+                state.add_error(f"in Line {line_info}: {step_ref}: 'if' found at index {i} after an 'else' block.")
+            seen_if = True
+
+        # Rule 3: Handle 'elif'
+        elif has_elif:
+            if not seen_if:
+                state.add_error(f"in Line {line_info}: {step_ref}: 'elif' found at index {i} without a preceding 'if'.")
+            if seen_else:
+                state.add_error(f"in Line {line_info}: {step_ref}: 'elif' found at index {i} after an 'else' block.")
+
+        # Rule 4: Handle 'else'
+        elif has_else:
+            if not seen_if:
+                state.add_error(f"in Line {line_info}: {step_ref}: 'else' found at index {i} without a preceding 'if'.")
+            if seen_else:
+                state.add_error(f"in Line {line_info}: {step_ref}: Multiple 'else' blocks are not allowed.")
+            seen_else = True
+        
+        else:
+            state.add_error(f"in Line {line_info}: {step_ref}: Block {i} is missing a valid 'if', 'elif', or 'else' key.")
+
+    if not seen_if and len(content) > 0:
+        state.add_error(f"in Line {line_info}: {step_ref}: Condition list must contain at least one 'if' statement.")
+    
+    core_validator(
+            section_key=section_key,            # The child key becomes the new section key
+            content=content,              # Pass only the relevant sub-content
+            key=key, 
+            state=state, 
+            value=value, 
+            registry=registry
+        )
+    
+def core_validator(section_key: Any, content: List[Dict] | Dict, registry: PiperRegistry, state: Optional[ValidationState] = None, **kwargs) -> List:
     if state is None:
         state = ValidationState()
 
+    # Get the base definition (do this once)
+    base_allowed_keys = registry.get_allowed_keys_definition(section_key)
+    service_map = {SchemaID.SERVICE: get_service_keys, SchemaID.ACTION: get_action_keys}
+    if isinstance(content, Dict):
+        content = [content]
+
     for n, step in enumerate(content):
         step_ref = f"Step {n} (Depth {state.depth})"
+        line_info = get_line_number(step, section_key)
+        
+        # Start with a clean slate for this specific step
+        current_step_schema = base_allowed_keys.copy()
+        service_content = None
+        
+        # Dynamically inject service-specific keys for this step only
+        service_list = [k for k in step.keys() if registry.id_map.get(k) in service_map]
+       
+        if service_list:
+            service_key = service_list[0]
+            service_id = registry.id_map.get(service_key)
+            service_content = step.get(service_key)
+            resolve_func = service_map.get(service_id)
+            
+            config_keys = resolve_func(value=service_content, registry=registry, 
+                                       key=service_key, state=state, step_ref=step_ref)
+            if config_keys:
+                current_step_schema.update(config_keys)
 
-        rules = registry.get_dependency_rules(section_key)
-        for map_name, rule in rules.items():
-            # Check if step contains a key that exists in the specified map
-            # e.g., A_SERVICE_MANAGER_MAP
-            line_info = get_line_number(step, section_key)
-            found = [k for k in step.keys() if k in getattr(registry, map_name.lower())]
- 
-            if rule.mandatory and not found:
-                state.add_error(f"in Line {line_info}: {step_ref}: Missing mandatory {map_name}")
-            if len(found) > rule.support:
-                state.add_error(f"in Line {line_info}: {step_ref}: Too many {map_name} keys")
+        if not isinstance(step, Dict):
+            continue
 
-        # 2. Key-by-Key Specialized Validation
+        # 3. Mandatory Key Check
+        for expected_key, rules in current_step_schema.items():
+            if rules.get("mandatory", False) and expected_key not in step:
+                state.add_error(f"in Line {line_info}: {step_ref}: Missing mandatory child key '{expected_key}'")
+        
+        # 4. Specialist Validation
         for key, value in step.items():
-            check_step_validity(key=key, value=value, top_level_key=section_key, state=state, registry=registry, path=step_ref, parent=step)
             specialist = registry.get_validator(key)
+            child_line_info = get_line_number(step, key)
+            
+            validate_dependencies_with_prefix(
+                section_key=key, 
+                content=step, 
+                registry=registry, 
+                state=state, 
+                line_info=child_line_info # Pass the precise line info here
+            )
+
+            if isinstance(value, str):
+                validate_expression(
+                    expr_content=value, 
+                    line_info=child_line_info, 
+                    state=state, 
+                    context_ref=step_ref
+                )
+
+            if key not in current_step_schema:
+                state.add_error(f"in Line {child_line_info}: {step_ref}: Unauthorized child key '{key}' found in '{section_key}'")
+            
             if specialist:
-                specialist(section_key=section_key, step=step, key=key, state=state, value=value, registry=registry, step_ref=step_ref, func=validate_pipeline)
+                # IMPORTANT: Pass 'value' (the child content) instead of 'step' (the parent content).
+                specialist(
+                    section_key=key,            # The child key becomes the new section key
+                    content=value,              # Pass only the relevant sub-content
+                    key=key, 
+                    state=state, 
+                    value=value, 
+                    registry=registry, 
+                    step_ref=f"{step_ref} -> {key}", # Improved path tracking
+                    service_value=service_content,
+                    line_info=child_line_info,                # Usually None for nested blocks
+                    func=core_validator
+                )
+                  
     return state.errors
 
-def validate_recursive(section_key, step, key: Any, value: Any, registry, state: ValidationState, step_ref: str, func):
+def validate_recursive(section_key, content, key: Any, value: Any, registry, state: ValidationState, step_ref: str, func, **kwargs):
     # Ensure we get the list from the correct key (e.g., 'steps' or 'on_error')
-    target_content = step.get(key)
     
-    if not isinstance(target_content, list):
-        target_content = [target_content]
+    if not isinstance(content, list):
+        content = [content]
         
     # Must pass 'name' back to the recursive function
     state.depth += 1
-    recursive_call = func(section_key=section_key, content=target_content, registry=registry, state=state)
+    recursive_call = func(section_key=section_key, content=content, registry=registry, state=state)
     state.depth -= 1
     return recursive_call
 
-def validate_id(section_key, step, key: Any, value: Any, registry, state: ValidationState, step_ref: str, func) -> None:
+def validate_id(section_key, line_info, content, key: Any, value: Any, registry, state: ValidationState, step_ref: str, func, **kwargs) -> None:
     
     # Check 2: Uniqueness (The Senior move)
     if value in state.seen_ids:
-        line_info = get_line_number(step, key)
         state.add_error(f"in Line {line_info}: [{step_ref}] Duplicate ID found: '{value}'. IDs must be unique.")
     else:
         state.seen_ids.append(value)
@@ -124,6 +626,12 @@ def check_step_validity(key: Any, value: Any, registry: PiperRegistry, state: Va
     # 4. TYPE CHECK (Tier 3)
     # We only type check keys that are in our registry
     expected_type = registry.type_map.get(key)
+
+    # --- ADD THIS BLOCK ---
+    if isinstance(expected_type, list):
+        expected_type = tuple(expected_type)
+    # ----------------------
+
     if expected_type and not isinstance(actual_value, expected_type):
         actual_type = type(actual_value).__name__
         expected_name = expected_type.__name__ if hasattr(expected_type, '__name__') else str(expected_type)
@@ -132,83 +640,6 @@ def check_step_validity(key: Any, value: Any, registry: PiperRegistry, state: Va
         return False
 
     return True
-
-def validate_service(step: Dict, key: str, value: str, registry, state, step_ref: str, **kwargs) -> None:
-    # 1. Resolve Path and Prefix (ext., script., or lib)
-    info = resolve_service_instruction(service_key=value)
-
-    is_list_index = str(key).startswith("index ")
-    lookup_key = key if not is_list_index else None
-    file_path = info.get("full_path")
-    # Get the line number from the parent container
-    line_info = get_line_number(step, lookup_key)
-    
-    if not os.path.exists(file_path):
-        state.add_error(f"[{step_ref}] System Error: Service resource '{value}' missing.")
-        return
-    
-    prefix = registry.service_prefix(service_key=key, service_value=value)
-
-    # 2. Dependency Rule Check (Dynamic lookup)
-    # This retrieves the rule for 'an_input_manager' from the service's dependency map
-    found_input_key = input_manager(registry, step)
-    rule_config = registry.get_service_dependency_rules(key, prefix) # e.g., {"an_input_manager": {"mandatory": True, ...}}
-    for manager_attr, rule in rule_config.items():
-        # Specifically handle input manager dependency
-        if manager_attr == "an_input_manager":
-            if rule.mandatory and not found_input_key:
-                state.add_error(f"in Line {line_info}: [{step_ref}] Dependency Error: Service '{value}' requires an input manager block.")
-                return
-            
-            if len(found_input_key) > rule.support:
-                state.add_error(f"in Line {line_info}: [{step_ref}] Configuration Error: Too many input manager keys found: {found_input_key}")
-                return
-            
-    not_defualt_args = []
-    handler = registry.get_sub_executor(key, prefix)
-    if handler:
-        inspect = inspect_function(func=handler)
-        core_sys_keys = registry.get_core_syntax_keys()
-    for ky, vl in inspect.items():
-        if not vl["default"]:
-            not_defualt_args.append(ky)
-    config_keys = {}
-    for k, v in step.items():
-        line_info = get_line_number(step, k)
-        if k in core_sys_keys:
-            continue
-        if not k in inspect:
-            state.add_error(f"in Line {line_info}: wrong syntax, this service does not required this syntax {k}")
-        else:
-            config_keys[k] = v
-
-    missing_arg = missing_field(required=not_defualt_args, content_to_check=config_keys)
-    if missing_arg:
-        state.add_error(f"in Line {line_info}: missing this syntax {missing_arg}")
-    
-    # 3. Dynamic Sub-Validator Triggering
-    
-        # Get the sub_validator defined in the 'input' section of schema_reg
-        # Usually: registry._raw["input"]["sub_validators"]["input"]
-    if found_input_key:
-        input_validator = registry.get_sub_validator(found_input_key[0], found_input_key[0])
-        
-        if input_validator:
-            # Execute the input validator (e.g., validate_input)
-            input_validator(
-                key=found_input_key[0], 
-                current_step=step, 
-                registry=registry, 
-                state=state, 
-                context_ref=step_ref,
-                service_path=file_path, # Pass path so it can find the app schema
-                service_value=value
-            )
-
-    # 4. Specialist Delegation (Standard service logic)
-    specialist = registry.sub_validator_map[prefix]
-    if specialist:
-        specialist(key=key, value=value, registry=registry, state=state, step_ref=step_ref)
 
 def check_dependency_validity(state, key, value, step_ref, rule_config, registry, step):
     step_keys = set(step.keys())
@@ -256,60 +687,44 @@ def check_dependency_validity(state, key, value, step_ref, rule_config, registry
         return False
     return True
 
-def validate_service_v2(step: Dict, key: str, value: str, registry, state, step_ref: str, **kwargs) -> None:
-    # 1. Resolve Path and Prefix (ext., script., or lib)
+def validate_service_v2(section_key: str, line_info, content: Dict, key: str, value: str, registry, state, step_ref: str, **kwargs) -> None:
+    # 1. Resolve Path and Prefix
     prefix = registry.service_prefix(service_key=key, service_value=value)
 
-    # 2. Dependency Rule Check (Dynamic lookup)
-    rule_config = registry.get_service_dependency_rules(key, prefix) 
+    key_content = registry._raw.get(key)
+    prefix_content = key_content.get("prefix")
     
-    if not check_dependency_validity(state=state, key=key, value=value, step_ref=step_ref, rule_config=rule_config, registry=registry, step=step):
-        return
-    not_defualt_args = []
-    handler = registry.sub_executor_map.get(prefix)
-    if not handler:
-        state.add_error(f"[{step_ref}] Registry Error: No handler for '{prefix}' mode.")
-        return
-    inspect = inspect_function(func=handler)
-    core_sys_keys = registry.get_core_syntax_keys()
-    for ky, vl in inspect.items():
-        if not vl["default"]:
-            not_defualt_args.append(ky)
-    config_keys = {}
-    prefix_list = []
-    for k, v in step.items():
-        role = registry.identify_manager_role(k)
-        if role in rule_config:
-            prefix_list.append(k)
-        line_info = get_line_number(step, k)
-        if k in core_sys_keys:
-            continue
-        if not k in inspect:
-            state.add_error(f"in Line {line_info}: wrong syntax, this service does not required this syntax {k}. Available config keys: {inspect.keys()}")
-        else:
-            config_keys[k] = v
+    if prefix_content and registry.top_level_key.get(section_key):
+        cont = prefix_content.get(prefix)
+        top_parent = cont.get("top_level_parent")
+        
+        # --- FIX STARTS HERE ---
+        # Get the ID of the current section (e.g., convert "trigger" -> SchemaID.TRIGGER)
+        current_section_id = registry.id_map.get(section_key)
+        
+        if top_parent and current_section_id:
+            # Check using the ID instead of the string key
+            if current_section_id not in top_parent:
+                state.add_error(
+                    f"in Line {line_info}: [{step_ref}] This top level key '{section_key}' "
+                    f"does not support this type of service prefix: '{prefix}'."
+                )
+                return
+        
+    prefix_validator = registry.get_prefix_validator(key=key, prefix_name=prefix)
 
-    missing_arg = missing_field(required=not_defualt_args, content_to_check=config_keys)
-    if missing_arg:
-        state.add_error(f"in Line {line_info}: missing this syntax {missing_arg}")
-    
-   
-    dep_func_validators = registry.find_dependency_func(sub_type="validator", registry=registry, step=step, dependencies=rule_config, prefix=prefix_list)
-    sub_validator = {prefix: registry.sub_validator_map.get(prefix)}
-    sub_validators = {**dep_func_validators, **sub_validator}
 
-    if sub_validators:
-        for k, d in sub_validators.items():
-            # Execute the input validator (e.g., validate_input)
-            if callable(d):
-                d(
-                key=k, 
-                current_step=step, 
-                registry=registry, 
-                state=state, 
-                step_ref=step_ref, # Pass path so it can find the app schema
-                value=value
-            )
+    if prefix_validator:
+        if callable(prefix_validator):
+            prefix_validator(
+            key=key, 
+            current_step=content, 
+            registry=registry, 
+            state=state, 
+            step_ref=step_ref, # Pass path so it can find the app schema
+            value=value,
+            line_info=line_info
+        )
 
 def verify_config(handler: Callable, content: Dict, registry: PiperRegistry, state: ValidationState, context_ref: str, step):
     """
@@ -354,68 +769,95 @@ def verify_config(handler: Callable, content: Dict, registry: PiperRegistry, sta
             state.add_error(f"[{context_ref}] Missing mandatory argument: '{arg_name}'")
             continue
 
-def validate_input(key, current_step: Dict, registry: PiperRegistry, state: ValidationState, step_ref: str, full_path: str, value: str):
-    """
-    PRE-FLIGHT: Replaces the 'missing_field' and 'ValueError' logic.
-    """
-    run = None
-    if "runtime" in current_step:
-        run = current_step.get("runtime")
-    info = resolve_service_instruction(value, runtime=run)
-    is_list_index = str(key).startswith("index ")
-    lookup_key = key if not is_list_index else None
-    file_path = info["full_path"]
-    # Get the line number from the parent container
-    line_info = get_line_number(current_step, lookup_key)
-    
-    if info:
-        if not os.path.exists(file_path):
-            state.add_error(f"[{step_ref}] System Error: Service resource '{value}' missing.")
-            return
-        
-    line_info = get_line_number(current_step, key)
-    input_block = current_step.get(key, {})
-    key_matches = check_key_matches(full_path)
-    app_schema = key_matches["app_schema"]
-    found_items = key_matches["found_items"]
-    if not app_schema:
-        state.add_error(f"NameError: No such app or action to be taken {value}")
+def validate_input_v2(section_key, line_info, content: Dict, registry: PiperRegistry, state: ValidationState, step_ref: str, value: str, service_value, **kwargs):
+    if service_value is None:
         return
-    matched_items = found_items["matched_items"]
-    missing = missing_field(required=matched_items, content_to_check=input_block)
-    if missing:
-        state.add_error(f"in Line {line_info}: this field {missing} is required")
+    # ----------------------
+    run = None
+    if "runtime" in content:
+        run = content.get("runtime")
+    info = resolve_service_instruction(service_key=service_value, runtime=run)
+    
+    # 2. Get Schema
+    file_path = info.get("full_path")
+    if not file_path:
+        return
+    
+    key_matches = check_key_matches(file_path)
+    matched_items = key_matches["found_items"]["matched_items"]
 
-    for user_key in input_block.keys():
-        if not user_key in matched_items:
-            line_info = get_line_number(current_step, user_key)
+    # 3. Check for Missing Required Fields
+    required_but_missing = []
+    for field, schema_val in matched_items.items():
+        schema_str = str(schema_val)
+        has_default = "Default=" in schema_str or "Default =" in schema_str
+        is_in_dsl = field in content # Now checking the flat dictionary!
+
+        if not is_in_dsl and not has_default:
+            required_but_missing.append(field)
+        
+        # Check for empty values
+        if is_in_dsl:
+            val = content[field]
+            if val is None or (isinstance(val, str) and not val.strip()):
+                state.add_error(f"in Line {line_info}: Value for '{field}' cannot be empty.")
+
+    if required_but_missing:
+        state.add_error(f"in Line {line_info}: Missing required fields: {set(required_but_missing)}")
+
+    # 4. Check for Unknown/Typo Keys
+   
+    for user_key, value in content.items():
+        child_line_num = get_line_number(content, user_key)
+        if user_key not in matched_items:
+            
+            # --- NEW PRECISION LOGIC ---
+            # 1. Find the exact dictionary that contains this key
+            target_dict = next(
+                (item for item in content if isinstance(item, dict) and user_key in item), 
+                content
+            )
+            
+            # 2. Get the line number from the specific target object
+            sub_line_info = get_line_number(target_dict, user_key)
+            # ---------------------------
+
             suggestion = get_suggestion(user_key, list(matched_items.keys()))
-            msg = f"Line {line_info}: Field '{user_key}' is not recognized by this service."
-            if suggestion:
+            msg = f"Line {sub_line_info}: Field '{user_key}' unknown."
+            if suggestion: 
                 msg += f" Did you mean '{suggestion}'?"
             else:
-                msg += f" List of valid keys: {matched_items.keys()}"
+                msg += f" Valid keys: {list(matched_items.keys())}"
+            
+            state.add_error(msg)
+            
+        if isinstance(value, str):
+            validate_expression(
+                expr_content=value, 
+                line_info=child_line_num, 
+                state=state, 
+                context_ref=step_ref
+            )
 
-            state.add_error(f"{msg}")
-
-def validate_input_v2(key, current_step: Dict, registry: PiperRegistry, state: ValidationState, step_ref: str, value: str):
+def validate_input_v1(key, step: Dict, registry: PiperRegistry, state: ValidationState, step_ref: str, value: str, service_value, **kwargs):
     run = None
-    if "runtime" in current_step:
-        run = current_step.get("runtime")
-    info = resolve_service_instruction(value, runtime=run)
+    if "runtime" in step:
+        run = step.get("runtime")
+    
+    info = resolve_service_instruction(service_key=service_value, runtime=run)
     is_list_index = str(key).startswith("index ")
     lookup_key = key if not is_list_index else None
     file_path = info["full_path"]
     # Get the line number from the parent container
-    line_info = get_line_number(current_step, lookup_key)
+    line_info = get_line_number(step, lookup_key)
     
     if info:
         if not os.path.exists(file_path):
             state.add_error(f"[{step_ref}] System Error: Service resource '{value}' missing.")
             return
         
-    line_info = get_line_number(current_step, key)
-    input_block = current_step.get(key, {})
+    line_info = get_line_number(step, key)
+    input_block = step.get(key, {})
     
     key_matches = check_key_matches(file_path)
     matched_items = key_matches["found_items"]["matched_items"]
@@ -443,15 +885,16 @@ def validate_input_v2(key, current_step: Dict, registry: PiperRegistry, state: V
         state.add_error(f"in Line {line_info}: Missing required fields: {set(required_but_missing)}")
 
     # 3. Typo / Unknown Key Check
-    for user_key in input_block.keys():
-        if user_key not in matched_items:
-            suggestion = get_suggestion(user_key, list(matched_items.keys()))
-            msg = f"Line {get_line_number(input_block, user_key)}: Field '{user_key}' unknown."
-            if suggestion: 
-                msg += f" Did you mean '{suggestion}'?"
-            else:
-                msg += f" List of valid keys: {matched_items.keys()}"
-            state.add_error(msg)
+    for container in input_block:
+        for user_key in container.keys():
+            if user_key not in matched_items:
+                suggestion = get_suggestion(user_key, list(matched_items.keys()))
+                msg = f"Line {get_line_number(input_block, user_key)}: Field '{user_key}' unknown."
+                if suggestion: 
+                    msg += f" Did you mean '{suggestion}'?"
+                else:
+                    msg += f" List of valid keys: {matched_items.keys()}"
+                state.add_error(msg)
 
 
 def validate_dsl_helpers(value: str, state, line_info, step_ref):
@@ -485,27 +928,30 @@ def validate_dsl_helpers(value: str, state, line_info, step_ref):
 
 
 
-def validate_condition_syntax(step, key: Any, value: Any, registry, state: ValidationState, step_ref: str, **kwargs):
-    line_info = get_line_number(step, key)
-    
-    # 1. Check for ID existence (Already working)
-    tags = re.findall(r"\{\{(?P<id>[\w\-]+)\.(?P<path>[\w\.]+)\}\}", value)
+def validate_condition_syntax(content, key: Any, line_info, value: Any, registry, state: ValidationState, step_ref: str, **kwargs):
+    # 1. Check for ID existence
+    # Regex updated to target '$' prefix
+    tags = re.findall(r"\$(?P<id>[\w\-]+)\.(?P<path>[\w\.]+)", value)
     for ref_id, path in tags:
         if ref_id not in state.seen_ids:
             state.add_error(f"Condition Error: Reference to '{ref_id}' not found, in Line {line_info}.")
 
     # 2. Advanced Mocking
-    # We replace the tag with a valid Python variable name 'var'
-    mock_condition = re.sub(r"\{\{.*?\}\}", "var", value)
+    # Update regex to find '$variable' and replace with 'var'
+    mock_condition = re.sub(r"\$[\w\-\.]+", "var", value)
+    
+    # 3. Handle Pipe/Contains logic if you are using custom string operations
+    # If your DSL supports 'contains', you might need to replace it with a standard call 
+    # so AST can parse it, e.g., mock_condition = mock_condition.replace('| contains', 'in')
     
     try:
         tree = ast.parse(mock_condition, mode='eval')
         
-        # 3. Security Walk - Add ast.Attribute for 'id.key' style if needed
         allowed_nodes = (
             ast.Expression, ast.Compare, ast.BinOp, ast.BoolOp, 
             ast.UnaryOp, ast.Name, ast.Constant, ast.Load, ast.Attribute,
-            ast.Eq, ast.NotEq, ast.Gt, ast.GtE, ast.Lt, ast.LtE  # Added these
+            ast.Eq, ast.NotEq, ast.Gt, ast.GtE, ast.Lt, ast.LtE, 
+            ast.In, ast.BitOr # Added In for 'in' keyword and BitOr for pipe '|'
         )
         
         for node in ast.walk(tree):
@@ -518,38 +964,54 @@ def validate_condition_syntax(step, key: Any, value: Any, registry, state: Valid
 def validate_webhook():
     pass
 
-def validate_timer(key, current_step: Dict, registry: PiperRegistry, state: ValidationState, step_ref: str, value: str):
+def validate_timer(key, current_step: Dict, registry: PiperRegistry, state: ValidationState, step_ref: str, value: str, line_info: str, **kwargs):
     """
     Validates the 'interval' argument for the schedule/timer service.
     Expected format: '30 sec', '1 h', etc.
     """
     # 1. Get the interval from the args/step
     # Depending on your DSL, it might be in step['interval'] or step['args']['interval']
-    interval = str(current_step.get('interval') or current_step.get('args', {}).get('interval'))
-    
-    if not interval:
-        # If it's mandatory but missing, add error (or let check_step_validity handle it)
+    service_val = value if isinstance(value, str) else str(current_step)
+    if not "." in service_val:
+        state.add_error(
+            f"in line {line_info}: [{step_ref}] Validation Error: The 'timer' service is not a single-token service "
+            f"and must include dot notation (got '{service_val}')."
+        )
         return
 
-    line_info = get_line_number(current_step, "interval")
+    interval = str(current_step.get('interval') or current_step.get('args', {}).get('interval'))
+    now = str(current_step.get('now') or current_step.get('args', {}).get('now'))
+    
+    if not interval or now:
+        # If it's mandatory but missing, add error (or let check_step_validity handle it)
+        state.add_error(
+            f"in line {line_info}: [{step_ref}] Validation Error: The 'timer' service require a specific action to be taken. use case: timer.interval or timer.now ...."
+        )
+        return
+    
+    line_name = interval or now
+
+    line_info = get_line_number(current_step, line_name)
     valid_units = {"sec", "min", "h", "d", "m", "y"}
 
     # 2. Validate Format via Regex
     # Matches: One or more digits + space + exactly one of the valid units
     pattern = r"^\d+\s+(" + "|".join(valid_units) + ")$"
+    if interval:
+        if not re.match(pattern, interval):
+            state.add_error(
+                f"Line {line_info}: [{step_ref}] Invalid interval format '{interval}'. "
+                f"Expected 'value unit' (e.g., '10 min'). "
+                f"Allowed units: {', '.join(valid_units)}"
+            )
 
-    if not re.match(pattern, interval):
-        state.add_error(
-            f"Line {line_info}: [{step_ref}] Invalid interval format '{interval}'. "
-            f"Expected 'value unit' (e.g., '10 min'). "
-            f"Allowed units: {', '.join(valid_units)}"
-        )
-
-def validate_script(key, current_step: Dict, registry: PiperRegistry, state: ValidationState, step_ref: str, value: str):
+def validate_script(key, current_step: Dict, registry: PiperRegistry, state: ValidationState, step_ref: str, value: str, **kwargs):
     available_lang = ["python", "javascript"]
     runtime = current_step.get("runtime")
     if not runtime:
         return
     if not runtime in available_lang:
         state.add_error(f"Error: Unsupported runtime: {runtime}. valid runtime {available_lang}")
+
+#def validate_action
     

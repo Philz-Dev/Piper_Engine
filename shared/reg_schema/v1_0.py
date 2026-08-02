@@ -1,145 +1,421 @@
-from shared import interpreter
-from shared.universal_dispatcher_v2.core import dispatcher
-from shared.execute_in_sandbox import execute_in_sandbox
-# from shared.interpreter import external_script, external_schema
-from shared import validators_V2
-from shared import executor, processor
+from enum import IntEnum
+import interpreter
+from universal_dispatcher_v2.core import dispatcher
+import validators_V2
+import executor, processor
+from .schemaid import SchemaID
 
 schema_reg = {
+    "__main__": {
+        "top_level_key": True,
+        "id": SchemaID.MAIN,
+        "type": None,
+        "weight": 0,
+        "is_merger": False,
+        "allowed_keys": {
+            SchemaID.PIPELINE: {"mandatory": True}, 
+            SchemaID.TRIGGER: {"mandatory": True}, 
+            SchemaID.VERSION: {"mandatory": True}
+        },
+        "dependency": {},
+        "validator": validators_V2.main_validator,
+        "interpreter": interpreter,
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [],
+        "prefix": {}
+    },
     "service": {
-        "type": str, "executor": executor.service_executor, "weight": 0, "is_section": False,
-        "allowed_keys": ["ext", "script", "lib", "webhook", "timer"], "a_pipeline_manager": False, "sub_interpreters": {},
-        "dependency": {
+        "top_level_key": False,
+        "id": SchemaID.SERVICE,
+        "type": str,
+        "weight": 0,
+        "is_merger": True,
+        "allowed_keys": {},
+        "dependency": {},
+        "validator": validators_V2.validate_service_v2,
+        "interpreter": interpreter.app_service,
+        "executor": executor.service_executor,
+        "processor": [],
+        "native_namespace": "lib",
+        "address_book": "apps",
+        "file_ext": "json",
+        "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER],
+        "prefix": {
             "ext": {
-                "an_input_manager": {
-                    "mandatory": True, "support": 1
-                },
-                "supported_manager": {
-                    "managers": ["a_pipeline_manager"]
-                }
+                "dependency": {SchemaID.INPUT: {"mandatory": True, "support": True}},
+                "executor": dispatcher,
+                "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER]
             },
             "script": {
-                "an_input_manager": {
-                    "mandatory": False, "support": 0
-                },
-                "supported_manager": {
-                    "managers": ["a_pipeline_manager"]
-                }
+                "dependency":  {SchemaID.INPUT: {"mandatory": False, "support": False}},
+                "interpreter": interpreter.script_interpreter,
+                "executor": executor.execute_in_sandbox,
+                "validator": "validators_V2.validate_script",
+                "top_level_parent": [SchemaID.PIPELINE]
             },
             "lib": {
-                "an_input_manager": {
-                    "mandatory": True, "support": 1
-                },
-                "supported_manager": {
-                    "managers": ["a_pipeline_manager"]
-                }
+                "dependency": {SchemaID.INPUT: {"mandatory": True, "support": True}},
+                "executor": dispatcher,
+                "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER]
             },
             "webhook": {
-                "an_input_manager": {
-                    "mandatory": True, "support": 1
-                },
-                "supported_manager": {
-                    "managers": ["a_trigger_manager"]
-                }
+                "dependency": {SchemaID.INPUT: {"mandatory": True, "support": True}},
+                "processor": processor.start_webhook,
+                "executor": dispatcher,
+                "top_level_parent": [SchemaID.TRIGGER]
             },
             "timer": {
-                "an_input_manager": {
-                    "mandatory": False, "support": 0
-                },
-                "supported_manager": {
-                    "managers": ["a_trigger_manager"]
-                }
-            }
+                "dependency": {SchemaID.INPUT: {"mandatory": False, "support": False}},
+                "interpreter": interpreter.webhook_func,
+                "processor": processor.schedule,
+                "executor": executor.schedule_executor,
+                "validator": "validators_V2.validate_timer",
+                "top_level_parent": [SchemaID.TRIGGER]
+            },
+            "iter": {
+                "dependency": {SchemaID.INPUT: {"mandatory": False, "support": False}},
+                "executor": executor.iterator,
+                "top_level_parent": [SchemaID.PIPELINE]
+            },
+            "aggr": {
+                "dependency": {SchemaID.INPUT: {"mandatory": False, "support": False}},
+                "executor": executor.aggregator_executor,
+                "top_level_parent": [SchemaID.PIPELINE]
+            },
+            "load": {
+                "dependency": {SchemaID.INPUT: {"mandatory": False, "support": False}},
+                "executor": executor.bin_executor,
+                "top_level_parent": [SchemaID.PIPELINE]
+            },
+            "sys": {
+                "dependency": {SchemaID.INPUT: {"mandatory": False, "support": False}},
+                "top_level_parent": [SchemaID.PIPELINE]
+            },
+            "workflow": {
+                "dependency": {SchemaID.INPUT: {"mandatory": False, "support": False}},
+                "top_level_parent": [SchemaID.PIPELINE]
+            },
 
-        }, 
-        "a_service_manager": True, "native_namespace": "lib", "is_merger": True, "processor": [],
-        "address_book": "apps", "file_ext": "json", "a_trigger_manager": False, "validator": validators_V2.validate_service_v2, "interpreter": interpreter.app_service,
-        "an_id_manager": False, "a_condition_manager": False, "a_recursive_manager": False, "an_input_manager": False,
-
-        "sub_validators": {
-            "timer": validators_V2.validate_timer,
-            "script": validators_V2.validate_script
-        },
-        "sub_executors": {
-            "ext": dispatcher,
-            "script": executor.execute_in_sandbox,
-            "lib": dispatcher,
-            "webhook": dispatcher,
-            "timer": executor.schedule_executor
-        },
-        "sub_processors": {
-            "webhook": processor.start_webhook,
-            "timer": processor.schedule
-        },
-        "sub_interpreters": {
-            "script": interpreter.script_interpreter,
-            "webhook": interpreter.webhook_func
         }
     },
-    "id": { 
-        "type": str, "weight": 10, "allowed_keys": [], "a_service_manager": False, "a_pipeline_ma nager": False,
-        "is_section": False, "dependency": [], "address_book": None, "file_ext": None, "sub_interpreters": {},
-        "an_id_manager": True, "a_condition_manager": False, "a_recursive_manager": False, "a_trigger_manager": False,
-        "validator": validators_V2.validate_id, "interpreter": interpreter.assign_key_value, "executor": [], "sub_validators": {},
-        "an_input_manager": False, "is_merger": False, "processor": [], "sub_processors": {}, "sub_executors": {}
+    "id": {
+        "top_level_key": False,
+        "id": SchemaID.ID,
+        "type": str,
+        "weight": 10,
+        "is_merger": False,
+        "allowed_keys": {},
+        "dependency": {},
+        "validator": validators_V2.validate_id,
+        "interpreter": interpreter.assign_key_value,
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER],
+        "prefix": {}
     },
     "pipeline": {
-        "type": list, "weight": 10, "executor": executor.PipelineExecutor, "a_service_manager": False, "sub_validators": {}, "sub_executors": {},
-        "allowed_keys": ["id", "service", "input", "steps", "condition"], "is_section": True,
-        "dependency": {
-            "service_map": {"mandatory": True, "support": 1},
-            "id_map": {"mandatory": True, "support": 1},
-            "condition_map": {"mandatory": False, "support": 1},
-            "recursion_map": {"mandatory": False, "support": 1}
+        "top_level_key": True,
+        "id": SchemaID.PIPELINE,
+        "type": list,
+        "weight": 10,
+        "is_merger": False,
+        "allowed_keys": {
+            SchemaID.ID: {"mandatory": True}, 
+            SchemaID.SERVICE: {"mandatory": True}, 
+            SchemaID.INPUT: {"mandatory": False},
+            SchemaID.STEPS: {"mandatory": False}, 
+            SchemaID.CONDITION: {"mandatory": False}
         },
-        "processor": processor.pipeline_processor, "sub_processors": {},
-        "address_book": None, "file_ext": None, "an_id_manager": False, "a_condition_manager": False, "an_input_manager": False, "is_merger": False,
-        "a_recursive_manager": False, "a_trigger_manager": False, "validator": validators_V2.validate_pipeline, "interpreter": interpreter.run_pipeline,
-        "a_pipeline_manager": True, "sub_interpreters": {}
+        "dependency": {},
+        "validator": validators_V2.core_validator,
+        "interpreter": interpreter.core_interpreter,
+        "executor": {},
+        "processor": processor.pipeline_processor,
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [],
+        "prefix": {}
     },
     "input": {
-        "type": dict, "weight": 10, "validator": [], "executor": [], "a_pipeline_ma nager": False,
-        "allowed_keys": [], "sub_interpreters": {"input": interpreter.build_input_v2},
-        "is_section": False, "dependency": {"pattern": r"\{\{\s*([\w\s.$]+(?:=[^,}]+)?(?:\s*,\s*[\w\s.$]+=[^,}]+)*)\s*\}\}"},
-        "a_service_manager": False, "address_book": None, "file_ext": None, "sub_executors": {},
-        "an_id_manager": False, "a_condition_manager": False, "a_recursive_manager": False, "processor": [],
-        "a_trigger_manager": False, "sub_validators": {"input": validators_V2.validate_input_v2},
-        "interpreter": [], "an_input_manager": True, "is_merger": False, "executor": [], "sub_processors": {}
+        "top_level_key": False,
+        "id": SchemaID.INPUT,
+        "type": dict,
+        "weight": 10,
+        "is_merger": False,
+        "allowed_keys": {SchemaID.CONDITION: {"mandatory": False}},
+        "dependency": {},
+        "validator": validators_V2.validate_input_v2,
+        "interpreter": interpreter.build_input_v2,
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER],
+        "prefix": {}
     },
     "steps": {
-        "type": list, "weight": 10, "allowed_keys": [], "is_merger": False, "sub_executors": {},
-        "is_section": False, "dependency": [], "sub_validators": {}, "processor": [], "a_pipeline_manager": False,
-        "a_service_manager": False, "address_book": None, "file_ext": None, "an_input_manager": False,
-        "an_id_manager": False, "a_condition_manager": False, "a_recursive_manager": True, "sub_interpreters": {},
-        "a_trigger_manager": False, "validator": validators_V2.validate_recursive, "interpreter": interpreter.recursive_step_manager, "executor": [], "sub_processors": {}
+        "top_level_key": False,
+        "id": SchemaID.STEPS,
+        "type": list,
+        "weight": 10,
+        "is_merger": False,
+        "allowed_keys":  {
+            SchemaID.ID: {"mandatory": True}, 
+            SchemaID.SERVICE: {"mandatory": True}, 
+            SchemaID.INPUT: {"mandatory": False},
+            SchemaID.CONDITION: {"mandatory": False},
+            SchemaID.STEPS: {"mandatory": False}
+        },
+        "dependency": {},
+        "validator": validators_V2.core_validator,
+        "interpreter": interpreter.core_interpreter,
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [SchemaID.PIPELINE],
+        "prefix": {}
     },
     "version": {
-        "type": str, "allowed_keys": [], "weight": 0, "validator": [], "interpreter": interpreter.version_interpreter, "executor": [],
-        "is_section": True, "dependency": [], "an_input_manager": False, "sub_executors": {}, "sub_interpreters": {},
-        "a_service_manager": False, "address_book": None, "file_ext": None, "a_trigger_manager": False,
-        "an_id_manager": False, "a_condition_manager": False, "a_recursive_manager": False, "a_pipeline_ma nager": False,
-        "sub_validators": {}, "is_merger": False, "executor": [], "processor": processor.version_processor, "sub_processors": {}
+        "top_level_key": True,
+        "id": SchemaID.VERSION,
+        "type": str,
+        "weight": 0,
+        "is_merger": False,
+        "allowed_keys": {},
+        "dependency": {},
+        "validator": [],
+        "interpreter": interpreter.version_interpreter,
+        "executor": [],
+        "processor": processor.version_processor,
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [],
+        "prefix": {}
     },
-    "condition": { 
-        "type": str, "weight": 10, "allowed_keys": [], "a_service_manager": False, "sub_executors": {},
-        "is_section": False, "dependency": {}, "address_book": None, "file_ext": None, "a_pipeline_ma nager": False,
-        "an_id_manager": False, "a_condition_manager": True, "a_recursive_manager": False, "a_trigger_manager": False,
-        "validator": validators_V2.validate_condition_syntax, "interpreter": interpreter.assign_key_value, "sub_validators": {},
-        "an_input_manager": False, "is_merger": False, "executor": [], "sub_processors": {}, "processor": [], "sub_interpreters": {}
-    },
-    "trigger": { 
-        "type": list, "weight": 10, "processor": processor.trigger_processor, "allowed_keys": ["id", "service", "input"], 
-        "is_section": True,
-        "dependency": {
-            "service_map": {"mandatory": True, "support": 1},
-            "id_map": {"mandatory": True, "support": 1},
-            "condition_map": {"mandatory": False, "support": 0},
-            "recursion_map": {"mandatory": False, "support": 0}
+    "condition": {
+        "top_level_key": False,
+        "id": SchemaID.CONDITION,
+        "type": list,
+        "weight": 10,
+        "is_merger": False,
+        "allowed_keys": {
+            SchemaID.IF: {"mandatory": False}, 
+            SchemaID.ELSE: {"mandatory": False}, 
+            SchemaID.OPERATIONS: {"mandatory": False},
+            SchemaID.VALUE: {"mandatory": False},
+            SchemaID.ELIF: {"mandatory": False}
         },
-        "sub_processors": {}, "sub_validators": {},
-        "a_service_manager": False, "a_pipeline_manager": False,
-        "address_book": "apps", "file_ext": "json", "an_id_manager": False, "a_condition_manager": False, 
-        "a_recursive_manager": False, "a_trigger_manager": True, "validator": validators_V2.validate_pipeline, "interpreter": interpreter.run_pipeline,
-        "executor": [], "an_input_manager": False, "is_merger": False, "sub_executors": {}, "sub_interpreters": {}
+        "dependency": {},
+        "validator": validators_V2.validate_condition,
+        "interpreter": [],
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER],
+        "prefix": {}
     },
+    "if": {
+        "top_level_key": False,
+        "id": SchemaID.IF,
+        "type": str,
+        "weight": 0,
+        "is_merger": False,
+        "allowed_keys": {},
+        "dependency": {},
+        "validator": validators_V2.validate_condition_syntax,
+        "interpreter": interpreter.assign_key_value,
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER],
+        "prefix": {}
+    },
+    "else": {
+        "top_level_key": False,
+        "id": SchemaID.ELSE,
+        "type": dict,
+        "weight": 0,
+        "is_merger": False,
+        "allowed_keys": {SchemaID.OPERATIONS: {"mandatory": True}},
+        "dependency": {},
+        "validator": validators_V2.core_validator,
+        "interpreter": [],
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER],
+        "prefix": {}
+    },
+    "action": {
+        "top_level_key": False,
+        "id": SchemaID.ACTION,
+        "type": str,
+        "weight": 0,
+        "is_merger": False,
+        "allowed_keys": {},
+        "dependency": {},
+        "validator": [],
+        "interpreter": [],
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER],
+        "prefix": {}
+    },
+    "operations": {
+        "top_level_key": False,
+        "id": SchemaID.OPERATIONS,
+        "type": list,
+        "weight": 0,
+        "is_merger": False,
+        "allowed_keys": {
+            SchemaID.ACTION: {"mandatory": True}
+        },
+        "dependency": {},
+        "validator": validators_V2.core_validator,
+        "interpreter": [],
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER],
+        "parent": [SchemaID.CONDITION],
+        "prefix": {}
+    },
+    "trigger": {
+        "top_level_key": True,
+        "id": SchemaID.TRIGGER,
+        "type": list,
+        "weight": 10,
+        "is_merger": False,
+        "allowed_keys": {
+            SchemaID.ID: {"mandatory": True}, 
+            SchemaID.SERVICE: {"mandatory": True}, 
+            SchemaID.INPUT: {"mandatory": False},
+            SchemaID.CONDITION: {"mandatory": False}
+        },
+        "dependency": {},
+        "validator": validators_V2.core_validator,
+        "interpreter": interpreter.core_interpreter,
+        "executor": [],
+        "processor": processor.trigger_processor,
+        "address_book": "apps",
+        "file_ext": "json",
+        "top_level_parent": [],
+        "parent": [],
+        "prefix": {}
+    },
+    "value": {
+        "top_level_key": False,
+        "id": SchemaID.VALUE,
+        "type": str,
+        "weight": 0,
+        "is_merger": False,
+        "allowed_keys": {},
+        "dependency": {},
+        "validator": [],
+        "interpreter": [],
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER],
+        "prefix": {}
+    },
+    "elif": {
+        "top_level_key": False,
+        "id": SchemaID.ELIF,
+        "type": str,
+        "weight": 0,
+        "is_merger": False,
+        "allowed_keys": {SchemaID.VALUE: {"mandatory": False}},
+        "dependency": {},
+        "validator": validators_V2.validate_condition_syntax,
+        "interpreter": [],
+        "executor": [],
+        "processor": [],
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [SchemaID.PIPELINE, SchemaID.TRIGGER],
+        "prefix": {}
+    },
+    "on_complete": {
+        "top_level_key": True,
+        "id": SchemaID. ON_COMPLETE,
+        "type": list,
+        "weight": 10,
+        "is_merger": False,
+        "allowed_keys": {
+            SchemaID.ID: {"mandatory": True}, 
+            SchemaID.SERVICE: {"mandatory": True}, 
+            SchemaID.INPUT: {"mandatory": False},
+            SchemaID.STEPS: {"mandatory": False}, 
+            SchemaID.CONDITION: {"mandatory": False}
+        },
+        "dependency": {},
+        "validator": validators_V2.core_validator,
+        "interpreter": interpreter.core_interpreter,
+        "executor": {},
+        "processor": processor.on_complete_processor,
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [],
+        "prefix": {}
+    },
+    "on_success": {
+        "top_level_key": True,
+        "id": SchemaID.ON_SUCCESS,
+        "type": list,
+        "weight": 10,
+        "is_merger": False,
+        "allowed_keys": {
+            SchemaID.ID: {"mandatory": True}, 
+            SchemaID.SERVICE: {"mandatory": True}, 
+            SchemaID.INPUT: {"mandatory": False},
+            SchemaID.STEPS: {"mandatory": False}, 
+            SchemaID.CONDITION: {"mandatory": False}
+        },
+        "dependency": {},
+        "validator": validators_V2.core_validator,
+        "interpreter": interpreter.core_interpreter,
+        "executor": {},
+        "processor": processor.on_success_processor,
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [],
+        "prefix": {}
+    },
+    "on_error": {
+        "top_level_key": True,
+        "id": SchemaID.ON_ERROR,
+        "type": list,
+        "weight": 10,
+        "is_merger": False,
+        "allowed_keys": {
+            SchemaID.ID: {"mandatory": True}, 
+            SchemaID.SERVICE: {"mandatory": True}, 
+            SchemaID.INPUT: {"mandatory": False},
+            SchemaID.STEPS: {"mandatory": False}, 
+            SchemaID.CONDITION: {"mandatory": False}
+        },
+        "dependency": {},
+        "validator": validators_V2.core_validator,
+        "interpreter": interpreter.core_interpreter,
+        "executor": {},
+        "processor": processor.on_error_processor,
+        "address_book": None,
+        "file_ext": None,
+        "top_level_parent": [],
+        "prefix": {}
+    }
 }

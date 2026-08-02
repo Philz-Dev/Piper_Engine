@@ -1,21 +1,31 @@
 import redis
 import json
 import uuid
+import os
 
+host = os.getenv("REDIS_HOST", "redis-broker")
 r = redis.Redis(host='redis-broker', port=6379, decode_responses=True)
 
-def add_to_redis(dsl_name, agency_id, pipeline=None, from_trigger=False, is_schedule=False):
+def reddis_now(_client_id, _task_id):
+    r.publish('task_trigger_channel', json.dumps({
+        "client_id": _client_id,
+        "task_id": _task_id
+    }))
+
+def add_to_redis(client_name, event_id, dsl_name, agency_id, pipeline=None, from_trigger=False, is_schedule=False):
     run_id = str(uuid.uuid4())
     
     job_ticket = {
         "run_id": run_id,
-        "agency_id": agency_id,
-        "client_id": dsl_name,
+        "task_id": agency_id,
+        "client_id": client_name,
         "pipeline": pipeline, # This now contains the full logic/blueprint
         "step_index": 0,
         "context": {},
+        "dsl_name": dsl_name,
         "is_schedule": is_schedule,
-        "from_trigger": from_trigger
+        "from_trigger": from_trigger,
+        "event_id": event_id
     }
     
     r.rpush("task_queue", json.dumps(job_ticket))

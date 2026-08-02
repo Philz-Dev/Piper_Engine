@@ -1,0 +1,61 @@
+# ---------------------------------------------------------
+# IRON FORTRESS DSL v1.0
+# ---------------------------------------------------------
+
+version: "1.0"
+
+trigger:
+  - id: "Typeform_webhook"
+    service: "timer.interval"
+    interval: "5 sec"
+
+pipeline:
+  - id: "hubspot_crm_search"
+    service: "Hubspot.search"
+    input:
+      value: "$Typeform_webhook.form_response.answers.3.email"
+
+  - id: "hubspot_create"
+    condition:
+      - if: "$hubspot_crm_search.total == 0"
+    service: "Hubspot.create_contact"
+    timeout: 10
+    input:
+      firstname: "{{$Typeform_webhook.form_response.answers.1.text | upper}} {{$Typeform_webhook.form_response.answers.1.text | upper }}"
+      lastname: "$Typeform_webhook.form_response.answers.4.text"
+      phone: "$Typeform_webhook.form_response.answers.2.phone_number"
+      company: "rugar company"
+      website: "acme.ai"
+      lifecyclestage: "lead"
+      jobtitle: "Marketing Operations"
+      email: "$Typeform_webhook.form_response.answers.3.email"
+    steps:
+      - id: "telegram_bot"
+        service: "Telegram.alert"
+        input:
+          authorization: "$env.telegram_key"
+          chat_id: "6878549543"
+          text: "New Lead Created in HubSpot!"
+
+  - id: "hubspot_update"
+    condition:
+      - if: "$hubspot_crm_search.total > 0"
+        operations:
+          - action: goto
+            target: "telegram_bot2"
+      - else:
+          operations:
+            - action: execute
+    service: "Hubspot.update_contact"
+    input:
+      lifecyclestage: "lead"
+      hs_lead_status: "OPEN"
+      contact_id: "$hubspot_crm_search.results.0.id"
+    steps:
+      - id: "telegram_bot2"
+        service: "Telegram.alert"
+        input:
+          authorization: "$env.telegram_key"
+          chat_id: "6878549543"
+          text: "Update performed in HubSpot!"
+

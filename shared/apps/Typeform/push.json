@@ -1,11 +1,11 @@
 {
     "url": "https://api.typeform.com/forms/{form_id}/webhooks/{webhook_tag}",
     "response_navigator": "form.response",
-    "method": "post",
+    "method": "PUT",
     "class": {
         "form_id": "{{DataType=str}}", 
         "webhook_tag": "{{DataType=str}}",
-        "authorization": "{{DataType=str, Default=$.Typeform}}"
+        "authorization": "{{DataType=str, Default=$env.Typeform}}"
     },
     "headers": {
         "Authorization": "Bearer {authorization}",

@@ -9,6 +9,8 @@ import importlib
 from typing import List, Dict, Any, Optional
 import difflib
 from typing import TYPE_CHECKING, Any
+import secrets
+from shared.reg_schema.schemaid import SchemaID
 
 if TYPE_CHECKING:
     from shared.registry_V2 import PiperRegistry, ValidationState
@@ -80,7 +82,9 @@ def find_dependency_func(sub_type: str, registry, step: Dict, dependencies, pref
 def resolve_service_instruction(service_key: str, base_dir: str = "apps/", runtime: str = None):
     # 1. Initialize variables FIRST
     script_extension = {"python": ".py", "javascript": ".js"}
-
+    if service_key is None:
+        return {"mode": "error", "full_path": None, "validate_input": False}
+    # --------------------------------
     mode = "internal_api"
     validate_input = True
     extension = ".json"
@@ -105,6 +109,24 @@ def resolve_service_instruction(service_key: str, base_dir: str = "apps/", runti
         validate_input = True
         extension = ".json"
         raw_lookup = service_key.split("webhook.")[1]
+    elif service_key.startswith("iter."):
+        base_dir = ""
+        mode = "iteration"
+        validate_input = False
+        extension = script_extension.get(runtime)
+        raw_lookup = service_key.split("script.", 1)[1]
+    elif service_key.startswith("aggr."):
+        base_dir = ""
+        mode = "aggregator"
+        validate_input = False
+        extension = script_extension.get(runtime)
+        raw_lookup = service_key.split("script.", 1)[1]
+    if service_key.startswith("load."):
+        base_dir = ""
+        mode = "download"
+        validate_input = False
+        extension = script_extension.get(runtime)
+        raw_lookup = service_key.split("script.", 1)[1]
     elif service_key.startswith("timer"):
         return {}
 
@@ -183,13 +205,22 @@ def inspect_function(func):
 # Anchors the pathing to the directory where THIS script is saved
 BASE_DIR = Path(__file__).resolve().parent
 
-def get_registry_package(dsl_file):
-    from shared.registry_V2 import PiperRegistry, ValidationState
+def get_registry_package(dsl_file: Dict) -> tuple:
+    from registry_V2 import ValidationState
     version = dsl_file.get("version", "1.0")
-    schema_dict = load_schema_registry(version)
-    registry = PiperRegistry(schema_dict)
+    registry = get_registry_by_version(version=version)
     state = ValidationState()
     return registry, state
+
+def generate_random_token(length=32):
+    """Generates a secure hex token for webhook URLs."""
+    return secrets.token_hex(length // 2)
+
+def get_registry_by_version(version: str):
+    from shared.registry_V2 import PiperRegistry
+    schema_dict = load_schema_registry(version)
+    registry = PiperRegistry(schema_dict)
+    return registry
 
 def get_suggestion(misspelled_key: str, valid_keys: list) -> str:
     # n=1 gives us the single best match
@@ -213,17 +244,38 @@ def get_all_dsl_keys_v2(dsl_file, registry, state: "ValidationState"):
                     find_services_recursive(item)
             elif isinstance(data, dict):
                 # 1. Check if this dictionary is a service step
-                service_triggers = [k for k in data.keys() if k in registry.service_map]
+                service_triggers = [k for k in data.keys() if registry.id_map.get(k) == SchemaID.SERVICE]
                 if service_triggers:
                     manager_key = service_triggers[0]
                     service_id = data[manager_key]
                     # Hydrate the registry for this specific service
                     registry.gather_all_keys(service_key=manager_key, service_value=service_id, state=state)
+                
+                # 2. Check for Action Steps (NEW LOGIC)
+                action_triggers = [k for k in data.keys() if registry.id_map.get(k) == SchemaID.ACTION]
+                for action_key in action_triggers:
+                    action_name = data[action_key]
+                    handler = registry.get_action_handler(action_name)
+
+                    if handler:
+                        # Inspect the handler to get arg names/types
+                        handler_args = registry.hydrate_from_handler(handler)
+                        
+                        # Merge these new argument types into the global map
+                        registry.type_map.update(handler_args)
+                        
+                        
+                        # Ensure runtime keys are updated so the validator recognizes them
+                        runtime_keys = {k.split(".")[-1] for k in handler_args.keys()}
+                        registry.list_of_runtime_keys.update(runtime_keys)
+                        registry.list_of_keys = list(set(registry.list_of_keys) | registry.list_of_runtime_keys)
+                    else:
+                        state.add_error(f"Action '{action_name}' not found in registry handlers.")
 
                 # 2. Recursively look for 'steps' or 'on_error' to find nested services
-                for k in ["steps", "on_error"]:
-                    if k in data:
-                        find_services_recursive(data[k])
+                for value in data.values():
+                    if isinstance(value, (dict, list)):
+                        find_services_recursive(value)
 
         find_services_recursive(steps)
 
@@ -246,6 +298,75 @@ def get_all_dsl_keys(dsl_file, registry, state: "ValidationState"):
                 # This fills registry.type_map with "input.email", "input.id", etc.
                 registry.gather_all_keys(service_key=manager_key, service_value=service_id, state=state)
 
+def _cast_value(val: str) -> Any:
+        """Helper to cast string inputs to appropriate Python types."""
+        val = val.strip()
+        
+        # Handle None
+        if val.lower() == "none":
+            return None
+            
+        # Handle Booleans
+        if val.lower() == "true":
+            return True
+        if val.lower() == "false":
+            return False
+            
+        # Handle Integers
+        try:
+            return int(val)
+        except ValueError:
+            pass
+            
+        # Handle Floats
+        try:
+            return float(val)
+        except ValueError:
+            pass
+            
+        # Return as string if no other type matches
+        return val
+
+def unescape_dsl_content(text: str) -> str:
+    """
+    Converts literal backslashes to their actual characters.
+    e.g., '\$' -> '$', '\)' -> ')', '\{' -> '{', '\|' -> '|'
+    """
+    return re.sub(r'\\([\{\}\(\)\$\|])', r'\1', text)
+
+def split_args_smart(args_str):
+    """Splits arguments by comma, but ignores commas inside nested parens."""
+    args = []
+    current_arg = []
+    parens_depth = 0
+    in_quotes = False
+    
+    for char in args_str:
+        if char == '"': in_quotes = not in_quotes
+        if not in_quotes:
+            if char == '(': parens_depth += 1
+            elif char == ')': parens_depth -= 1
+            elif char == ',' and parens_depth == 0:
+                args.append("".join(current_arg).strip())
+                current_arg = []
+                continue
+        current_arg.append(char)
+    
+    args.append("".join(current_arg).strip())
+    return args
+
+def parse_pipe_args(arg_list):
+    """Parses and casts pipe arguments into positional args and kwargs."""
+    args = []
+    kwargs = {}
+    for arg in arg_list:
+        if "=" in arg:
+            key, val = arg.split("=", 1)
+            kwargs[key] = _cast_value(val)
+        else:
+            args.append(_cast_value(arg))
+    return args, kwargs
+
 def input_manager(registry, step):
     input_manager_definitions = registry.get_keys_by_feature("an_input_manager") 
     # Return the actual list of found keys so len() works correctly
@@ -253,9 +374,13 @@ def input_manager(registry, step):
 
 def check_key_matches(service_path, pattern = r"\{\{\s*([\w\s.$]+(?:=[^,}]+)?(?:\s*,\s*[\w\s.$]+=[^,}]+)*)\s*\}\}" ):     
     app_schema = retrieve_file(file_path=service_path, base_dir=True)
+    found_items = {}
     if app_schema:
         found_items = crawler(content_to_crawl=app_schema, patterns=pattern)
-    return {"found_items": found_items if found_items else {}, "app_schema": app_schema if app_schema else {}}
+    return {
+        "found_items": found_items if found_items else {}, 
+        "app_schema": app_schema if app_schema else {}
+        }
 
 def get_auth_config_file(client_name=None, file_type: str = "auth", service: str = None):
     """
@@ -310,9 +435,30 @@ def validate_type(key, expected_type: "Any", content=None):
                 f"DATA TYPE MISMATCH: {key} expects {expected_type.__name__}, "
                 f"but got {type(content).__name__}."
             )
+        
+def missing_field_v2(required_paths: dict, content_to_check: dict):
+    """
+    Compares the full path strings from the schema 
+    against what is actually present in the user input.
+    """
+    # required_paths is 'key_path' from UnZip (e.g., {'body.url': '{{...}}'})
+    # content_to_check is the user DSL input
+    
+    # We need to 'unzip' the user input to see which full paths THEY provided
+    user_unzip = UnZip()
+    user_unzip.unpack_bulk_data(content_to_check)
+    user_paths = user_unzip.key_path.keys()
 
-def crawler(content_to_crawl: dict, patterns: list | str, is_regex: bool = True):
+    # The difference is now a set of FULL PATHS that are missing
+    missing = set(required_paths.keys()) - set(user_paths)
+    key_path = user_unzip.key_path
+    return {"missing": missing,
+            "content_to_check_key_path": key_path
+            }
+
+def crawler_old(content_to_crawl: dict, patterns: list | str, is_regex: bool = True):
     matched_field = {}
+    matched_key_value = {}
     unzip_app_schema = UnZip()
     unzip_app_schema.unpack_bulk_data(content_to_crawl)
     if isinstance(patterns, str):
@@ -322,11 +468,58 @@ def crawler(content_to_crawl: dict, patterns: list | str, is_regex: bool = True)
         # e.g., "price?" becomes "price\?" so regex treats it as text
         search_pattern = p if is_regex else re.escape(p)
         for key, value in unzip_app_schema.unpacked_key_value.items():
+            if value is None: 
+                continue
             if re.fullmatch(search_pattern, str(value)):
-                matched_field[key] = value
+                matched_key_value[key] = value
+
+        for path, value in unzip_app_schema.key_path.items():
+            if value is None: 
+                continue
+                
+            # Check if the value at this path matches our {{Mustache}} pattern
+            if re.fullmatch(search_pattern, str(value)):
+                # We save the path as the key to prevent "url" vs "url" collisions
+                matched_field[path] = value
     package = {
-        "matched_items": matched_field,
-        "key_path": unzip_app_schema.key_path
+        "matched_items": matched_key_value,
+        "key_path": unzip_app_schema.key_path,
+        "key_value": matched_field
+    }
+    
+    return package if matched_field else None
+
+def crawler(content_to_crawl: dict, patterns: list | str, is_regex: bool = True):
+    matched_field = {}
+    matched_key_value = {}
+    unzip_app_schema = UnZip()
+    unzip_app_schema.unpack_bulk_data(content_to_crawl)
+    
+    if isinstance(patterns, str):
+        patterns = [patterns]
+        
+    for p in patterns:
+        search_pattern = p if is_regex else re.escape(p)
+        
+        # 1. Update: Use re.search instead of re.fullmatch
+        # This allows matching inside a larger string (e.g., "Bearer {{ !.token }}")
+        
+        for key, value in unzip_app_schema.unpacked_key_value.items():
+            if value is None: continue
+            if re.search(search_pattern, str(value)): # <--- CHANGED
+                matched_key_value[key] = value
+
+        for path, value in unzip_app_schema.key_path.items():
+            if value is None: continue
+            
+            # 2. Update: Use re.search here as well
+            if re.search(search_pattern, str(value)): # <--- CHANGED
+                matched_field[path] = value
+                
+    package = {
+        "matched_items": matched_key_value,
+        "key_path": unzip_app_schema.key_path,
+        "key_value": matched_field
     }
     
     return package if matched_field else None
@@ -410,10 +603,10 @@ def replace_place_value_v2(key_path, key, value, content_to_modify=None, is_meta
                 
     return content_to_modify
 
-def replace_place_value_v3(key_path, key, value, content_to_modify=None, is_metadata_replacement=False):
+def replace_place_value_v3(key_path, value, key, content_to_modify=None, is_metadata_replacement=False):
     for k, v in key_path.items():
         split_key = k.split(".")
-        
+
         if split_key[-1] == key:
             temp = content_to_modify
             for ky in split_key[:-1]:
@@ -443,8 +636,30 @@ def replace_place_value_v3(key_path, key, value, content_to_modify=None, is_meta
                 temp[final_key] = value
                 
     return content_to_modify
-    
+
 def replace_place_value(key_path, key, value, content_to_modify=None):
+    for k, v in key_path.items():
+        split_key = k.split(".")
+        
+        if split_key[-1] == key:
+            temp = content_to_modify
+            for ky in split_key[:-1]:
+                if ky.isdigit():
+                    ky = int(ky)
+                
+                # Check if we can actually traverse this level
+                if temp is None or (not isinstance(temp, (dict, list))):
+                    return content_to_modify 
+                    
+                temp = temp[ky]
+            
+            # Final check before assignment
+            if temp is not None and isinstance(temp, (dict, list)):
+                temp[split_key[-1]] = value
+                
+    return content_to_modify
+    
+def replace_place_value_v10(key_path, key, value, content_to_modify=None):
     for k, v in key_path.items():
         split_key = k.split(".")
         
@@ -461,14 +676,13 @@ def replace_place_value(key_path, key, value, content_to_modify=None):
 
 def build_subregistries(definitions):
     """The Factory: Turns the master definition into optimized lookup maps."""
-    t_map, w_map, a_map, k_map, d_map, tk_map, ser_map, ad_map, fl_map, co_map, id_map, rec_map, s_map, tr_map = {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+    t_map, w_map, a_map, k_map, d_map, tk_map, ser_map, ad_map, fl_map, pr_map, tp_map = {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
     
     for key, cfg in definitions.items():
         # Security Check: Ensure no missing data
         if not all(k in cfg for k in (
             "type", "weight", "handler", "is_section", "dependency", "allowed_keys", 
-            "task_manager", "a_service_manager", "address_book", "file_ext", "a_condition_manager",
-            "an_id_manager", "a_recursive_manager", "a_trigger_manager"
+            "task_manager", "address_book", "file_ext", "prefix", "top_level_parent"
         )):
             raise ValueError(f"CRITICAL: Definition for '{key}' is incomplete.")
             
@@ -478,22 +692,13 @@ def build_subregistries(definitions):
         k_map[key] = cfg["allowed_keys"]
         d_map[key] = cfg["dependency"]
         tk_map[key] = cfg["task_manager"]
-        if service := cfg["a_service_manager"]:
-            ser_map[key] = service
+       
         ad_map[key] = cfg["address_book"]
         fl_map[key] = cfg["file_ext"]
-        if condition := cfg["a_condition_manager"]:
-            co_map[key] = condition
-        if id := cfg["an_id_manager"]:
-            id_map[key] = id
-        if recursion := cfg["a_recursive_manager"]:
-            rec_map[key] = recursion
-        if section := cfg["is_section"]:
-            s_map[key] = section
-        if trigger := cfg["a_trigger_manager"]:
-            tr_map[key] = trigger
+        pr_map[key] = cfg["prefix"]
+        tp_map[key] = cfg["top_level_parent"]
         
-    return t_map, w_map, a_map, k_map, d_map, tk_map, ser_map, ad_map, fl_map, co_map, id_map, rec_map, s_map, tr_map
+    return t_map, w_map, a_map, k_map, d_map, tk_map, ser_map, ad_map, fl_map, pr_map, tp_map
 
 def load_schema_registry(version: str):
     # Transforms "1.0" -> "v1_0"

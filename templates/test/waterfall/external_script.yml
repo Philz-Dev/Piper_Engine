@@ -1,0 +1,50 @@
+version: "1.0"
+
+trigger:
+  - id: "timer_30s"
+    service: timer.interval
+    interval: "5 sec"
+
+pipeline:
+  - id: "process_data"
+    service: script.external_script.pyscript
+    runtime: python         # ⚙️ Configuration (for the Engine)
+    timeout: 30
+  
+  - id: "dev_name"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+
+  - id: "dev_name2"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+
+  - id: "dev_name3"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+
+  - id: "dev_name4"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+
+  - id: "dev_name5"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+
+  - id: "dev_name6"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+
+  - id: "dev_name7"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+    operations: 
+      - action: goto 
+        target: "step_hubspot_enterprise" 

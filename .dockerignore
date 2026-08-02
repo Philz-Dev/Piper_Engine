@@ -33,3 +33,9 @@ nexus_ui/
 **/*.log
 **/*.sqlite
 **/*.db
+
+node_modules
+.next
+.git
+.env.local
+.DS_Store

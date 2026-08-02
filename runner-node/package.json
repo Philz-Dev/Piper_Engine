@@ -1,0 +1,9 @@
+{
+  "name": "runner-node",
+  "version": "1.0.0",
+  "description": "Node.js worker daemon for automation runner",
+  "main": "worker_daemon.js",
+  "dependencies": {
+    "ioredis": "^5.3.2"
+  }
+}

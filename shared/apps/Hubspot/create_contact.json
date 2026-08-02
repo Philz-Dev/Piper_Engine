@@ -4,7 +4,7 @@
     "url": "https://api.hubapi.com/crm/v3/objects/contacts",
     "method": "POST",
     "class": {
-        "authorization": "{{DataType=str, Default=$.Hubspot}}"
+        "authorization": "{{DataType=str, Default=$env.Hubspot}}"
     },
     "headers": {
         "Authorization": "Bearer {authorization}",

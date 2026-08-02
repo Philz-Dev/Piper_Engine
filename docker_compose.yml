@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # Database
+  db:
+    image: postgres:15
+    container_name: piper-db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: clovo_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - piper-network
+
+  # Backend (FastAPI)
+  backend:
+    image: ghcr.io/philz-dev/piper-backend:v1
+    container_name: piper-backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://user:${DB_PASSWORD}@db:5432/clovo_db"
+    networks:
+      - piper-network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  # Frontend (Next.js)
+  frontend:
+    image: ghcr.io/philz-dev/piper-frontend:v1
+    container_name: piper-frontend
+    restart: always
+    networks:
+      - piper-network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  # Nginx (Reverse Proxy)
+  nginx:
+    image: nginx:alpine
+    container_name: piper-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - piper-network
+
+  # CoTURN (WebRTC Media Relay)
+  coturn:
+    image: coturn/coturn
+    container_name: piper-coturn
+    restart: always
+    network_mode: "host" # Use host networking for TURN to easily handle port ranges
+    volumes:
+      - ./turnserver/turnserver.conf:/etc/turnserver.conf:ro
+
+  # Watchtower for automated updates
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=3600
+    networks:
+      - piper-network
+
+networks:
+  piper-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

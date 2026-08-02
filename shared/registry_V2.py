@@ -8,41 +8,62 @@ import json
 import inspect
 import re
 from difflib import get_close_matches
+from datetime import datetime
+from enum import IntEnum
+from shared import system_functions, helpers
 
 @dataclass
 class DependencyRule:
     mandatory: bool = False
-    support: int = 1
+    support: bool = False
     managers: List[str] = field(default_factory=list)
+
+@dataclass
+class LogEntry:
+    timestamp: str
+    level: str            # 'info', 'warn', 'error'
+    category: str         # 'technical' (Terminal) or 'user' (Activity)
+    message: str
+    ui_hint: Optional[Dict[str, Any]] = None  # For buttons/actions in UI
 
 @dataclass
 class ValidationState:
     seen_ids: List[str] = field(default_factory=list)
     errors: List[str] = field(default_factory=list)
-    Warning: List[str] = field(default_factory=list)
+    warnings: List[str] = field(default_factory=list) # Tip: Consider renaming to 'warnings'
+    logs: List[LogEntry] = field(default_factory=list)
     info: List[str] = field(default_factory=list)
     depth: int = 0
 
-    def add_error(self, msg: str) -> None:
-        # We add the 'depth' to the error so the user knows where it happened
+    def add_log(self, message: str, level: str = "info", category: str = "technical", ui_hint: dict = None):
         indent = "  " * self.depth
-        self.errors.append(f"{indent}Error: {msg}")
-    
-    def add_warning(self, msg: str) -> None:
-        indent = "  " * self.depth
-        # This currently appends "Error:" to your Warnings list
-        self.Warning.append(f"{indent}Warning: {msg}")
-    
-    def add_info(self, msg: str) -> None:
-        indent = "  " * self.depth
-        # This currently appends "Error:" to your Warnings list
-        self.info.append(f"{indent}Info: {msg}")
+        self.logs.append(LogEntry(
+            timestamp=datetime.now().isoformat(),
+            level=level,
+            category=category,
+            message=f"{indent}{message}",
+            ui_hint=ui_hint
+        ))
+
+    # --- UPDATED CONVENIENCE WRAPPERS ---
+    def add_error(self, msg: str, category: str = "technical", ui_hint: dict = None):
+        self.add_log(msg, level="error", category=category, ui_hint=ui_hint)
+        self.errors.append(msg) # <--- THIS WAS MISSING
+
+    def add_warning(self, msg: str, category: str = "technical"):
+        self.add_log(msg, level="warn", category=category)
+        self.Warning.append(msg) # <--- ADDED THIS
+
+    def add_info(self, msg: str, category: str = "user"):
+        self.add_log(msg, level="info", category=category)
+        self.info.append(msg) # <--- ADDED THIS
 
 class PiperRegistry:
     def __init__(self, definitions: Dict[str, Any]):
         self._raw = definitions
         # Initialize the factory once at startup
         maps = build_subregistries(definitions=definitions)
+        self.registry_lookup = {d["id"]: d for d in definitions.values()}
         self.class_map = {}
         
         # 2. Core Maps (11 total)
@@ -58,30 +79,82 @@ class PiperRegistry:
         self.validator_map    = maps.get("validator_map", {})
         self.interpreter_map  = maps.get("interpreter_map", {})
         self.executor_map     = maps.get("executor_map", {})
-        self.processor_map     = maps.get("processor_map", {})
+        self.processor_map    = maps.get("processor_map", {})
+        self.id_map           = maps.get("id_map", {})
+        self.prefix_map       = maps.get("prefix_map", {})
+        self.top_level_key    = maps.get("top_level_key_map", {})
+        #print(f"id:   {self.id_map["service"]}")
 
         # 3. Specialized Manager Maps (6 total)
-        # These are boolean-triggered lookups
-        self.section_map      = maps.get("section_map", {})
-        self.service_map      = maps.get("service_map", {})
-        self.trigger_map      = maps.get("trigger_map", {})
-        self.id_map           = maps.get("id_map", {})
-        self.condition_map    = maps.get("condition_map", {})
-        self.recursion_map    = maps.get("recursion_map", {})
-        self.merger_map     = maps.get("merger_map", {})
+        self.merger_map       = maps.get("merger_map", {})
+        self.action_handlers    = {}
+        self.register_all_actions()
 
         # list of all runtime field keys
         self.list_of_runtime_keys = set()
         self.populate_list_of_keys()
-        self.manager_map = self._build_role_to_keys_map()
-        self.sub_validator_map = self.get_all_sub_validators()
-        self.sub_executor_map = self.get_all_sub_executors()
-        self.sub_interpreter_map = self.get_all_sub_interpreters()
-        self.sub_processor_map = self.get_all_sub_processors()
         self.handler_config_keys = []
+
+    def get_action_handler(self, action_name: str):
+        """Retrieves the function reference for a given action name."""
+        return self.action_handlers.get(action_name)
+
+    def register_action(self, name: str, func: Callable):
+        """Registers a function to be accessible by action name."""
+        self.action_handlers[name] = func
+    
+    def register_all_actions(self):
+        """
+        Dynamically imports actions from system_functions and helpers.
+        No need to return anything; this modifies self.action_handlers in place.
+        """
+        # Ensure system_functions and helpers are imported at the top of this file
+        for module in [system_functions, helpers]:
+            for name, func in inspect.getmembers(module, inspect.isfunction):
+                if not name.startswith('_'):
+                    self.register_action(name, func)
+
+    def get_allowed_keys_definition(self, section_key: str) -> Dict[str, Any]:
+        """
+        Retrieves the 'allowed_keys' dictionary for a section.
+        Returns a dict: {SchemaID.KEY: {"mandatory": True/False}}
+        """
+        definition = self._raw.get(section_key, {})
+        # Return the dictionary if it exists, otherwise an empty dict
+        raw_keys = definition.get("allowed_keys", {})
+        allow_keys = {self.get_key_from_id(target_id=k): v for k, v in raw_keys.items()}
+        return allow_keys
+
+    def get_key_from_id(self, target_id: str) -> Optional[str]:
+        """
+        Retrieves the DSL key associated with a specific ID.
+        
+        Args:
+            target_id: The ID string to search for (e.g., 'service_runner').
+            
+        Returns:
+            The corresponding key name if found, otherwise None.
+        """
+        # Search the id_map for the matching value
+        for key, id_value in self.id_map.items():
+            if id_value == target_id:
+                return key
+        return None
+
+    def get_allowed_ids(self, block_name: str):
+        """
+        Retrieves a set of SchemaIDs allowed within a specific block.
+        """
+        schema = self._raw.get(block_name)
+        if not schema or "allowed_keys" not in schema:
+            return set()
+        
+        # Extract the 'id' from each dictionary in the allowed_keys list
+        return {key for key in schema["allowed_keys"].keys()}
     
     def populate_list_of_keys(self):
         self.list_of_keys = [k for k in self.type_map.keys()]
+
     
     def get_validator(self, key: str) -> Optional[Callable]:
         definition = self._raw.get(key)
@@ -113,12 +186,12 @@ class PiperRegistry:
     def service_prefix(self, service_key: str, service_value, sub_type: str="sub_validators"):
         """The 'Full Registry' Hydrator."""
         # 1. Resolve the metadata (Mode and Literal Path)
-        service_cfg = self.allowed_keys_map.get(service_key, {})
-        service_data = self._raw.get(service_key)
-        native_prefix = service_data.get("native_namespace", "lib")
+        service_cfg = self._raw.get(service_key, {})
+        service_data = service_cfg.get("prefix")
+        native_prefix = service_cfg.get("native_namespace", "lib")
 
         # Determine mode prefix
-        prefix = next((p.rstrip(".") for p in service_cfg if service_value.startswith(p)), None)
+        prefix = next((p.rstrip(".") for p in service_data if service_value.startswith(p)), None)
         if prefix is None:
             prefix = native_prefix
         return prefix
@@ -214,7 +287,89 @@ class PiperRegistry:
                 subs = definition.get("sub_processors", {})
                 all_subs.update({k: v for k, v in subs.items() if callable(v)})
         return all_subs
+    
+    def prefix_executor(self, key: str, prefix_name: str) -> Any:
+        """
+        Extracts the executor associated with a specific prefix (e.g., 'webhook') 
+        under a top-level key (e.g., 'service').
+        
+        Usage: 
+            executor = registry.prefix_executor("service", "webhook")
+        """
+        # 1. Get the definition for the key (e.g., 'service')
+        definition = self._raw.get(key, {})
+        
+        # 2. Get the prefix dictionary (e.g., the map of webhook, timer, etc.)
+        prefixes = definition.get("prefix", {})
+        
+        # 3. Get the specific prefix config (e.g., the 'webhook' dictionary)
+        target_config = prefixes.get(prefix_name, {})
+        
+        # 4. Return the 'executor' if it exists, otherwise return None/empty list
+        return target_config.get("executor")
+    
+    def prefix_interpreter(self, key: str, prefix_name: str) -> Any:
+        """
+        Extracts the executor associated with a specific prefix (e.g., 'webhook') 
+        under a top-level key (e.g., 'service').
+        
+        Usage: 
+            executor = registry.prefix_executor("service", "webhook")
+        """
+        # 1. Get the definition for the key (e.g., 'service')
+        definition = self._raw.get(key, {})
+        
+        # 2. Get the prefix dictionary (e.g., the map of webhook, timer, etc.)
+        prefixes = definition.get("prefix", {})
+        
+        # 3. Get the specific prefix config (e.g., the 'webhook' dictionary)
+        target_config = prefixes.get(prefix_name, {})
+        
+        # 4. Return the 'executor' if it exists, otherwise return None/empty list
+        return target_config.get("interpreter")
+    
+    def get_prefix_validator(self, key: str, prefix_name: str) -> Any:
+        """
+        Extracts the validator associated with a specific prefix (e.g., 'webhook') 
+        under a top-level key (e.g., 'service').
+        
+        Usage: 
+            validator = registry.get_prefix_validator("service", "webhook")
+        """
+         # 1. Get the definition for the key (e.g., 'service')
+        definition = self._raw.get(key, {})
+        
+        # 2. Get the prefix dictionary (e.g., the map of webhook, timer, etc.)
+        prefixes = definition.get("prefix", {})
+        
+        # 3. Get the specific prefix config (e.g., the 'webhook' dictionary)
+        target_config = prefixes.get(prefix_name, {})
+        
+        # 4. Return the 'executor' if it exists, otherwise return None/empty list
+        return target_config.get("validator")
 
+    def prefix_processor(self, prefix_name: str, key: str="service") -> Any:
+            """
+            Extracts the executor associated with a specific prefix (e.g., 'webhook') 
+            under a top-level key (e.g., 'service').
+            
+            Usage: 
+                executor = registry.prefix_executor("service", "webhook")
+            """
+            # 1. Get the definition for the key (e.g., 'service')
+            definition = self._raw.get(key, {})
+            print(f"definition:    {definition}")
+            
+            # 2. Get the prefix dictionary (e.g., the map of webhook, timer, etc.)
+            prefixes = definition.get("prefix", {})
+            print(f"prefixes:    {prefixes}")
+            
+            # 3. Get the specific prefix config (e.g., the 'webhook' dictionary)
+            target_config = prefixes.get(prefix_name, {})
+            print(f"target_config:    {target_config}")
+            
+            # 4. Return the 'executor' if it exists, otherwise return None/empty list
+            return target_config.get("processor")
 
     def gather_all_keys(self, service_key: str, service_value, state: ValidationState):
         """The 'Full Registry' Hydrator."""
@@ -222,7 +377,6 @@ class PiperRegistry:
         info = resolve_service_instruction(service_value)
         new_types = {}
         prefix = self.service_prefix(service_key=service_key, service_value=service_value)
-
 
         # 1. GATHER FROM JSON (API/External Schema)
         if info and info["validate_input"]:
@@ -235,7 +389,7 @@ class PiperRegistry:
                 # We get the flattened type map from the JSON
                 schema_keys = self.hydrate_from_json(schema_data, state)
                 new_types.update(schema_keys)
-        handler = self.sub_executor_map.get(prefix)
+        handler =  self.prefix_executor(key=service_key, prefix_name=prefix)
         if handler:
             handler_keys = self.hydrate_from_handler(handler)
             # These are usually top-level config keys (not inside 'input')
@@ -408,14 +562,16 @@ class PiperRegistry:
         Retrieves dependency rules for 'service' based on its mode (prefix).
         """
         # 1. Get the raw dependency map for 'service'
-        raw_deps = self.dependency_map.get(section_key, {})
+        raw_deps = self._raw.get(section_key, {})
         if not isinstance(raw_deps, dict):
             return {}
 
         # 3. Retrieve the rules for that specific mode
-        mode_rules = raw_deps.get(mode, {})
+        prefix_cont = raw_deps.get("prefix", {})
+        prefix_selected_cont = prefix_cont.get(mode, {}) # Added default empty dict
+        mode_rules = prefix_selected_cont.get("dependency", {})
         
-        # 4. Convert raw dicts to DependencyRule dataclasses
+        # FIX: Convert raw dicts to DependencyRule dataclasses so getattr() works
         return {k: DependencyRule(**v) for k, v in mode_rules.items()}
 
     def get_sub_validator(self, section_key: str, section_id: str) -> Dict[str, Any]:
@@ -433,6 +589,11 @@ class PiperRegistry:
     def is_section_manager(self, section_key: str) -> bool:
         """Check if the given key represents a top-level section manager."""
         return section_key in self.section_map
+    
+    def has_prefix(self, key):
+        if self.prefix_map.get(key):
+            return True
+        return False
     
     def _build_role_to_keys_map(self) -> Dict[str, List[str]]:
         """

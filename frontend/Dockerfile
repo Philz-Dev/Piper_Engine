@@ -1,24 +1,24 @@
-# 1. Use Node.js as the base
 FROM node:20-slim
 
-# 2. Create the working directory
 WORKDIR /app
 
-# 3. Copy package files first (for faster builds/caching)
-COPY frontend/package*.json ./
+# 1. Copy package files
+COPY nexus-ui/package*.json ./nexus-ui/
 
-# 4. Install JavaScript dependencies
-RUN npm install
+WORKDIR /app/nexus-ui
 
-# 5. Copy the rest of the Nexus UI source code
-COPY frontend/ ./frontend/
+# 3. Install
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
 
-# 6. Build the app (if you're using React/Vue/Vite)
-# Skip this line if it's just a basic Express/Node server
+# 4. Copy ONLY the source code (src, public, next.config.js, etc)
+# We avoid copying node_modules by relying on the .dockerignore
+COPY nexus-ui/ ./
+
+ENV NODE_ENV=production
+
+# 5. Build
 RUN npm run build
 
-# 7. Expose the port (usually 3000 or 5173 for JS apps)
 EXPOSE 3000
-
-# 8. Start the frontend
 CMD ["npm", "start"]

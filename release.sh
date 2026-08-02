@@ -13,7 +13,9 @@ fi
 # Configuration
 export DOCKER_BUILDKIT=1
 USERNAME="philz-dev"
-SERVICES=("manager" "controller" "servers" "services" "worker")
+
+#SERVICES=("manager" "controller" "servers" "services" "worker" "runner-node" "runner-python")
+SERVICES=("worker")
 
 # 1. Build & Push Loop
 for SERVICE in "${SERVICES[@]}"; do

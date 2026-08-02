@@ -2,6 +2,24 @@ from typing import Any
 import math
 from datetime import datetime, timedelta
 
+# shared/helpers.py
+
+def int(value):
+    try:
+        return int(value)
+    except (ValueError, TypeError):
+        return 0
+
+def bool(value):
+    if isinstance(value, bool): return value
+    return str(value).lower() in ("true", "1", "yes", "on")
+
+def float(value):
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        return 0.0
+
 def upper(value: str) -> str:
     return str(value).upper()
 
@@ -17,8 +35,8 @@ def trim(value: str) -> str:
 def length(value: Any) -> int:
     return len(value)
 
-def split(value: str, separator: str = ",") -> list:
-    return str(value).split(separator)
+def split(value: str, map_to, delimiter: str = ",") -> list:
+    return str(value).split(delimiter)
 
 def replace(value: str, search: str, replacement: str) -> str:
     return str(value).replace(search, replacement)

@@ -1,3 +1,3 @@
 def handler(context):
     dev = "philip"
-    return dev
+    return {"dev_name": dev}

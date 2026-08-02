@@ -14,6 +14,7 @@ from .redis_queuer import remove_from_redis_queue
 from .universal_dispatcher_v2 import core
 import click
 from .redis_queuer import handover_password
+from shared.compiler import WorkflowCompiler
 
 DB = ContextDB()
 
@@ -88,24 +89,30 @@ async def init_build(crypto_engine, password, file_name=None, dsl_file=None):
             await init_build(crypto_engine, password, file_name=client_path.name)
 
 def load_yaml_with_metadata(file_path):
+    if not file_path.endswith((".yml", ".yaml")):
+        file_path = f"{file_path}.yml"
     yaml = YAML(typ='rt')
-    with open(file_path, 'r') as f:
-        return yaml.load(f)
-        # ruamel objects have a .lc attribute (line/column info)
+    try:
+        with open(file_path, 'r') as f:
+            return yaml.load(f)
+    except FileNotFoundError:
+        return None
 
 async def builder(name, path, crypto_engine, password, dsl_file=None):
     """Now accepts dsl_file and defaults to waterfall.yml if none provided."""
 
     target_file = dsl_file if dsl_file else "waterfall.yml"
     formatted_path = os.path.join(path, target_file)
-    yml_file = load_yaml_with_metadata(file_path=formatted_path)
-    registry, state = get_registry_package(yml_file)
     
-    print(f"🛠️  Building {name} -> {target_file}")
+    yml_file = load_yaml_with_metadata(file_path=formatted_path)
     
     if yml_file is None:
-        state.add_error(f"💥 ERROR: {target_file} not found for {name}")
+        print(f"❌ Error: The DSL file '{target_file}' was not found for client '{name}' at '{formatted_path}'.")
+        print(f"💥 ERROR: {target_file} is empty or could not be parsed for {name}")
         return
+
+    registry, state = get_registry_package(yml_file)
+    print(f"🛠️  Building {name} -> {target_file}")
     
     main_validator(dsl_file=yml_file, name=name, registry=registry, state=state)
     piper_interpreter = await PiperInterpreter.create(
@@ -114,19 +121,23 @@ async def builder(name, path, crypto_engine, password, dsl_file=None):
                             name=name, 
                             crypto_engine=crypto_engine
                         )
-    print(piper_interpreter.manifest)
     
     if state.info:
         for i in state.info:
             print(i)
-    if state.Warning:
+    if state.warnings:
         for w in state.Warning:
             print(w)
     if state.errors:
         for e in state.errors:
             print(e)
         return
-    await processor(_cont=piper_interpreter.manifest, _password=password, _client_name=name, _registry=registry)
+
+    compiler = WorkflowCompiler()
+    compiled_manifest = compiler.compile_block(piper_interpreter.manifest)
+
+    print(compiled_manifest)
+    await processor(_cont=compiled_manifest, _password=password, _client_name=name, _registry=registry, _dsl_file_name=dsl_file)
 
 async def test_build(crypto_engine, file_path, name, task):
     """Directly tests a single task within a pipeline."""
@@ -207,9 +218,9 @@ async def execute_piper_stop(clients=None, dsl=None, password=None):
     Handles the logic for stopping clients. 
     If no clients are provided, it attempts to stop everything active.
     """
-    if not verify_password(password):
+    """if not verify_password(password):
         click.secho("❌ Error: Incorrect Master Password. Access Denied.", fg="red")
-        return False, "Invalid Master Password"
+        return False, "Invalid Master Password"""
     
     # Case 1: No clients specified -> Stop everything in the DB/Queue
     if not clients:

@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
     curl \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # 5. Install Python dependencies
@@ -24,14 +25,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 6. Copy the rest of your application code
 COPY services/ ./services/
 COPY shared/ ./shared/
-COPY .piper_config/ ./piper_config/
+COPY .piper_config/ ./.piper_config/
 
 RUN pip install -e ./shared
 
 ENV PYTHONPATH="/app:/app/services:/app/shared"
 
-ENTRYPOINT ["python", "/app/services/main.py"]
-
-# 9. Start the service as a MODULE
-# Using -m services.main ensures Python treats the directory structure correctly
-CMD ["python", "-m", "services.main"]
+ENTRYPOINT ["python", "-u", "app/services/main.py"]

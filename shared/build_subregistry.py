@@ -4,18 +4,12 @@ from typing import Dict, Any
 CORE_KEYS = [
     "type", "weight", "allowed_keys", "dependency", 
     "address_book", "file_ext", "validator", 
-    "interpreter", "executor", "sub_executors", "sub_validators",
-    "processor", "sub_processors", "sub_interpreters"
+    "interpreter", "executor", "prefix",
+    "processor", "top_level_parent", "id", "top_level_key"
 ]
 
 # Mapping the boolean flags to their internal map names
 MANAGER_MAP_CONFIG = {
-    "is_section": "section_map",
-    "a_service_manager": "service_map",
-    "a_trigger_manager": "trigger_map",
-    "an_id_manager": "id_map",
-    "a_condition_manager": "condition_map",
-    "a_recursive_manager": "recursion_map",
     "is_merger": "merger_map"
 }
 

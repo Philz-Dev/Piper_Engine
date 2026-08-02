@@ -1,162 +1,131 @@
-from fastapi import FastAPI, HTTPException, Query
-from fastapi.middleware.cors import CORSMiddleware
-import docker
-import uvicorn
 import os
-import yaml
-import sys
-root_path = os.path.dirname(os.path.abspath(__file__))
-if root_path not in sys.path:
-    sys.path.append(root_path)
+import asyncio
+import json
+import logging
+import websockets
+import uvicorn
+from api_server import app 
+from shared.engine_server_utils import PiperService   #Ensure you import your 'app' and 'piper_services'
 
-import subprocess
-import glob
-import hashlib
-import base64
-from typing import List, Dict
-from shared.encryption_manager import verify_password, initialize_salt, MASTER_SALT, CONFIG_DIR
-from shared.setup_build import execute_piper_start, execute_piper_stop
-from shared. database_manager import ContextDB
+# --- Configuration ---
+ENGINE_MODE = os.getenv("ENGINE_MODE", "local")
+SIGNALING_SERVER_URL = os.getenv("SIGNALING_SERVER_URL", "wss://piper-backend-production.up.railway.app/ws/engine")
+API_KEY = os.getenv("PIPER_API_KEY", "your-secret-key-here")
+USER_ID = os.getenv("USER_ID", "default_user_123")
 
-client = docker.from_env()
-app = FastAPI(title="Piper Engine API")
-DB = ContextDB()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("orchestrator")
 
-# Configuration
-PROJECT_ROOT = "/app"
-TEMPLATES_DIR = os.path.join(PROJECT_ROOT, "templates")
-WATERFALL_DIR = os.path.join(PROJECT_ROOT, "waterfall")
-MASTER_PASSWORD = None  # Persistent within the session
+import socketio # Make sure you have this installed
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+class PiperBridge:
+    def __init__(self, backend_url, api_key, user_id, piper_services):
+        self.sio = socketio.AsyncClient()
+        self.backend_url = backend_url
+        self.api_key = api_key
+        self.user_id = user_id
+        self.piper_services = piper_services
+        self.setup_handlers()
 
-@app.get("/api/v1/status")
-async def get_status():
-    """
-    locked: True if the current session doesn't have the password.
-    exists: True if a master password has been initialized in the CLI.
-    """
-    return {
-        "locked": MASTER_PASSWORD is None,
-        "exists": os.path.exists(MASTER_SALT)
-    }
+    async def listen(self):
+        """Production-grade listener with robust reconnection loop."""
+        while True:
+            try:
+                # 1. Pass API_KEY in 'auth'. This is safer and cleaner.
+                await self.sio.connect(
+                    self.backend_url, 
+                    transports=['websocket'],
+                    auth={"token": self.api_key} 
+                )
+                await self.sio.wait()
+            except Exception as e:
+                logger.error(f"Connection error: {e}. Retrying in 5s...")
+                await asyncio.sleep(5)
 
-@app.post("/api/v1/unlock")
-async def unlock_engine(payload: Dict[str, str]):
-    global MASTER_PASSWORD
-    pwd = payload.get("password")
+    def setup_handlers(self):
+        # Merge all handlers into one clean method
+        @self.sio.event
+        async def connect():
+            logger.info("✅ Connected to Central Backend")
+            await self.sio.emit('register_worker', {'user_id': self.user_id})
+
+        @self.sio.event
+        async def disconnect():
+            logger.warning("❌ Disconnected from Central Backend")
+
+        @self.sio.on('execute_task')
+        async def on_execute(data):
+            logger.info(f"🚀 Received command: {data}")
+            method_name = data.get("method")
+            params = data.get("params", {})
+            task_id = data.get("task_id")
+
+            allowed_methods = [
+                "toggle_container", "delete_automation", "get_stats", 
+                "list_clients", "get_automations", "resolve_intervention", 
+                "get_script_content", "get_system_state", "get_file_tree"
+            ]
+
+            if method_name not in allowed_methods:
+                await self.sio.emit('task_response', {
+                    "status": "ERROR", 
+                    "message": "Unauthorized method", 
+                    "task_id": task_id,
+                    "userId": self.user_id  # <--- Include userId here
+                })
+                return
+
+            try:
+                func = getattr(self.piper_services, method_name)
+                
+                if asyncio.iscoroutinefunction(func):
+                    result = await func(**params)
+                else:
+                    result = await asyncio.to_thread(func, **params)
+                
+                # <--- INCLUDE userId HERE SO THE BACKEND CAN ROUTE IT TO THE ROOM --->
+                print(f"result:                {result}")
+                await self.sio.emit('task_response', {
+                    "status": "SUCCESS", 
+                    "task_id": task_id, 
+                    "result": result,
+                    "userId": self.user_id 
+                })
+            except Exception as e:
+                logger.error(f"Error executing {method_name}: {e}")
+                await self.sio.emit('task_response', {
+                    "status": "ERROR", 
+                    "task_id": task_id, 
+                    "message": str(e),
+                    "userId": self.user_id  # <--- Include userId here as well
+                })
+
+
+async def run_local_mode():
+    """Runs the FastAPI server AND the WebSocket Bridge concurrently."""
+    logger.info("💻 STRETIS ENGINE MODE: [LOCAL/BRIDGE]")
     
-    if not pwd:
-        raise HTTPException(status_code=400, detail="Password required")
+    # 1. Prepare FastAPI Server
+    config = uvicorn.Config(app, host="0.0.0.0", port=8099, log_level="info")
+    server = uvicorn.Server(config)
     
-    # 1. Check if we need to CREATE a password
-    if not os.path.exists(MASTER_SALT):
-        if not os.path.exists(CONFIG_DIR):
-            os.makedirs(CONFIG_DIR)
-        initialize_salt(pwd)
-        MASTER_PASSWORD = pwd
-        return {"status": "created", "message": "Master password initialized"}
-
-    # 2. Otherwise, VERIFY against the CLI manager logic
-    if verify_password(pwd):
-        MASTER_PASSWORD = pwd
-        return {"status": "unlocked", "message": "Access granted"}
-    else:
-        # feedback for the UI to display "wrong or incorrect password"
-        raise HTTPException(status_code=401, detail="Incorrect Master Password")
-
-@app.get("/api/v1/clients")
-async def get_clients():
-    if MASTER_PASSWORD is None:
-        raise HTTPException(status_code=401, detail="Locked")
-    try:
-        if not os.path.exists(TEMPLATES_DIR):
-            return []
-        return [d for d in os.listdir(TEMPLATES_DIR) if os.path.isdir(os.path.join(TEMPLATES_DIR, d))]
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.get("/api/v1/automations/{client_name}")
-async def get_automations(client_name: str):
-    if MASTER_PASSWORD is None:
-        raise HTTPException(status_code=401, detail="Locked")
-        
-    automations = []
-    client_path = os.path.join(TEMPLATES_DIR, client_name, "waterfall")
+    piper_instance = PiperService()
+    # 2. Prepare Bridge
+    bridge = PiperBridge(SIGNALING_SERVER_URL, API_KEY, USER_ID, piper_instance)
     
-    if not os.path.exists(client_path):
-        raise HTTPException(status_code=404, detail="Client templates not found")
-
-    running_containers = {c.name: c.status for c in client.containers.list(all=True)}
-
-    for file in os.listdir(client_path):
-        if file.endswith(('.yml', '.yaml')):
-            file_path = os.path.join(client_path, file)
-            with open(file_path, 'r') as f:
-                try:
-                    config = yaml.safe_load(f)
-                    name = config.get('name', file.replace('.yml', ''))
-                    status = running_containers.get(name, "stopped")
-                    
-                    automations.append({
-                        "id": name,
-                        "name": name,
-                        "status": status,
-                        "file_path": file_path,
-                        "cpu": "0%",
-                        "mem": "0B"
-                    })
-                except yaml.YAMLError:
-                    continue
-    return automations
-
-@app.post("/api/v1/toggle/{container_name}")
-async def toggle_container(
-    container_name: str, 
-    action: str = Query(...), 
-    client_name: str = Query(...)
-):
-    global MASTER_PASSWORD
-    if not MASTER_PASSWORD:
-        raise HTTPException(status_code=401, detail="Engine is locked.")
-
-    try:
-        if action == "start":
-            # Direct Python Call
-            success, message = await execute_piper_start(
-                clients=[client_name], 
-                dsl=[f"{container_name}.yml"], 
-                password=MASTER_PASSWORD
-            )
-            
-        else:
-            pipeline_info = DB.get_pipeline_by_client(client_name)
-            
-            active_task_id = pipeline_info.get("task_id") if pipeline_info else container_name
-            
-            print(f"DEBUG: Stopping client {client_name} with Task ID {active_task_id}")
-            # Stop logic still uses subprocess (unless you extract stop logic too)
-            success, message = await execute_piper_stop(
-                clients=[client_name],           
-                dsl=[f"{active_task_id}.yml"],   
-                password=MASTER_PASSWORD
-            )
-            
-        if not success:
-            raise HTTPException(status_code=500, detail=message)
-    
-        return {"status": "success", "message": message}
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    
-def start_server(port: int=8099):
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    # 3. Run both
+    await asyncio.gather(
+        server.serve(),
+        bridge.listen()
+    )
 
 if __name__ == "__main__":
-    start_server()
+    if ENGINE_MODE == "local":
+        try:
+            asyncio.run(run_local_mode())
+        except KeyboardInterrupt:
+            logger.info("🛑 Shutting down.")
+    else:
+        logger.info("☁️ STRETIS ENGINE MODE: [VPS/DIRECT-API]")
+        # Standard Uvicorn run for VPS mode
+        uvicorn.run(app, host="0.0.0.0", port=8099)

@@ -8,14 +8,16 @@ import os
 from dotenv import load_dotenv
 import importlib
 import yaml
-from shared.auth_manger import start_auth_flow
+from shared.auth_manager import start_auth_flow
 from shared.tools import get_auth_config_file
 from shared.tools import inspect_function, crawler, replace_place_value_v3, replace_place_value, retrieve_file, open_json_file, check_key_matches, input_manager
 from typing import Dict, Any, List
-from shared.tools import retrieve_file, replace_place_value, crawler, missing_field, load_schema_registry
+from shared.tools import retrieve_file, replace_place_value, crawler, missing_field, load_schema_registry, missing_field_v2
 from shared.registry_V2 import PiperRegistry
 from shared.database_manager import ContextDB
 from shared.tools import resolve_service_instruction
+from shared.reg_schema.schemaid import SchemaID
+from shared.compiler import WorkflowCompiler
 
 class PiperInterpreter:
     def __init__(self, registry, crypto_engine=None):
@@ -39,230 +41,172 @@ class PiperInterpreter:
         # Process top-level sections
         for section, content in dsl_file.items():
             # If it's a workflow section (like 'pipeline' or 'on_start')
-            if isinstance(content, list):
-                self.manifest[section] = await self.registry.interpreter_map.get(section)(content, self.registry, self.crypto_engine, name)
+            self.manifest[section] = await self.registry.interpreter_map.get(section)(key=section, content=content, registry=self.registry, crypto_engine=self.crypto_engine, name=name)
         return self.manifest
     
-async def run_pipeline(content: List, registry, crypto_engine, name, **kwargs):
-
+async def condition_interpreter(content, *args, **kwargs):
+    return content
+    
+async def core_interpreter(key: str, content: List, registry, crypto_engine, name, **kwargs):
+    
+    if not isinstance(content, list):
+        content = [target_content] 
     executable_block = []
+    service_prefix = None
     for n, step in enumerate(content):
         entry = {}
-        
-        # 1. Identify which managers are present in THIS step
-        # We look at every key in the step and ask the Registry: "Who manages this?"
+        service_prefix = None
+        service_config_keys = {}
+        path = None
+
+        # 1. First Pass: Resolve Service and Config
+        for k, v in step.items():
+            if registry.id_map.get(k) == SchemaID.SERVICE:
+                service_prefix = registry.service_prefix(service_key=k, service_value=v)
+                info = resolve_service_instruction(v)
+                path = info.get("full_path")
+                service_config_keys = service_func_config_keys(registry, step, k, service_prefix)
+                entry["execution"] = {**service_config_keys}
+                entry["execution_type"] = k
+
         for key, value in step.items():
-            # Get the 'role' (e.g., 'an_id_manager', 'a_service_manager')
-            role = registry.identify_manager_role(key) 
-            
-            if not role:
-                continue # Skip keys that aren't managed (like 'version')
 
             specialist = registry.interpreter_map.get(key)
             if not specialist:
+                if key in registry._raw:
+                    entry[key] = value
                 continue
 
             # 2. Execute the specialist
             result = await specialist(
-                step=step,
+                content=value,
                 key=key,
-                value=value,
                 registry=registry,
                 crypto_engine=crypto_engine,
                 name=name,
-                func=run_pipeline # Pass for recursion
+                service_prefix=service_prefix,
+                service_path=path,
+                service_config_keys=service_config_keys,
+                step=step
             )
 
-            # 3. Determine Storage Logic (Merge vs Assign)
-            # Senior Move: Let the Registry define if a role should 'merge'
-            if registry.should_merge(key):
-                entry.update(result)
+            if registry.id_map.get(key) == SchemaID.INPUT:
+                entry["execution"].update(result)
             else:
                 entry[key] = result
+
+
         executable_block.append(entry)
 
     return executable_block
-    
-async def recursive_step_manager(registry, step, key: str, value: str, crypto_engine, name, func):
-    # Ensure we get the list from the correct key (e.g., 'steps' or 'on_error')
-    target_content = step.get(key)
-    
-    if not isinstance(target_content, list):
-        target_content = [target_content] 
-        
-    # Must pass 'name' back to the recursive function
-    return await func(content=target_content, registry=registry, crypto_engine=crypto_engine, name=name)
 
-async def assign_key_value(registry, step, key: str, value: str, crypto_engine, name, func):
-    return step.get(key)
+async def assign_key_value(content, **kwargs):
+    return content
 
 def service_func_config_keys(registry, step, service_key, prefix):
-    handler = registry.sub_executor_map.get(prefix)
+    handler = registry.prefix_executor(service_key, prefix)
+    print(f"handler:   {handler}")
+    print(f"service_key       {service_key}")
     if not handler:
         return {}
     handler_keys = registry.hydrate_from_handler(handler)
     config_keys = {ky: vl for ky, vl in step.items() if ky in handler_keys}
     return config_keys 
 
-    
-async def app_service(registry, step, key: str, value: str, crypto_engine, name, func):
-    prefix = registry.service_prefix(service_key=key, service_value=value)
-    info = resolve_service_instruction(value)
-    path = info.get("full_path")
-    list_of_value = value.split(".")
-    if "." in value:
-        app_name = list_of_value[0] if list_of_value[0] != prefix else list_of_value[1]
-    else:
-        app_name = value
-    action = list_of_value[-1]
-    config_keys = service_func_config_keys(registry=registry, step=step, service_key=key, prefix=prefix)
+async def app_service(registry, content, key: str, crypto_engine, name, service_config_keys, step, service_path, service_prefix, **kwargs):
 
-    service_config = registry._raw.get(key)
-    dependencies = service_config.get("dependency", {}).get(prefix, {})
-    prefix_list = []
-    for k, v in step.items():
-        role = registry.identify_manager_role(k)
-        if role in dependencies:
-            prefix_list.append(k)
-    dependency_func = registry.find_dependency_func(sub_type="interpreter", registry=registry, step=step, dependencies=dependencies, prefix=prefix_list)
-    sub_interpreter = {prefix: registry.sub_interpreter_map.get(prefix)}
-    app_schema = {}
+    list_of_value = content.split(".")
+
+    if len(list_of_value) > 1:
+        app_name = list_of_value[0] if list_of_value[0] != service_prefix else list_of_value[1]
+        action = list_of_value[-1]
+    else:
+        app_name = list_of_value[0]
+        action = ""
     
-    if dependency_func:
-        for k, d in dependency_func.items():
-            if d: # Safety
-                app_schema = await d(
-                            key=k,
-                            path=path,
-                            value=value,
-                            service=app_name,
-                            client_name=name,
-                            crypto_engine=crypto_engine,
-                            current_step=step,
-                            content_to_modify=app_schema
-                        )
+    sub_interpreter = registry.prefix_interpreter(key, service_prefix)
     
     system_schema = {}
     if sub_interpreter:
-        for k, d in sub_interpreter.items():
-            if d: # Safety check
-                system_schema[k] = await d(
-                    key=k,
-                    path=path,
-                    value=value,
-                    service=app_name,
-                    client_name=name,
-                    crypto_engine=crypto_engine,
-                    current_step=step,
-                    registry=registry,
-                    prefix=prefix, 
-                    config_keys=config_keys
-                    
-                )
-    
-    final_args = {**config_keys, **app_schema}
-        
+        system_schema[service_prefix] = await sub_interpreter(
+            key=service_prefix,
+            path=service_path,
+            value=content,
+            service=app_name,
+            client_name=name,
+            crypto_engine=crypto_engine,
+            current_step=step,
+            registry=registry,
+            prefix=service_prefix, 
+            config_keys=service_config_keys
+            
+        )
+    # Return only the description of the service
     return {
-        "service_manager": key,
-        'prefix': prefix,
-        "app_name": app_name,
+        "app": app_name,
         "action": action,
-        "service_type": prefix,
-        "args": final_args,
+        "type": service_prefix,
         "engine_internal": system_schema
     }
 
-async def build_input_v2(path, current_step, crypto_engine, client_name, value, key, service, content_to_modify):
-    key_matches = check_key_matches(service_path=path)
+async def build_input_v2(service_path, crypto_engine, name, content, **kwargs):
+    
+    key_matches = check_key_matches(service_path=service_path)
     app_schema = key_matches["app_schema"]
     found_items = key_matches["found_items"]["matched_items"]
-    key_path = key_matches["found_items"]["key_path"]
-    missing = missing_field(required=found_items, content_to_check=value)
+    required_key_path = key_matches["found_items"]["key_value"]
+    missing = missing_field(required=found_items, content_to_check=content)
     
-    # Ensure input_data is a dict
-    raw_input = current_step.get(key, {})
-    input_data = raw_input if isinstance(raw_input, dict) else {}
     default_regex = r"Default\s*=\s*([\$!\.\w\d_\-\s]+)"
 
-    if missing:
+    if missing:   
         for m in missing:
             missing_value = str(found_items.get(m))
             match = re.search(default_regex, missing_value)
             
-            if match and m not in input_data:
-                # EXTRACT ONLY THE VALUE: "$.Hubspot"
-                extracted_val = f"{{{{{match.group(1).strip()}}}}}"
-                re_val = match.group(1).strip()
+            if match and m not in content:
+                raw_val = match.group(1).strip()
+                
+                # Logic: Check for escape and strip the slash
+                is_escaped = raw_val.startswith("/")
+                re_val = raw_val[1:] if is_escaped else raw_val
+                
+                # EXTRACT ONLY THE VALUE (Cleaned of the slash if it was there)
+                extracted_val = f"{{{{{re_val}}}}}"
+                
                 # Replace surgically using the V2 logic
                 app_schema = replace_place_value_v3(
-                    key_path=key_path, 
+                    key_path=required_key_path, 
                     content_to_modify=app_schema, 
-                    key=m, 
+                    key=m,
                     value=extracted_val,
                     is_metadata_replacement=True # CRITICAL
                 )
                 
-                # Auth Logic
-                if re_val.startswith("$."):
-                    target_service = re_val.replace("$.", "")
-                    app_path = get_auth_config_file(client_name=client_name, file_type="app_service", service=target_service)
+                # Auth Logic: Skip if it was escaped
+                if is_escaped:
+                    continue
+                
+                # Standard Auth Logic
+                if re_val.startswith("$env."):
+                    target_service = re_val.replace("$env.", "")
+                    app_path = get_auth_config_file(client_name=name, file_type="app_service", service=target_service)
                     w_f = retrieve_file(file_path=app_path, base_dir=True)
                     if w_f:
-                        w_f.update({"client_name": client_name, "app_name": target_service})
+                        w_f.update({"client_name": name, "app_name": target_service})
                         await start_auth_flow(_cont=w_f, _crypto_engine=crypto_engine)
                 continue
 
     # Handle explicit overrides
     for ke in found_items.keys():
-        if ke in input_data:
-            val = input_data.get(ke)
+        if ke in content:
+            val = content.get(ke)
             app_schema = replace_place_value_v3(
-                key_path=key_path, content_to_modify=app_schema, key=ke, value=val, is_metadata_replacement=False
+                key_path=required_key_path, content_to_modify=app_schema, key=ke, value=val, is_metadata_replacement=False
             )        
     return {
         "_args": app_schema
     }
-
-async def build_input(path, current_step, crypto_engine, client_name, value, key, service, content_to_modify):
-
-    key_matches = check_key_matches(service_path=path)
-    app_schema = key_matches["app_schema"]
-    found_items = key_matches["found_items"]["matched_items"]
-    key_path =  key_matches["found_items"]["key_path"]
-    missing = missing_field(required=found_items, content_to_check=value)
-    input_data = current_step.get(key)
-    default_regex = r"Default\s*=\s*([\$!\.\w\d_\-\s]+)"
-    if missing:
-        for m in missing:
-            missing_value = found_items.get(m)
-            #match = re.search(r"Default\s*=\s*\$\.([\w\d_\-\s]+)", str(missing_value))
-            match = re.search(default_regex, missing_value)
-            
-            input_data = current_step.get(key)
-            if match and m not in input_data:
-                transformed_value = f"{{{{{match.group(1).strip()}}}}}"
-                # Update our schema tracking so replace_place_value uses the simplified string
-                app_schema = replace_place_value(
-                    key_path=key_path, 
-                    content_to_modify=app_schema, 
-                    key=m, 
-                    value=transformed_value
-                )
-                app_path = get_auth_config_file(client_name=client_name, file_type="app_service", service=service)
-                w_f = retrieve_file(file_path=app_path, base_dir=True)
-                if w_f:
-                    w_f["client_name"] = client_name
-                    w_f["app_name"] = service
-                    await start_auth_flow(_cont=w_f, _crypto_engine=crypto_engine)
-                    continue
-        for ke in found_items.keys():
-            if not ke in input_data:
-                continue
-            val = input_data.get(ke)
-            content_to_modify["_args"] = replace_place_value_v3(
-                key_path=key_path, content_to_modify=app_schema, key=ke, value=val, is_metadata_replacement=True
-            )        
-    return content_to_modify
 
 async def script_interpreter(current_step, value, **_kwargs):
     """
@@ -274,7 +218,8 @@ async def script_interpreter(current_step, value, **_kwargs):
     RUNTIME_EXT_MAP = {
         "python": "py",
         "nodejs": "js",
-        "node": "js"
+        "node": "js",
+        "javascript": "js"
     }
     runtime = current_step.get("runtime", "python").lower()
     ext = RUNTIME_EXT_MAP.get(runtime, "py")
@@ -292,15 +237,11 @@ async def script_interpreter(current_step, value, **_kwargs):
     content_to_modify["_file_path"] = absolute_script_path
     return  content_to_modify
 
-async def trigger(content: List, registry, crypto_engine, name):
-
-    run_pipeline(content=content, registry=registry, crypto_engine=crypto_engine, name=name)
-
 async def webhook_func(current_step, config_keys, prefix, service, registry, value, key, client_name, crypto_engine, **_kwargs):
     # 1. Dynamically find the key used for inputs
     input_key = None
     for k in current_step.keys():
-        if registry.identify_manager_role(k) == "an_input_manager":
+        if registry.id_map.get(k) == SchemaID.ID:
             input_key = k
             break
     
@@ -336,6 +277,8 @@ async def webhook_func(current_step, config_keys, prefix, service, registry, val
 async def timer_func():
     pass
 
-async def version_interpreter(content: str, registry, crypto_engine, name):
-    return content
+async def version_interpreter(content, *args, **kwargs):
+    # Ensure we return the value (like "1.0") so the manifest builder 
+    # can pass it to the processor
+    return str(content)
 

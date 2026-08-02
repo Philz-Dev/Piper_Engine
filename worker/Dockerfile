@@ -19,15 +19,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY worker/ ./worker/
 COPY shared/ ./shared/
 
-RUN pip install -e ./shared
+#RUN pip install -e ./shared
+RUN pip install --no-build-isolation --default-timeout=100 -e ./shared
 
 # 5. Set Environment
 ENV PYTHONPATH="/app"
-ENV PATH="/usr/local/bin:/usr/bin:/bin:${PATH}"
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH="/app:/app/worker:/app/shared"
 
 RUN groupadd -g 999 docker && usermod -aG docker root
 
 # 6. The Entrypoint
-ENTRYPOINT ["python", "/app/worker/core.py"]
-CMD ["run"]
+ENTRYPOINT ["python", "/app/worker/run_worker.py"]

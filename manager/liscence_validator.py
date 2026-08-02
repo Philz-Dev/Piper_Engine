@@ -1,55 +1,69 @@
-import requests
 import time
 import os
 import datetime
+from pyngrok import ngrok
+from shared.database_manager import ContextDB 
 
-# Configuration from environment variables
 TOKEN = os.getenv("INSTALL_TOKEN")
-# Your Next.js registration endpoint
 API_URL = os.getenv("PIPER_CLOUD_URL", "https://your-cloud-domain.com") + "/api/v1/engine/register"
 
+def get_active_tunnel_url():
+    """Fetches the public URL from the currently running Ngrok tunnel."""
+    try:
+        tunnels = ngrok.get_tunnels()
+        if not tunnels:
+            print("⚠️ No active Ngrok tunnels found.")
+            return None
+        # Return the public URL of the first tunnel
+        return tunnels[0].public_url
+    except Exception as e:
+        print(f"⚠️ Error fetching Ngrok tunnel: {e}")
+        return None
+
 def smart_heartbeat():
-    last_known_ip = None
+    db = ContextDB()
+    db.initialize_metadata_table() 
+    
     print(f"🚀 Piper Heartbeat started for token: {TOKEN}")
 
     while True:
         try:
-            # 1. Get current public IP (fast and external)
-            # Using a timeout ensures the script doesn't hang if the internet is shaky
-            current_ip = requests.get("https://api.ipify.org", timeout=10).text.strip()
+            # 1. Get the current Ngrok Tunnel URL
+            current_url = get_active_tunnel_url()
             
-            # 2. Check if we need to update the Cloud Dashboard
-            # Logic: Update if it's the first run (None) OR if the IP actually changed
-            if current_ip != last_known_ip:
-                if last_known_ip is not None:
-                    print(f"🔄 IP Change detected! {last_known_ip} -> {current_ip}")
-                else:
-                    print(f"📡 Initial registration at {current_ip}")
-
-                payload = {
-                    "token": TOKEN,
-                    "ip_address": current_ip,
-                    "status": "active",
-                    "port": 8001 , # Keep your engine port consistent
-                    "last_ping": datetime.utcnow().isoformat()
-                }
-
-                response = requests.post(API_URL, json=payload, timeout=10)
+            if current_url:
+                # 2. Compare with stored value using the DB manager
+                # (Note: We are using get_stored_ip, but it now stores the URL)
+                last_known_url = db.get_stored_ip()
                 
-                if response.status_code == 200:
-                    last_known_ip = current_ip
-                    print("✅ Cloud Dashboard updated successfully.")
-                else:
-                    print(f"❌ Failed to update Cloud. Status: {response.status_code}")
+                if current_url != last_known_url:
+                    print(f"🔄 Tunnel Change detected! {last_known_url} -> {current_url}")
+                    
+                    payload = {
+                        "token": TOKEN,
+                        "ip_address": current_url, # Storing URL in the ip_address field
+                        "status": "active",
+                        "port": 443, # Ngrok uses 443 for HTTPS
+                        "last_ping": datetime.datetime.utcnow().isoformat()
+                    }
+
+                    # Using requests.post to notify your cloud dashboard
+                    import requests
+                    response = requests.post(API_URL, json=payload, timeout=10)
+                    
+                    if response.status_code == 200:
+                        db.update_stored_ip(current_url)
+                        print("✅ Cloud Dashboard updated with new Ngrok URL.")
+                    else:
+                        print(f"❌ Failed to update Cloud. Status: {response.status_code}")
             
-        except requests.exceptions.RequestException as e:
-            print(f"⚠️ Network error: Could not reach IP service or Cloud API. Retrying...")
+            else:
+                print("⏳ Waiting for Ngrok tunnel to establish...")
+            
         except Exception as e:
             print(f"⚠️ Unexpected error: {e}")
             
-        # 3. Wait 2 minutes before checking again
-        # This provides a max "down time" of 120 seconds if an IP changes
-        time.sleep(120)
+        time.sleep(60)
 
 if __name__ == "__main__":
     if not TOKEN:

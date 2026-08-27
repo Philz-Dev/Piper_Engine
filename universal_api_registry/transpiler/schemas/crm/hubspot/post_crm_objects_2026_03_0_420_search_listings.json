@@ -1,0 +1,83 @@
+{
+    "name": "post_crm_objects_2026_03_0_420_search_listings",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/0-420/search",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "after": "{{DataType=str, Required=True}}",
+        "filterGroups": "{{DataType=list, Required=True}}",
+        "limit": "{{DataType=int, Required=True}}",
+        "properties": "{{DataType=list, Required=True}}",
+        "query": "{{DataType=str, Required=False}}",
+        "sorts": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Search For Listings Using Various Criteria And Filters",
+        "display_name_source": "summary",
+        "description": "Execute a search query to find listings based on specified filters and properties.",
+        "learn_more": null,
+        "operation_id": "post-/crm/objects/2026-03/0-420/search",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "A paging cursor token for retrieving subsequent pages.",
+                    "required": true
+                },
+                "filterGroups": {
+                    "label": "Filter Groups",
+                    "input_type": "tags",
+                    "description": "Up to 6 groups of filters defining additional query criteria.",
+                    "required": true
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum results to return, up to 200 objects.",
+                    "required": true
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "A list of property names to include in the response.",
+                    "required": true
+                },
+                "query": {
+                    "label": "Query",
+                    "input_type": "text",
+                    "description": "The search query string, up to 3000 characters.",
+                    "required": false
+                },
+                "sorts": {
+                    "label": "Sorts",
+                    "input_type": "tags",
+                    "description": "Specifies sorting order based on object properties.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

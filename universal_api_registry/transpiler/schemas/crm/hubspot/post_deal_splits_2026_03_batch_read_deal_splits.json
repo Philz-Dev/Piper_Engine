@@ -1,0 +1,48 @@
+{
+    "name": "post_deal_splits_2026_03_batch_read_deal_splits",
+    "method": "POST",
+    "url": "https://api.hubapi.com/deal-splits/2026-03/batch/read",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Read Batch Of Deal Split Objects By Their Associated Deal Object Internal ID",
+        "display_name_source": "summary",
+        "description": "Read a batch of deal split objects by their associated deal object internal ID.",
+        "learn_more": "Read a batch of deal split objects by their associated deal object internal ID",
+        "operation_id": "post-/deal-splits/2026-03/batch/read_/crm/objects/v3/deals/splits/batch/read",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "An array of deal split inputs",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

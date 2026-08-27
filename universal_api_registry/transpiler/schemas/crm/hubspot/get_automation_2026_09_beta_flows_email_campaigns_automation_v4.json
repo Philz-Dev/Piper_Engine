@@ -1,0 +1,66 @@
+{
+    "name": "get_automation_2026_09_beta_flows_email_campaigns_automation_v4",
+    "method": "GET",
+    "url": "https://api.hubapi.com/automation/2026-09-beta/flows/email-campaigns",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "before": "{{DataType=str, Required=False}}",
+        "flowId": "{{DataType=list, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Email Campaigns For Automation Flows (Automation V4)",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of email campaigns associated with automation flows.",
+        "learn_more": "Retrieve a list of email campaigns associated with automation flows. This endpoint allows you to filter and paginate through email campaigns using various query parameters. It is useful for obtaining detailed information about email campaigns linked to specific flows.",
+        "operation_id": "get-/automation/2026-09-beta/flows/email-campaigns_/automation/2026-09-beta/flows/email-campaigns",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "before": {
+                    "label": "Before",
+                    "input_type": "text",
+                    "description": "A paging cursor token for retrieving previous pages.",
+                    "required": false
+                },
+                "flowId": {
+                    "label": "Flow Id",
+                    "input_type": "tags",
+                    "description": "A query parameter to filter email campaigns by their associated flow IDs.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

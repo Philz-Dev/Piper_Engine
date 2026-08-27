@@ -1,0 +1,66 @@
+{
+    "name": "get_communication_preferences_2026_03_statuses__id__unsubscribe_all_sub_2ec8d698",
+    "method": "GET",
+    "url": "https://api.hubapi.com/communication-preferences/2026-03/statuses/{subscriberIdString}/unsubscribe-all",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "subscriberIdString": "{{DataType=str, Required=True}}",
+        "channel": "{{DataType=str, Required=True}}",
+        "businessUnitId": "{{DataType=int, Required=False}}",
+        "verbose": "{{DataType=bool, Default=false, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Contact's Unsubscribed Status (Subscriptions)",
+        "display_name_source": "summary",
+        "description": "Check whether a contact has unsubscribed from all email subscriptions.",
+        "learn_more": "Check whether a contact has unsubscribed from all email subscriptions. If a contact has not opted out of all communications, the response `results` array will be empty.",
+        "operation_id": "get-/communication-preferences/2026-03/statuses/{subscriberIdString}/unsubscribe-all",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "subscriberIdString": {
+                    "label": "Subscriber Id String",
+                    "input_type": "text",
+                    "description": "The unique identifier of the subscriber to unsubscribe from all communication preferences.",
+                    "required": true
+                },
+                "channel": {
+                    "label": "Channel",
+                    "input_type": "text",
+                    "description": "The communication channel from which to unsubscribe the subscriber. This is a required parameter and must be 'EMAIL'.",
+                    "required": true
+                },
+                "businessUnitId": {
+                    "label": "Business Unit Id",
+                    "input_type": "number",
+                    "description": "The ID of the business unit to which the subscriber belongs. This is an optional parameter.",
+                    "required": false
+                },
+                "verbose": {
+                    "label": "Verbose",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether to include detailed information in the response. Defaults to false.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

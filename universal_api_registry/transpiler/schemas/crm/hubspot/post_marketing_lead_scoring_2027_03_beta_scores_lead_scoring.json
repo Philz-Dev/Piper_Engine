@@ -1,0 +1,76 @@
+{
+    "name": "post_marketing_lead_scoring_2027_03_beta_scores_lead_scoring",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/lead-scoring/2027-03-beta/scores",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "allowedGroupTypes": "{{DataType=list, Required=True}}",
+        "groupConfigs": "{{DataType=list, Required=True}}",
+        "maxScorePerCategory": "{{DataType=int, Required=True}}",
+        "name": "{{DataType=str, Required=True}}",
+        "objectTypeId": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Score (Lead Scoring)",
+        "display_name_source": "summary",
+        "description": "Create a new lead scoring configuration in your HubSpot account.",
+        "learn_more": "Create a new lead scoring configuration in your HubSpot account. This endpoint allows you to define scoring criteria for leads, which can help in prioritizing and managing leads effectively. The request body must include the necessary configuration details for the scoring setup.",
+        "operation_id": "post-/marketing/lead-scoring/2027-03-beta/scores",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "allowedGroupTypes": {
+                    "label": "Allowed Group Types",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                },
+                "groupConfigs": {
+                    "label": "Group Configs",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                },
+                "maxScorePerCategory": {
+                    "label": "Max Score Per Category",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

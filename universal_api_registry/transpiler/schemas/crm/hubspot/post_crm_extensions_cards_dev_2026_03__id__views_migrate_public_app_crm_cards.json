@@ -1,0 +1,76 @@
+{
+    "name": "post_crm_extensions_cards_dev_2026_03__id__views_migrate_public_app_crm_cards",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/extensions/cards-dev/2026-03/{appId}/views/migrate",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "allowDuplicateAppCardIds": "{{DataType=bool, Required=True}}",
+        "appCardId": "{{DataType=int, Required=True}}",
+        "helpdeskAppCardId": "{{DataType=int, Required=False}}",
+        "legacyCrmCardId": "{{DataType=int, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Migrate Card Views (Public App Crm Cards)",
+        "display_name_source": "summary",
+        "description": "Swaps a Legacy CRM Card with an App Card in views.",
+        "learn_more": "Swaps a Legacy CRM Card with an App Card in views. Reference the \"Migrate a legacy CRM card to an app card\" docs for more information",
+        "operation_id": "post-/crm/extensions/cards-dev/2026-03/{appId}/views/migrate_/crm/v3/extensions/cards-dev/{appId}/views/migrate",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The appId of the app containing the Legacy CRM Card(s)",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "allowDuplicateAppCardIds": {
+                    "label": "Allow Duplicate App Card Ids",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": true
+                },
+                "appCardId": {
+                    "label": "App Card Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "helpdeskAppCardId": {
+                    "label": "Helpdesk App Card Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "legacyCrmCardId": {
+                    "label": "Legacy Crm Card Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

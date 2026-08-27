@@ -1,0 +1,66 @@
+{
+    "name": "delete_crm_pipelines_2026_03__id___id__pipelines",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/crm/pipelines/2026-03/{objectType}/{pipelineId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "pipelineId": "{{DataType=str, Required=True}}",
+        "validateDealStageUsagesBeforeDelete": "{{DataType=bool, Default=false, Required=False}}",
+        "validateReferencesBeforeDelete": "{{DataType=bool, Default=false, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Pipeline",
+        "display_name_source": "summary",
+        "description": "Delete a pipeline identified by its unique pipelineId.",
+        "learn_more": "Delete a pipeline identified by its unique pipelineId",
+        "operation_id": "delete-/crm/pipelines/2026-03/{objectType}/{pipelineId}_archive",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "pipelineId": {
+                    "label": "Pipeline Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "validateDealStageUsagesBeforeDelete": {
+                    "label": "Validate Deal Stage Usages Before Delete",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "validateReferencesBeforeDelete": {
+                    "label": "Validate References Before Delete",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

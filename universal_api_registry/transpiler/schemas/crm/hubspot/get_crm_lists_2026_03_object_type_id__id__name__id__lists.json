@@ -1,0 +1,59 @@
+{
+    "name": "get_crm_lists_2026_03_object_type_id__id__name__id__lists",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/lists/2026-03/object-type-id/{objectTypeId}/name/{listName}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "listName": "{{DataType=str, Required=True}}",
+        "objectTypeId": "{{DataType=str, Required=True}}",
+        "includeFilters": "{{DataType=bool, Default=false, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Fetch List By Name",
+        "display_name_source": "summary",
+        "description": "Fetch a single list by list name and object type.",
+        "learn_more": null,
+        "operation_id": "get-/crm/lists/2026-03/object-type-id/{objectTypeId}/name/{listName}_/crm/lists/v3/object-type-id/{objectTypeId}/name/{listName}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "listName": {
+                    "label": "List Name",
+                    "input_type": "text",
+                    "description": "The name of the list to fetch. This is **not** case sensitive.",
+                    "required": true
+                },
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "The object type ID of the object types stored by the list to fetch. For example, `0-1` for a `CONTACT` list.",
+                    "required": true
+                },
+                "includeFilters": {
+                    "label": "Include Filters",
+                    "input_type": "checkbox",
+                    "description": "A flag indicating whether or not the response object list definition should include a filter branch definition. By default, object list definitions will not have their filter branch definitions included in the response.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

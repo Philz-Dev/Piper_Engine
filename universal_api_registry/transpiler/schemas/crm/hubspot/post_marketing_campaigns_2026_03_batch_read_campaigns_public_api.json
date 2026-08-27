@@ -1,0 +1,69 @@
+{
+    "name": "post_marketing_campaigns_2026_03_batch_read_campaigns_public_api",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/campaigns/2026-03/batch/read",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "endDate": "{{DataType=str, Required=False}}",
+        "properties": "{{DataType=list, Required=False}}",
+        "startDate": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Read Batch Of Campaigns (Campaigns Public Api)",
+        "display_name_source": "summary",
+        "description": "This endpoint reads a batch of campaigns based on the provided input data and returns the campaigns along with their associated assets.",
+        "learn_more": "This endpoint reads a batch of campaigns based on the provided input data and returns the campaigns along with their associated assets. \nThe maximum number of items in a batch request is 50.\nThe campaigns in the response are not guaranteed to be in the same order as they were provided in the request.\nIf duplicate campaign IDs are provided in the request, duplicates will be ignored. The response will include only unique IDs and will be returned without duplicates.\n",
+        "operation_id": "post-/marketing/campaigns/2026-03/batch/read",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "endDate": {
+                    "label": "End Date",
+                    "input_type": "text",
+                    "description": "End date to fetch asset metrics, formatted as YYYY-MM-DD. This date is used to fetch the metrics associated with the assets for a specified period.  If not provided, no asset metrics will be fetched.\nExample: 2024-01-27",
+                    "required": false
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "A comma-separated list of the properties to be returned in the response. If any of the specified properties has empty value on the requested object(s), they will be ignored and not returned in response. If this parameter is empty, the response will include an empty properties map.\nExample: hs_name, hs_campaign_status, hs_notes",
+                    "required": false
+                },
+                "startDate": {
+                    "label": "Start Date",
+                    "input_type": "text",
+                    "description": "Start date to fetch asset metrics, formatted as YYYY-MM-DD. This date is used to fetch the metrics associated with the assets for a specified period.  If not provided, no asset metrics will be fetched.\nExample: 2023-01-20",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "An array of PublicCampaignReadInput objects, each containing the ID of a campaign to be read. This property is required.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

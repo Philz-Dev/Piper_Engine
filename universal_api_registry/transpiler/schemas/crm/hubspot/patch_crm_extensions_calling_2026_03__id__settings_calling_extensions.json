@@ -1,0 +1,111 @@
+{
+    "name": "patch_crm_extensions_calling_2026_03__id__settings_calling_extensions",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/crm/extensions/calling/2026-03/{appId}/settings",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "height": "{{DataType=int, Required=False}}",
+        "isReady": "{{DataType=bool, Required=False}}",
+        "name": "{{DataType=str, Required=False}}",
+        "supportsCustomObjects": "{{DataType=bool, Required=False}}",
+        "supportsInboundCalling": "{{DataType=bool, Required=False}}",
+        "url": "{{DataType=str, Required=False}}",
+        "usesCallingWindow": "{{DataType=bool, Required=False}}",
+        "usesRemote": "{{DataType=bool, Required=False}}",
+        "width": "{{DataType=int, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Update Calling Extension Settings For Specific App",
+        "display_name_source": "summary",
+        "description": "Modify existing calling extension settings for the specified appId.",
+        "learn_more": "Modify existing calling extension settings for the specified appId. Only the fields provided in the request will be updated.",
+        "operation_id": "patch-/crm/extensions/calling/2026-03/{appId}/settings_update",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The unique identifier for the app whose calling extension settings are being updated.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "height": {
+                    "label": "Height",
+                    "input_type": "number",
+                    "description": "The height setting for the calling extension interface.",
+                    "required": false
+                },
+                "isReady": {
+                    "label": "Is Ready",
+                    "input_type": "checkbox",
+                    "description": "Specifies whether the calling extension is ready for use.",
+                    "required": false
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The name of the calling extension.",
+                    "required": false
+                },
+                "supportsCustomObjects": {
+                    "label": "Supports Custom Objects",
+                    "input_type": "checkbox",
+                    "description": "Indicates if the calling extension supports custom objects.",
+                    "required": false
+                },
+                "supportsInboundCalling": {
+                    "label": "Supports Inbound Calling",
+                    "input_type": "checkbox",
+                    "description": "Indicates if the calling extension supports inbound calling.",
+                    "required": false
+                },
+                "url": {
+                    "label": "Url",
+                    "input_type": "text",
+                    "description": "The URL associated with the calling extension settings.",
+                    "required": false
+                },
+                "usesCallingWindow": {
+                    "label": "Uses Calling Window",
+                    "input_type": "checkbox",
+                    "description": "Indicates if the calling extension uses a calling window.",
+                    "required": false
+                },
+                "usesRemote": {
+                    "label": "Uses Remote",
+                    "input_type": "checkbox",
+                    "description": "Indicates if the calling extension uses a remote connection.",
+                    "required": false
+                },
+                "width": {
+                    "label": "Width",
+                    "input_type": "number",
+                    "description": "The width setting for the calling extension interface.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

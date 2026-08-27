@@ -1,0 +1,45 @@
+{
+    "name": "post_cms_blogs_2026_03_posts_batch_read_posts",
+    "method": "POST",
+    "url": "https://api.hubapi.com/cms/blogs/2026-03/posts/batch/read",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "archived": "{{DataType=bool, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Batch Of Blog Posts",
+        "display_name_source": "summary",
+        "description": "Retrieve a batch of blog posts by ID.",
+        "learn_more": "Retrieve a batch of blog posts by ID. identified in the request body.",
+        "operation_id": "post-/cms/blogs/2026-03/posts/batch/read_read",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Specifies whether to return deleted blog posts Defaults to `false`.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

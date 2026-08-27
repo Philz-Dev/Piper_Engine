@@ -1,0 +1,59 @@
+{
+    "name": "get_cms_source_code_2026_03__id__metadata__id__source_code",
+    "method": "GET",
+    "url": "https://api.hubapi.com/cms/source-code/2026-03/{environment}/metadata/{path}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "environment": "{{DataType=str, Required=True}}",
+        "path": "{{DataType=str, Required=True}}",
+        "properties": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Metadata For File (Source Code)",
+        "display_name_source": "summary",
+        "description": "Gets the metadata object for the file at the specified path in the specified environment.",
+        "learn_more": null,
+        "operation_id": "get-/cms/source-code/2026-03/{environment}/metadata/{path}_get",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "environment": {
+                    "label": "Environment",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "path": {
+                    "label": "Path",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

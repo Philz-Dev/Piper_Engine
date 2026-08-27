@@ -1,0 +1,66 @@
+{
+    "name": "put_crm_objects_2026_03__id___id__associations_default__id___id__discounts",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/{fromObjectType}/{fromObjectId}/associations/default/{toObjectType}/{toObjectId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "fromObjectId": "{{DataType=str, Required=True}}",
+        "fromObjectType": "{{DataType=str, Required=True}}",
+        "toObjectId": "{{DataType=str, Required=True}}",
+        "toObjectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Update Default (Discounts)",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "put-/crm/objects/2026-03/{fromObjectType}/{fromObjectId}/associations/default/{toObjectType}/{toObjectId}_/crm/objects/2026-03/{fromObjectType}/{fromObjectId}/associations/default/{toObjectType}/{toObjectId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "fromObjectId": {
+                    "label": "From Object Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "fromObjectType": {
+                    "label": "From Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "toObjectId": {
+                    "label": "To Object Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "toObjectType": {
+                    "label": "To Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

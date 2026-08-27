@@ -1,0 +1,55 @@
+{
+    "name": "post_commerce_price_books_2026_09_beta_price_books__id__items_price_books",
+    "method": "POST",
+    "url": "https://api.hubapi.com/commerce/price-books/2026-09-beta/price-books/{priceBookId}/items",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "priceBookId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "productId": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Add Price Book Items",
+        "display_name_source": "summary",
+        "description": "Add new items to a specified price book in your HubSpot account.",
+        "learn_more": "Add new items to a specified price book in your HubSpot account. This endpoint allows you to associate products with a price book by providing the necessary product details. It is useful for managing and updating the contents of your price books efficiently.",
+        "operation_id": "post-/commerce/price-books/2026-09-beta/price-books/{priceBookId}/items_/commerce/price-books/2026-09-beta/price-books/{priceBookId}/items",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "priceBookId": {
+                    "label": "Price Book Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the price book to which items will be added.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "productId": {
+                    "label": "Product Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the product to be added to the price book. It is a string and is required.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "name": "get_notetaker_2026_09_beta_conversation_recap__id___id__notetaker_conve_173edc9b",
+    "method": "GET",
+    "url": "https://api.hubapi.com/notetaker/2026-09-beta/conversation/recap/{objectTypeId}/{objectId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectId": "{{DataType=int, Required=True}}",
+        "objectTypeId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Conversation Recap Data (Notetaker Conversation Recap)",
+        "display_name_source": "summary",
+        "description": "Retrieve a recap of a conversation based on the specified object type and object ID.",
+        "learn_more": "Retrieve a recap of a conversation based on the specified object type and object ID. This endpoint provides a summary and action items related to the conversation, which can be useful for reviewing key points and follow-up tasks.",
+        "operation_id": "get-/notetaker/2026-09-beta/conversation/recap/{objectTypeId}/{objectId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectId": {
+                    "label": "Object Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the object for which the conversation recap is being retrieved. This is a required integer parameter.",
+                    "required": true
+                },
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "The type of the object for which the conversation recap is being retrieved. This is a required string parameter.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

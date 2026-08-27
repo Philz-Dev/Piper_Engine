@@ -1,0 +1,55 @@
+{
+    "name": "post_marketing_marketing_events_2026_03__id__settings_marketing_events",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/marketing-events/2026-03/{appId}/settings",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "eventDetailsUrl": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Application Settings (Marketing Events)",
+        "display_name_source": "summary",
+        "description": "Create or update the current settings for the application.",
+        "learn_more": null,
+        "operation_id": "post-/marketing/marketing-events/2026-03/{appId}/settings_update",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The id of the application to update the settings for.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "eventDetailsUrl": {
+                    "label": "Event Details Url",
+                    "input_type": "text",
+                    "description": "The url that will be used to fetch marketing event details by id. Must contain a `%s` character sequence that will be substituted with the event id. For example: `https://my.event.app/events/%s`",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

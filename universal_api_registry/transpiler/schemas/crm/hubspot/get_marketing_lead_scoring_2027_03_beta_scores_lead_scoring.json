@@ -1,0 +1,52 @@
+{
+    "name": "get_marketing_lead_scoring_2027_03_beta_scores_lead_scoring",
+    "method": "GET",
+    "url": "https://api.hubapi.com/marketing/lead-scoring/2027-03-beta/scores",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Default=10, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Scores (Lead Scoring)",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of lead scores from the HubSpot account.",
+        "learn_more": "Retrieve a list of lead scores from the HubSpot account. This endpoint allows you to view scores for various leads, which can be useful for analyzing lead quality and prioritizing follow-up actions. The results can be paginated using the provided query parameters.",
+        "operation_id": "get-/marketing/lead-scoring/2027-03-beta/scores",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

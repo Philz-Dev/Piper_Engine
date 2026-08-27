@@ -1,0 +1,52 @@
+{
+    "name": "get_webhooks_journal_journal_2026_03_offset__id__next_webhooks",
+    "method": "GET",
+    "url": "https://api.hubapi.com/webhooks-journal/journal/2026-03/offset/{offset}/next",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "offset": "{{DataType=str, Required=True}}",
+        "installPortalId": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Next Batch (Webhooks)",
+        "display_name_source": "summary",
+        "description": "Retrieve the next batch of webhook journal entries starting from a specified offset.",
+        "learn_more": "Retrieve the next batch of webhook journal entries starting from a specified offset. This endpoint is useful for paginating through large sets of webhook data, allowing you to continue fetching entries from where you last left off.",
+        "operation_id": "get-/webhooks-journal/journal/2026-03/offset/{offset}/next_/webhooks-journal/journal/2026-03/offset/{offset}/next",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "offset": {
+                    "label": "Offset",
+                    "input_type": "text",
+                    "description": "The offset from which to start retrieving the next batch of webhook journal entries. This parameter is required and identifies the starting point for the batch retrieval.",
+                    "required": true
+                },
+                "installPortalId": {
+                    "label": "Install Portal Id",
+                    "input_type": "number",
+                    "description": "The ID of the portal installation to filter the webhook journal entries. This is an optional parameter.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

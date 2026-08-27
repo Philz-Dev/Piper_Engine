@@ -1,0 +1,66 @@
+{
+    "name": "get_commerce_price_books_2026_09_beta_price_books__id__items_price_books",
+    "method": "GET",
+    "url": "https://api.hubapi.com/commerce/price-books/2026-09-beta/price-books/{priceBookId}/items",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "priceBookId": "{{DataType=int, Required=True}}",
+        "after": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}",
+        "properties": "{{DataType=list, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Price Book Items",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of items associated with a specific price book in your HubSpot account.",
+        "learn_more": "Retrieve a list of items associated with a specific price book in your HubSpot account. This endpoint allows you to paginate through the items and specify which properties to include in the response. It is useful for managing and viewing the details of products linked to a particular price book.",
+        "operation_id": "get-/commerce/price-books/2026-09-beta/price-books/{priceBookId}/items_/commerce/price-books/2026-09-beta/price-books/{priceBookId}/items",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "priceBookId": {
+                    "label": "Price Book Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the price book to retrieve items for.",
+                    "required": true
+                },
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "A list of property names to include in the response.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

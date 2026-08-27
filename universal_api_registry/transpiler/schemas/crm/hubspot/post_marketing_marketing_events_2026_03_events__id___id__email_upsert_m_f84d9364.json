@@ -1,0 +1,69 @@
+{
+    "name": "post_marketing_marketing_events_2026_03_events__id___id__email_upsert_m_f84d9364",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/marketing-events/2026-03/events/{externalEventId}/{subscriberState}/email-upsert",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "externalEventId": "{{DataType=str, Required=True}}",
+        "subscriberState": "{{DataType=str, Required=True}}",
+        "externalAccountId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Record Subscriber State By Contact Email (Marketing Events)",
+        "display_name_source": "summary",
+        "description": "Record a subscriber state between multiple HubSpot contacts and a marketing event, using contact email addresses.",
+        "learn_more": "Record a subscriber state between multiple HubSpot contacts and a marketing event, using contact email addresses. Note that the contact must already exist in HubSpot; a contact will not be created. The contactProperties field is used only when creating a new contact. These properties will not update existing contacts. ",
+        "operation_id": "post-/marketing/marketing-events/2026-03/events/{externalEventId}/{subscriberState}/email-upsert_upsertByContactEmail",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "trigger",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "externalEventId": {
+                    "label": "External Event Id",
+                    "input_type": "text",
+                    "description": "The id of the marketing event in the external event application",
+                    "required": true
+                },
+                "subscriberState": {
+                    "label": "Subscriber State",
+                    "input_type": "text",
+                    "description": "The new subscriber state for the HubSpot contacts and the specified marketing event. For example: 'register', 'attend' or 'cancel'.",
+                    "required": true
+                },
+                "externalAccountId": {
+                    "label": "External Account Id",
+                    "input_type": "text",
+                    "description": "The accountId that is associated with this marketing event in the external event application",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "List of marketing event details to create or update",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

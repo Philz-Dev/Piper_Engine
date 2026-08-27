@@ -1,0 +1,59 @@
+{
+    "name": "delete_marketing_campaigns_2026_03__id__assets__id___id__campaigns_public_api",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/marketing/campaigns/2026-03/{campaignGuid}/assets/{assetType}/{assetId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "assetId": "{{DataType=str, Required=True}}",
+        "assetType": "{{DataType=str, Required=True}}",
+        "campaignGuid": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Remove Asset Association (Campaigns Public Api)",
+        "display_name_source": "summary",
+        "description": "Disassociate a specified asset from a campaign.",
+        "learn_more": "Disassociate a specified asset from a campaign. Using the API, you can remove associations for the following asset types: ads, blog posts, calls, case studies, CTAs, CTAs (legacy), external website pages, feedback surveys, forms, files, knowledge base articles, landing pages, marketing email, marketing events, meetings, playbooks, podcast episodes, sales documents, sales emails, sequences, SMS, social posts, static lists, videos, website pages, and workflows.\n\nFor other asset types, it is recommended to manage your associations directly in the campaign tool in HubSpot.",
+        "operation_id": "delete-/marketing/campaigns/2026-03/{campaignGuid}/assets/{assetType}/{assetId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "assetId": {
+                    "label": "Asset Id",
+                    "input_type": "text",
+                    "description": "The id of asset to disassociate, required\nExample: 154543",
+                    "required": true
+                },
+                "assetType": {
+                    "label": "Asset Type",
+                    "input_type": "text",
+                    "description": "The type of asset to disassociate, required\nExample: OBJECT_LIST",
+                    "required": true
+                },
+                "campaignGuid": {
+                    "label": "Campaign Guid",
+                    "input_type": "text",
+                    "description": "The UUID of the campaign, required\nExample: 9dbec438-53e2-4b28-8c0f-38f56574a6e8",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

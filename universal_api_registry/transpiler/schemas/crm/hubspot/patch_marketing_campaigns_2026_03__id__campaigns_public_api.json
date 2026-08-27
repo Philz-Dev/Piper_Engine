@@ -1,0 +1,55 @@
+{
+    "name": "patch_marketing_campaigns_2026_03__id__campaigns_public_api",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/marketing/campaigns/2026-03/{campaignGuid}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "campaignGuid": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "properties": "{{DataType=dict, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Campaign (Campaigns Public Api)",
+        "display_name_source": "summary",
+        "description": "Perform a partial update of a campaign identified by the specified campaignGuid.",
+        "learn_more": "Perform a partial update of a campaign identified by the specified campaignGuid. Provided property values will be overwritten. Read-only and non-existent properties will cause 400 error.\nIf an empty string is passed for any property in the Batch Update, it will reset that property's value.\n",
+        "operation_id": "patch-/marketing/campaigns/2026-03/{campaignGuid}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "campaignGuid": {
+                    "label": "Campaign Guid",
+                    "input_type": "text",
+                    "description": "The UUID of the campaign, required\nExample: 9dbec438-53e2-4b28-8c0f-38f56574a6e8",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "group",
+                    "description": "A collection of key-value pairs representing the properties of the campaign. Each key is a property name, and the corresponding value is the property's value.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

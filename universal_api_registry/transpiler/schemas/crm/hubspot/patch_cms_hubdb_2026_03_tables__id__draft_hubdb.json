@@ -1,0 +1,125 @@
+{
+    "name": "patch_cms_hubdb_2026_03_tables__id__draft_hubdb",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/cms/hubdb/2026-03/tables/{tableIdOrName}/draft",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "tableIdOrName": "{{DataType=str, Required=True}}",
+        "archived": "{{DataType=bool, Required=False}}",
+        "includeForeignIds": "{{DataType=bool, Required=False}}",
+        "isGetLocalizedSchema": "{{DataType=bool, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "allowChildTables": "{{DataType=bool, Required=True}}",
+        "allowPublicApiAccess": "{{DataType=bool, Required=True}}",
+        "columns": "{{DataType=list, Required=True}}",
+        "dynamicMetaTags": "{{DataType=dict, Required=True}}",
+        "enableChildTablePages": "{{DataType=bool, Required=True}}",
+        "label": "{{DataType=str, Required=True}}",
+        "name": "{{DataType=str, Required=True}}",
+        "useForPages": "{{DataType=bool, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Existing Table (Hubdb)",
+        "display_name_source": "summary",
+        "description": "Update an existing HubDB table.",
+        "learn_more": "Update an existing HubDB table. You can use this endpoint to add or remove columns to the table as well as restore an archived table. Tables updated using the endpoint will only modify the draft verion of the table. Use the `/publish` endpoint to push all the changes to the published version. To restore a table, include the query parameter `archived=true` and `\"archived\": false` in the json body.\n**Note:** You need to include all the columns in the input when you are adding/removing/updating a column. If you do not include an already existing column in the request, it will be deleted.",
+        "operation_id": "patch-/cms/hubdb/2026-03/tables/{tableIdOrName}/draft_updateDraftTable",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "tableIdOrName": {
+                    "label": "Table Id Or Name",
+                    "input_type": "text",
+                    "description": "The ID or name of the table to update.",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Specifies whether to return archived tables. Defaults to `false`.",
+                    "required": false
+                },
+                "includeForeignIds": {
+                    "label": "Include Foreign Ids",
+                    "input_type": "checkbox",
+                    "description": "Set this to `true` to populate foreign ID values in the result.",
+                    "required": false
+                },
+                "isGetLocalizedSchema": {
+                    "label": "Is Get Localized Schema",
+                    "input_type": "checkbox",
+                    "description": "Indicates whether to retrieve the localized schema for the table.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "allowChildTables": {
+                    "label": "Allow Child Tables",
+                    "input_type": "checkbox",
+                    "description": "Specifies whether child tables can be created",
+                    "required": true
+                },
+                "allowPublicApiAccess": {
+                    "label": "Allow Public Api Access",
+                    "input_type": "checkbox",
+                    "description": "Specifies whether the table can be read by public without authorization",
+                    "required": true
+                },
+                "columns": {
+                    "label": "Columns",
+                    "input_type": "tags",
+                    "description": "List of columns in the table",
+                    "required": true
+                },
+                "dynamicMetaTags": {
+                    "label": "Dynamic Meta Tags",
+                    "input_type": "group",
+                    "description": "Specifies the key value pairs of the [metadata fields](https://developers.hubspot.com/docs/cms/guides/dynamic-pages/hubdb#dynamic-pages) with the associated column IDs.",
+                    "required": true
+                },
+                "enableChildTablePages": {
+                    "label": "Enable Child Table Pages",
+                    "input_type": "checkbox",
+                    "description": "Specifies creation of multi-level dynamic pages using child tables",
+                    "required": true
+                },
+                "label": {
+                    "label": "Label",
+                    "input_type": "text",
+                    "description": "Label of the table",
+                    "required": true
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "Name of the table",
+                    "required": true
+                },
+                "useForPages": {
+                    "label": "Use For Pages",
+                    "input_type": "checkbox",
+                    "description": "Specifies whether the table can be used for creation of dynamic pages",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

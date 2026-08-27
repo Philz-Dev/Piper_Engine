@@ -1,0 +1,66 @@
+{
+    "name": "get_cms_blog_settings_2026_03_settings__id__revisions_blog_settings",
+    "method": "GET",
+    "url": "https://api.hubapi.com/cms/blog-settings/2026-03/settings/{blogId}/revisions",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "blogId": "{{DataType=str, Required=True}}",
+        "after": "{{DataType=str, Required=False}}",
+        "before": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get All Blog Revisions (Blog Settings)",
+        "display_name_source": "summary",
+        "description": "Get the list of blog revisions.",
+        "learn_more": "Get the list of blog revisions. Results can be limited and filtered by creation or updated date.",
+        "operation_id": "get-/cms/blog-settings/2026-03/settings/{blogId}/revisions",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "blogId": {
+                    "label": "Blog Id",
+                    "input_type": "text",
+                    "description": "The Blog ID.",
+                    "required": true
+                },
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "before": {
+                    "label": "Before",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to return. Default is 100.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,111 @@
+{
+    "name": "patch_marketing_marketing_events_2026_03__id__marketing_events",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/marketing/marketing-events/2026-03/{objectId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "customProperties": "{{DataType=list, Required=True}}",
+        "endDateTime": "{{DataType=str, Required=False}}",
+        "eventCancelled": "{{DataType=bool, Required=False}}",
+        "eventDescription": "{{DataType=str, Required=False}}",
+        "eventName": "{{DataType=str, Required=False}}",
+        "eventOrganizer": "{{DataType=str, Required=False}}",
+        "eventType": "{{DataType=str, Required=False}}",
+        "eventUrl": "{{DataType=str, Required=False}}",
+        "startDateTime": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Update Marketing Event By Objectid",
+        "display_name_source": "summary",
+        "description": "Updates the details of an existing Marketing Event identified by its objectId, if it exists.",
+        "learn_more": null,
+        "operation_id": "patch-/marketing/marketing-events/2026-03/{objectId}_updateByObjectId",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectId": {
+                    "label": "Object Id",
+                    "input_type": "text",
+                    "description": "The internal id of the marketing event in HubSpot.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "customProperties": {
+                    "label": "Custom Properties",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                },
+                "endDateTime": {
+                    "label": "End Date Time",
+                    "input_type": "text",
+                    "description": "The end date and time of the marketing event",
+                    "required": false
+                },
+                "eventCancelled": {
+                    "label": "Event Cancelled",
+                    "input_type": "checkbox",
+                    "description": "Indicates if the marketing event has been cancelled",
+                    "required": false
+                },
+                "eventDescription": {
+                    "label": "Event Description",
+                    "input_type": "text",
+                    "description": "The description of the marketing event",
+                    "required": false
+                },
+                "eventName": {
+                    "label": "Event Name",
+                    "input_type": "text",
+                    "description": "The name of the marketing event",
+                    "required": false
+                },
+                "eventOrganizer": {
+                    "label": "Event Organizer",
+                    "input_type": "text",
+                    "description": "The name of the organizer of the marketing event",
+                    "required": false
+                },
+                "eventType": {
+                    "label": "Event Type",
+                    "input_type": "text",
+                    "description": "The type of the marketing event",
+                    "required": false
+                },
+                "eventUrl": {
+                    "label": "Event Url",
+                    "input_type": "text",
+                    "description": "A URL in the external event application where the marketing event can be managed",
+                    "required": false
+                },
+                "startDateTime": {
+                    "label": "Start Date Time",
+                    "input_type": "text",
+                    "description": "The start date and time of the marketing event",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

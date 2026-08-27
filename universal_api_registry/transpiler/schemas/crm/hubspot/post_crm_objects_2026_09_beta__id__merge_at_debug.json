@@ -1,0 +1,62 @@
+{
+    "name": "post_crm_objects_2026_09_beta__id__merge_at_debug",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2026-09-beta/{objectType}/merge",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "objectIdToMerge": "{{DataType=str, Required=True}}",
+        "primaryObjectId": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Merge Two Objects With Same Type (At Debug)",
+        "display_name_source": "summary",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "post-/crm/objects/2026-09-beta/{objectType}/merge_/crm/objects/2026-09-beta/{objectType}/merge",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "objectIdToMerge": {
+                    "label": "Object Id To Merge",
+                    "input_type": "text",
+                    "description": "The ID of the object that will be merged into the primary object.",
+                    "required": true
+                },
+                "primaryObjectId": {
+                    "label": "Primary Object Id",
+                    "input_type": "text",
+                    "description": "The ID of the primary object into which another object will be merged.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

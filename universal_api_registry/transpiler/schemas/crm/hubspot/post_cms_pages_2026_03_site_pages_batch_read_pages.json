@@ -1,0 +1,45 @@
+{
+    "name": "post_cms_pages_2026_03_site_pages_batch_read_pages",
+    "method": "POST",
+    "url": "https://api.hubapi.com/cms/pages/2026-03/site-pages/batch/read",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "archived": "{{DataType=bool, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Website Pages",
+        "display_name_source": "summary",
+        "description": "Retrieve a batch of website pages as specified in the request body.",
+        "learn_more": null,
+        "operation_id": "post-/cms/pages/2026-03/site-pages/batch/read_readBatch",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Specifies whether to return deleted Site Pages. Defaults to `false`.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

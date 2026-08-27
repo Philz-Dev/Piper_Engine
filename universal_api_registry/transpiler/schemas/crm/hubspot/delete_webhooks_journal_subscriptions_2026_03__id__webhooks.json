@@ -1,0 +1,45 @@
+{
+    "name": "delete_webhooks_journal_subscriptions_2026_03__id__webhooks",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/webhooks-journal/subscriptions/2026-03/{subscriptionId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "subscriptionId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Subscription (Webhooks)",
+        "display_name_source": "summary",
+        "description": "Delete a specific webhook journal subscription using its unique identifier.",
+        "learn_more": "Delete a specific webhook journal subscription using its unique identifier. This operation is useful for managing and cleaning up subscriptions that are no longer needed or relevant.",
+        "operation_id": "delete-/webhooks-journal/subscriptions/2026-03/{subscriptionId}_/webhooks-journal/subscriptions/2026-03/{subscriptionId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "subscriptionId": {
+                    "label": "Subscription Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the subscription to delete.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

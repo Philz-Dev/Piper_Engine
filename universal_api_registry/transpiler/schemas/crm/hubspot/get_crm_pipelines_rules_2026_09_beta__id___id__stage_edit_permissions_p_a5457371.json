@@ -1,0 +1,52 @@
+{
+    "name": "get_crm_pipelines_rules_2026_09_beta__id___id__stage_edit_permissions_p_a5457371",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/pipelines-rules/2026-09-beta/{objectTypeId}/{pipelineId}/stage-edit-permissions",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectTypeId": "{{DataType=str, Required=True}}",
+        "pipelineId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Permissions (Pipeline Governance)",
+        "display_name_source": "summary",
+        "description": "Retrieve the stage edit permissions for a specific pipeline in your HubSpot account.",
+        "learn_more": "Retrieve the stage edit permissions for a specific pipeline in your HubSpot account. This endpoint allows you to view the permissions set for editing stages within a given pipeline, identified by its object type and pipeline ID. This can be useful for managing access and ensuring that only authorized users can modify pipeline stages.",
+        "operation_id": "get-/crm/pipelines-rules/2026-09-beta/{objectTypeId}/{pipelineId}/stage-edit-permissions",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the object type for which the pipeline stage edit permissions are being retrieved.",
+                    "required": true
+                },
+                "pipelineId": {
+                    "label": "Pipeline Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the pipeline whose stage edit permissions are being retrieved.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

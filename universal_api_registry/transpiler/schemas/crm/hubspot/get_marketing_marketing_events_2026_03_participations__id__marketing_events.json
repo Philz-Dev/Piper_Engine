@@ -1,0 +1,45 @@
+{
+    "name": "get_marketing_marketing_events_2026_03_participations__id__marketing_events",
+    "method": "GET",
+    "url": "https://api.hubapi.com/marketing/marketing-events/2026-03/participations/{marketingEventId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "marketingEventId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Read Participations Counters By Marketing Event Internal Identifier",
+        "display_name_source": "summary",
+        "description": "Read Marketing event's participations counters by internal identifier marketingEventId.",
+        "learn_more": null,
+        "operation_id": "get-/marketing/marketing-events/2026-03/participations/{marketingEventId}_getParticipationsCountersByMarketingEventId",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "marketingEventId": {
+                    "label": "Marketing Event Id",
+                    "input_type": "number",
+                    "description": "The internal id of the marketing event in HubSpot.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

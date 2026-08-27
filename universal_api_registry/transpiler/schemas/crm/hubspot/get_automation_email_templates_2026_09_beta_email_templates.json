@@ -1,0 +1,52 @@
+{
+    "name": "get_automation_email_templates_2026_09_beta_email_templates",
+    "method": "GET",
+    "url": "https://api.hubapi.com/automation/email-templates/2026-09-beta",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Default=20, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Templates (Email Templates)",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of email templates available in the HubSpot account.",
+        "learn_more": "Retrieve a list of email templates available in the HubSpot account. This endpoint supports pagination to navigate through large sets of templates. Use this endpoint to access and manage your email templates efficiently. Please note: the scopes for these endpoints require user-level access and will not work for existing apps with portal-level access. ",
+        "operation_id": "get-/automation/email-templates/2026-09-beta_/automation/email-templates/2026-09-beta",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource, returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page. Defaults to 20.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

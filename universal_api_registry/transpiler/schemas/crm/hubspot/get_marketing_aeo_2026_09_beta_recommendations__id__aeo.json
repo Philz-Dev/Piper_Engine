@@ -1,0 +1,45 @@
+{
+    "name": "get_marketing_aeo_2026_09_beta_recommendations__id__aeo",
+    "method": "GET",
+    "url": "https://api.hubapi.com/marketing/aeo/2026-09-beta/recommendations/{recommendationId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "recommendationId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Recommendation (Aeo)",
+        "display_name_source": "summary",
+        "description": "Retrieve a specific recommendation by its unique identifier.",
+        "learn_more": "Retrieve a specific recommendation by its unique identifier. This endpoint is useful for accessing detailed information about a particular recommendation within your HubSpot account.",
+        "operation_id": "get-/marketing/aeo/2026-09-beta/recommendations/{recommendationId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "recommendationId": {
+                    "label": "Recommendation Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the recommendation to retrieve.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

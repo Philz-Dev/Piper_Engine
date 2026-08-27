@@ -1,0 +1,59 @@
+{
+    "name": "put_crm_lists_2026_03__id__update_list_name_lists",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/crm/lists/2026-03/{listId}/update-list-name",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "listId": "{{DataType=str, Required=True}}",
+        "includeFilters": "{{DataType=bool, Default=false, Required=False}}",
+        "listName": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Update List Name",
+        "display_name_source": "summary",
+        "description": "Update the name of a list.",
+        "learn_more": "Update the name of a list. The name must be globally unique relative to all other public lists in the portal.",
+        "operation_id": "put-/crm/lists/2026-03/{listId}/update-list-name_/crm/lists/v3/{listId}/update-list-name",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "listId": {
+                    "label": "List Id",
+                    "input_type": "text",
+                    "description": "The **ILS ID** of the list to update.",
+                    "required": true
+                },
+                "includeFilters": {
+                    "label": "Include Filters",
+                    "input_type": "checkbox",
+                    "description": "A flag indicating whether or not the response object list definition should include a filter branch definition. By default, object list definitions will not have their filter branch definitions included in the response.",
+                    "required": false
+                },
+                "listName": {
+                    "label": "List Name",
+                    "input_type": "text",
+                    "description": "The name to update the list to.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

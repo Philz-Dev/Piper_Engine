@@ -1,0 +1,52 @@
+{
+    "name": "get_cms_hubdb_2026_03_tables__id__draft_export_hubdb",
+    "method": "GET",
+    "url": "https://api.hubapi.com/cms/hubdb/2026-03/tables/{tableIdOrName}/draft/export",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "tableIdOrName": "{{DataType=str, Required=True}}",
+        "format": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Export Draft Table (Hubdb)",
+        "display_name_source": "summary",
+        "description": "Exports the draft version of a table to CSV / EXCEL format.",
+        "learn_more": null,
+        "operation_id": "get-/cms/hubdb/2026-03/tables/{tableIdOrName}/draft/export_exportDraftTable",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "tableIdOrName": {
+                    "label": "Table Id Or Name",
+                    "input_type": "text",
+                    "description": "The ID or name of the table to export.",
+                    "required": true
+                },
+                "format": {
+                    "label": "Format",
+                    "input_type": "text",
+                    "description": "The file format to export. Possible values include `CSV`, `XLSX`, and `XLS`.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

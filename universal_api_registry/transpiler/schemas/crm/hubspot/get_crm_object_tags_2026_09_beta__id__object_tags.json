@@ -1,0 +1,45 @@
+{
+    "name": "get_crm_object_tags_2026_09_beta__id__object_tags",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/object-tags/2026-09-beta/{objectTypeId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectTypeId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Tags (Object Tags)",
+        "display_name_source": "summary",
+        "description": "Retrieve CRM object tags for a specified object type in your HubSpot account.",
+        "learn_more": "Retrieve CRM object tags for a specified object type in your HubSpot account. This endpoint allows you to access tags associated with a particular object type, which can be useful for categorizing and managing CRM data effectively.",
+        "operation_id": "get-/crm/object-tags/2026-09-beta/{objectTypeId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the object type for which to retrieve tags.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "name": "post_cms_blog_settings_2026_03_settings_multi_language_detach_from_lang_20911909",
+    "method": "POST",
+    "url": "https://api.hubapi.com/cms/blog-settings/2026-03/settings/multi-language/detach-from-lang-group",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "id": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Remove Blog From Multi-language Group (Blog Settings)",
+        "display_name_source": "summary",
+        "description": "Detaches a blog from a multi-language group.",
+        "learn_more": null,
+        "operation_id": "post-/cms/blog-settings/2026-03/settings/multi-language/detach-from-lang-group",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "id": {
+                    "label": "Id",
+                    "input_type": "text",
+                    "description": "ID of the object to remove from a multi-language group.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

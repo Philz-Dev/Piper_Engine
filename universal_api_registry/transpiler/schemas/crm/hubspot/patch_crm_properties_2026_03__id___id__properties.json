@@ -1,0 +1,153 @@
+{
+    "name": "patch_crm_properties_2026_03__id___id__properties",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/crm/properties/2026-03/{objectType}/{propertyName}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "propertyName": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "calculationFormula": "{{DataType=str, Required=False}}",
+        "currencyPropertyName": "{{DataType=str, Required=False}}",
+        "description": "{{DataType=str, Required=False}}",
+        "displayOrder": "{{DataType=int, Required=False}}",
+        "fieldType": "{{DataType=str, Required=False}}",
+        "formField": "{{DataType=bool, Required=False}}",
+        "groupName": "{{DataType=str, Required=False}}",
+        "hidden": "{{DataType=bool, Required=False}}",
+        "label": "{{DataType=str, Required=False}}",
+        "numberDisplayHint": "{{DataType=str, Required=False}}",
+        "options": "{{DataType=list, Required=False}}",
+        "showCurrencySymbol": "{{DataType=bool, Required=False}}",
+        "textDisplayHint": "{{DataType=str, Required=False}}",
+        "type": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Update Property",
+        "display_name_source": "summary",
+        "description": "Perform a partial update of a property identified by { propertyName }.",
+        "learn_more": "Perform a partial update of a property identified by { propertyName }. Provided fields will be overwritten.",
+        "operation_id": "patch-/crm/properties/2026-03/{objectType}/{propertyName}_/crm/properties/2025-09/{objectType}/{propertyName}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "propertyName": {
+                    "label": "Property Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "calculationFormula": {
+                    "label": "Calculation Formula",
+                    "input_type": "text",
+                    "description": "Represents a formula that is used to compute a calculated property.",
+                    "required": false
+                },
+                "currencyPropertyName": {
+                    "label": "Currency Property Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "description": {
+                    "label": "Description",
+                    "input_type": "text",
+                    "description": "A description of the property that will be shown as help text in HubSpot.",
+                    "required": false
+                },
+                "displayOrder": {
+                    "label": "Display Order",
+                    "input_type": "number",
+                    "description": "Properties are displayed in order starting with the lowest positive integer value. Values of -1 will cause the Property to be displayed after any positive values.",
+                    "required": false
+                },
+                "fieldType": {
+                    "label": "Field Type",
+                    "input_type": "text",
+                    "description": "Controls how the property appears in HubSpot.",
+                    "required": false
+                },
+                "formField": {
+                    "label": "Form Field",
+                    "input_type": "checkbox",
+                    "description": "Whether or not the property can be used in a HubSpot form.",
+                    "required": false
+                },
+                "groupName": {
+                    "label": "Group Name",
+                    "input_type": "text",
+                    "description": "The name of the property group the property belongs to.",
+                    "required": false
+                },
+                "hidden": {
+                    "label": "Hidden",
+                    "input_type": "checkbox",
+                    "description": "If true, the property won't be visible and can't be used in HubSpot.",
+                    "required": false
+                },
+                "label": {
+                    "label": "Label",
+                    "input_type": "text",
+                    "description": "A human-readable property label that will be shown in HubSpot.",
+                    "required": false
+                },
+                "numberDisplayHint": {
+                    "label": "Number Display Hint",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "options": {
+                    "label": "Options",
+                    "input_type": "tags",
+                    "description": "A list of valid options for the property.",
+                    "required": false
+                },
+                "showCurrencySymbol": {
+                    "label": "Show Currency Symbol",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "textDisplayHint": {
+                    "label": "Text Display Hint",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "type": {
+                    "label": "Type",
+                    "input_type": "text",
+                    "description": "The data type of the property.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

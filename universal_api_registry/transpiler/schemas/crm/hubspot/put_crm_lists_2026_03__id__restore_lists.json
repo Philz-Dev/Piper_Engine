@@ -1,0 +1,45 @@
+{
+    "name": "put_crm_lists_2026_03__id__restore_lists",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/crm/lists/2026-03/{listId}/restore",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "listId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Restore List",
+        "display_name_source": "summary",
+        "description": "Restore a previously deleted list by **ILS list ID**.",
+        "learn_more": "Restore a previously deleted list by **ILS list ID**. Deleted lists are eligible to be restored up-to 90-days after the list has been deleted.",
+        "operation_id": "put-/crm/lists/2026-03/{listId}/restore_/crm/lists/v3/{listId}/restore",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "listId": {
+                    "label": "List Id",
+                    "input_type": "text",
+                    "description": "The **ILS ID** of the list to restore.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

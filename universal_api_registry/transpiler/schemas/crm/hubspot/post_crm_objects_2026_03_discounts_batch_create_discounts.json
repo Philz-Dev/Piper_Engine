@@ -1,0 +1,48 @@
+{
+    "name": "post_crm_objects_2026_03_discounts_batch_create_discounts",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/discounts/batch/create",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Batch Of Discounts",
+        "display_name_source": "summary",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "post-/crm/objects/2026-03/discounts/batch/create",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

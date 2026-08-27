@@ -1,0 +1,90 @@
+{
+    "name": "post_crm_object_tags_2026_09_beta__id__object_tags",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/object-tags/2026-09-beta/{objectTypeId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectTypeId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "color": "{{DataType=str, Required=True}}",
+        "description": "{{DataType=str, Required=False}}",
+        "displayOrder": "{{DataType=int, Required=True}}",
+        "filterBranch": "{{DataType=str, Required=True}}",
+        "filterPipelineIds": "{{DataType=list, Required=True}}",
+        "name": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Tag (Object Tags)",
+        "display_name_source": "summary",
+        "description": "Create a new CRM object tag for a specified object type in your HubSpot account.",
+        "learn_more": "Create a new CRM object tag for a specified object type in your HubSpot account. This endpoint allows you to define properties such as name, color, and filter criteria for the tag. It is useful for categorizing and organizing CRM objects based on custom criteria.",
+        "operation_id": "post-/crm/object-tags/2026-09-beta/{objectTypeId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the object type for which the tag is being created.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "color": {
+                    "label": "Color",
+                    "input_type": "text",
+                    "description": "The color associated with the CRM object tag. It is a string value.",
+                    "required": true
+                },
+                "description": {
+                    "label": "Description",
+                    "input_type": "text",
+                    "description": "A string providing additional information about the CRM object tag.",
+                    "required": false
+                },
+                "displayOrder": {
+                    "label": "Display Order",
+                    "input_type": "number",
+                    "description": "An integer indicating the order in which the tag should be displayed.",
+                    "required": true
+                },
+                "filterBranch": {
+                    "label": "Filter Branch",
+                    "input_type": "text",
+                    "description": "Defines the filter criteria for the CRM object tag. It can be one of several filter branch types.",
+                    "required": true
+                },
+                "filterPipelineIds": {
+                    "label": "Filter Pipeline Ids",
+                    "input_type": "tags",
+                    "description": "An array of strings representing the IDs of the pipelines to which the tag applies.",
+                    "required": true
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The name of the CRM object tag. It is a string value.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

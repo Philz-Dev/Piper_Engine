@@ -1,0 +1,17 @@
+{
+  "merge": {
+    "body": {
+      "filterGroups": [
+        {
+          "filters": [
+            {
+              "propertyName": "{{datatype=str, default=dealstage}}",
+              "operator": "{{datatype=str, default=EQ}}",
+              "value": "{{datatype=str, default=closedwon}}"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

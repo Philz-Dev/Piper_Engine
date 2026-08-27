@@ -1,0 +1,52 @@
+{
+    "name": "post_cms_pages_2026_03_landing_pages_folders__id__revisions__id__restore_pages",
+    "method": "POST",
+    "url": "https://api.hubapi.com/cms/pages/2026-03/landing-pages/folders/{objectId}/revisions/{revisionId}/restore",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectId": "{{DataType=str, Required=True}}",
+        "revisionId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Restore Previous Version Of Folder (Pages)",
+        "display_name_source": "summary",
+        "description": "Takes a specified version of a landing page folder and restores it.",
+        "learn_more": null,
+        "operation_id": "post-/cms/pages/2026-03/landing-pages/folders/{objectId}/revisions/{revisionId}/restore_restoreFolderPreviousVersion",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectId": {
+                    "label": "Object Id",
+                    "input_type": "text",
+                    "description": "The Folder id.",
+                    "required": true
+                },
+                "revisionId": {
+                    "label": "Revision Id",
+                    "input_type": "text",
+                    "description": "The Folder version id to restore.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

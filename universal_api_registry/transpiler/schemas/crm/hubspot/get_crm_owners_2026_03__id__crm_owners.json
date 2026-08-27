@@ -1,0 +1,59 @@
+{
+    "name": "get_crm_owners_2026_03__id__crm_owners",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/owners/2026-03/{ownerId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "ownerId": "{{DataType=int, Required=True}}",
+        "archived": "{{DataType=bool, Default=false, Required=False}}",
+        "idProperty": "{{DataType=str, Default=id, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Specific Owner By ID (Crm Owners)",
+        "display_name_source": "summary",
+        "description": "Retrieve details of a specific owner using either their 'id' or 'userId'.",
+        "learn_more": null,
+        "operation_id": "get-/crm/owners/2026-03/{ownerId}_getById",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "ownerId": {
+                    "label": "Owner Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived.",
+                    "required": false
+                },
+                "idProperty": {
+                    "label": "Id Property",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

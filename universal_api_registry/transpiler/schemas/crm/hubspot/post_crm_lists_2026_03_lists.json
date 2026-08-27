@@ -1,0 +1,131 @@
+{
+    "name": "post_crm_lists_2026_03_lists",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/lists/2026-03",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "customProperties": "{{DataType=dict, Required=False}}",
+        "filterBranch": "{{DataType=str, Required=False}}",
+        "listFolderId": "{{DataType=int, Required=False}}",
+        "listPermissions": {
+            "teamsWithEditAccess": "{{DataType=list, Required=True}}",
+            "usersWithEditAccess": "{{DataType=list, Required=True}}"
+        },
+        "membershipSettings": {
+            "includeUnassigned": "{{DataType=bool, Required=False}}",
+            "membershipTeamId": "{{DataType=int, Required=False}}"
+        },
+        "name": "{{DataType=str, Required=True}}",
+        "objectTypeId": "{{DataType=str, Required=True}}",
+        "processingType": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create List",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "post-/crm/lists/2026-03_/crm/lists/v3",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "customProperties": {
+                    "label": "Custom Properties",
+                    "input_type": "group",
+                    "description": "The list of custom properties to tie to the list. Custom property name is the key, the value is the value.",
+                    "required": false
+                },
+                "filterBranch": {
+                    "label": "Filter Branch",
+                    "input_type": "text",
+                    "description": "Filter branch object containing filtering criteria for the list",
+                    "required": false
+                },
+                "listFolderId": {
+                    "label": "List Folder Id",
+                    "input_type": "number",
+                    "description": "The ID of the folder that the list should be created in. If left blank, then the list will be created in the root of the list folder structure.",
+                    "required": false
+                },
+                "listPermissions": {
+                    "label": "List Permissions",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "teamsWithEditAccess": {
+                            "label": "Teams With Edit Access",
+                            "input_type": "tags",
+                            "description": "",
+                            "required": true
+                        },
+                        "usersWithEditAccess": {
+                            "label": "Users With Edit Access",
+                            "input_type": "tags",
+                            "description": "",
+                            "required": true
+                        }
+                    }
+                },
+                "membershipSettings": {
+                    "label": "Membership Settings",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "includeUnassigned": {
+                            "label": "Include Unassigned",
+                            "input_type": "checkbox",
+                            "description": "Indicates whether unassigned memberships should be included.",
+                            "required": false
+                        },
+                        "membershipTeamId": {
+                            "label": "Membership Team Id",
+                            "input_type": "number",
+                            "description": "The ID of the team associated with the membership.",
+                            "required": false
+                        }
+                    }
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The name of the list, which must be globally unique across all public lists in the portal.",
+                    "required": true
+                },
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "The object type ID of the type of objects that the list will store.",
+                    "required": true
+                },
+                "processingType": {
+                    "label": "Processing Type",
+                    "input_type": "text",
+                    "description": "The processing type of the list. One of: `SNAPSHOT`, `MANUAL`, or `DYNAMIC`.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

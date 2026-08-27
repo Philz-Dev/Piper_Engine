@@ -1,0 +1,127 @@
+{
+    "name": "put_data_studio_data_source_2026_09_beta__id__json_datasource_ingestion",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/data-studio/data-source/2026-09-beta/{datasourceId}/json",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "datasourceId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "config": {
+            "file": {
+                "columns": "{{DataType=list, Required=True}}",
+                "headerRowIndex": "{{DataType=int, Required=True}}",
+                "sheetIndex": "{{DataType=int, Required=True}}"
+            },
+            "json": {
+                "columns": "{{DataType=list, Required=True}}",
+                "data": "{{DataType=list, Required=True}}",
+                "recordId": "{{DataType=str, Required=False}}"
+            }
+        },
+        "datasourceName": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Updates JSON Datasource (Datasource Ingestion)",
+        "display_name_source": "summary",
+        "description": "Update an existing data source in HubSpot Data Studio.",
+        "learn_more": "Update an existing data source in HubSpot Data Studio. This endpoint allows you to fully replace an existing datasource. The schema and the data can be provided in the request.",
+        "operation_id": "put-/data-studio/data-source/2026-09-beta/{datasourceId}/json_/data-studio/data-source/2026-09-beta/{datasourceId}/json",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "datasourceId": {
+                    "label": "Datasource Id",
+                    "input_type": "number",
+                    "description": "Identifier of the datasource",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "config": {
+                    "label": "Config",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "file": {
+                            "label": "File",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false,
+                            "fields": {
+                                "columns": {
+                                    "label": "Columns",
+                                    "input_type": "tags",
+                                    "description": "List of columns to pick as datasource.",
+                                    "required": true
+                                },
+                                "headerRowIndex": {
+                                    "label": "Header Row Index",
+                                    "input_type": "number",
+                                    "description": "Index of the header row. Starting with 1. Default is: 1",
+                                    "required": true
+                                },
+                                "sheetIndex": {
+                                    "label": "Sheet Index",
+                                    "input_type": "number",
+                                    "description": "Index of the sheet. Starting with 0. Default is: 0.\nOnly relevant in case of XLS or XLSX.",
+                                    "required": true
+                                }
+                            }
+                        },
+                        "json": {
+                            "label": "Json",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false,
+                            "fields": {
+                                "columns": {
+                                    "label": "Columns",
+                                    "input_type": "tags",
+                                    "description": "Columns of datasource with the type",
+                                    "required": true
+                                },
+                                "data": {
+                                    "label": "Data",
+                                    "input_type": "tags",
+                                    "description": "Initial data of the datasource",
+                                    "required": true
+                                },
+                                "recordId": {
+                                    "label": "Record Id",
+                                    "input_type": "text",
+                                    "description": "Optional column-name which is used for identifying records of a datasource. This is required for updating single records of a datasource.",
+                                    "required": false
+                                }
+                            }
+                        }
+                    }
+                },
+                "datasourceName": {
+                    "label": "Datasource Name",
+                    "input_type": "text",
+                    "description": "New name of the datasource",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

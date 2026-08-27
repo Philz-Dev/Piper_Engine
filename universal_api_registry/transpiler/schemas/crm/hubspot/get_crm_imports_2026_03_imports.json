@@ -1,0 +1,52 @@
+{
+    "name": "get_crm_imports_2026_03_imports",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/imports/2026-03",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Imports",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "get-/crm/imports/2026-03_/crm/imports/v3",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,83 @@
+{
+    "name": "patch_media_bridge_2026_03__id__settings_event_visibility_media_bridge",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/{appId}/settings/event-visibility",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "eventType": "{{DataType=str, Required=True}}",
+        "showInReporting": "{{DataType=bool, Required=False}}",
+        "showInTimeline": "{{DataType=bool, Required=False}}",
+        "showInWorkflows": "{{DataType=bool, Required=False}}",
+        "updatedAt": "{{DataType=int, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Settings (Media Bridge)",
+        "display_name_source": "summary",
+        "description": "Update the event visibility settings for a specific app in the MediaBridgeService.",
+        "learn_more": "Update the event visibility settings for a specific app in the MediaBridgeService. This operation allows you to modify how events are displayed or managed for the specified app. It is useful for configuring event visibility preferences based on your application's requirements.",
+        "operation_id": "patch-/media-bridge/2026-03/{appId}/settings/event-visibility",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the app for which the event visibility settings are being updated.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "eventType": {
+                    "label": "Event Type",
+                    "input_type": "text",
+                    "description": "A string representing the type of event whose visibility settings are being changed.",
+                    "required": true
+                },
+                "showInReporting": {
+                    "label": "Show In Reporting",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the event should be included in reporting.",
+                    "required": false
+                },
+                "showInTimeline": {
+                    "label": "Show In Timeline",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the event should be displayed in the timeline.",
+                    "required": false
+                },
+                "showInWorkflows": {
+                    "label": "Show In Workflows",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the event should be available for use in workflows.",
+                    "required": false
+                },
+                "updatedAt": {
+                    "label": "Updated At",
+                    "input_type": "number",
+                    "description": "A string representing the date and time when the visibility settings were last updated, in ISO 8601 format.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "name": "get_settings_teams_2026_09_beta__id__teams",
+    "method": "GET",
+    "url": "https://api.hubapi.com/settings/teams/2026-09-beta/{teamId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "teamId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Team",
+        "display_name_source": "summary",
+        "description": "Retrieve detailed information about a specific team in your HubSpot account using the team's unique identifier.",
+        "learn_more": "Retrieve detailed information about a specific team in your HubSpot account using the team's unique identifier. This endpoint is useful for accessing the team's properties, such as its name and parent team ID, to manage or display team-related data.",
+        "operation_id": "get-/settings/teams/2026-09-beta/{teamId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "teamId": {
+                    "label": "Team Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the team to retrieve.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

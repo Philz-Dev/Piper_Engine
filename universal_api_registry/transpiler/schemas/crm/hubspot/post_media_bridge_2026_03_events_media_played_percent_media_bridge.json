@@ -1,0 +1,146 @@
+{
+    "name": "post_media_bridge_2026_03_events_media_played_percent_media_bridge",
+    "method": "POST",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/events/media-played-percent",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "_hsenc": "{{DataType=str, Required=False}}",
+        "contactId": "{{DataType=int, Required=False}}",
+        "contactUtk": "{{DataType=str, Required=False}}",
+        "externalId": "{{DataType=str, Required=False}}",
+        "externalPlayContext": "{{DataType=str, Required=False}}",
+        "mediaBridgeId": "{{DataType=int, Required=False}}",
+        "mediaName": "{{DataType=str, Required=False}}",
+        "mediaType": "{{DataType=str, Required=True}}",
+        "mediaUrl": "{{DataType=str, Required=False}}",
+        "occurredTimestamp": "{{DataType=int, Required=True}}",
+        "pageId": "{{DataType=int, Required=False}}",
+        "pageName": "{{DataType=str, Required=False}}",
+        "pageUrl": "{{DataType=str, Required=False}}",
+        "playedPercent": "{{DataType=int, Required=True}}",
+        "sessionId": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Record Media Played Percentage (Media Bridge)",
+        "display_name_source": "summary",
+        "description": "This endpoint allows you to record the percentage of media that has been played.",
+        "learn_more": "This endpoint allows you to record the percentage of media that has been played. It is useful for tracking user engagement with media content, such as videos or audio files, by capturing the extent to which the media has been consumed. This data can be used for analytics and improving content delivery strategies.",
+        "operation_id": "post-/media-bridge/2026-03/events/media-played-percent",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "_hsenc": {
+                    "label": "Hsenc",
+                    "input_type": "text",
+                    "description": "HubSpot encoding parameter for tracking purposes.",
+                    "required": false
+                },
+                "contactId": {
+                    "label": "Contact Id",
+                    "input_type": "number",
+                    "description": "The unique identifier for the contact associated with the media play event.",
+                    "required": false
+                },
+                "contactUtk": {
+                    "label": "Contact Utk",
+                    "input_type": "text",
+                    "description": "The user token key associated with the contact.",
+                    "required": false
+                },
+                "externalId": {
+                    "label": "External Id",
+                    "input_type": "text",
+                    "description": "An external identifier for the media, provided by the user.",
+                    "required": false
+                },
+                "externalPlayContext": {
+                    "label": "External Play Context",
+                    "input_type": "text",
+                    "description": "Additional context provided externally about the media play event.",
+                    "required": false
+                },
+                "mediaBridgeId": {
+                    "label": "Media Bridge Id",
+                    "input_type": "number",
+                    "description": "The unique identifier for the media bridge instance.",
+                    "required": false
+                },
+                "mediaName": {
+                    "label": "Media Name",
+                    "input_type": "text",
+                    "description": "The name of the media that was played.",
+                    "required": false
+                },
+                "mediaType": {
+                    "label": "Media Type",
+                    "input_type": "text",
+                    "description": "The type of media that was played. Valid values include 'VIDEO', 'AUDIO', 'DOCUMENT', 'OTHER', and 'IMAGE'.",
+                    "required": true
+                },
+                "mediaUrl": {
+                    "label": "Media Url",
+                    "input_type": "text",
+                    "description": "The URL where the media is hosted.",
+                    "required": false
+                },
+                "occurredTimestamp": {
+                    "label": "Occurred Timestamp",
+                    "input_type": "number",
+                    "description": "The timestamp when the media play event occurred.",
+                    "required": true
+                },
+                "pageId": {
+                    "label": "Page Id",
+                    "input_type": "number",
+                    "description": "The unique identifier for the page where the media was played.",
+                    "required": false
+                },
+                "pageName": {
+                    "label": "Page Name",
+                    "input_type": "text",
+                    "description": "The name of the page where the media was played.",
+                    "required": false
+                },
+                "pageUrl": {
+                    "label": "Page Url",
+                    "input_type": "text",
+                    "description": "The URL of the page where the media was played.",
+                    "required": false
+                },
+                "playedPercent": {
+                    "label": "Played Percent",
+                    "input_type": "number",
+                    "description": "The percentage of the media that has been played.",
+                    "required": true
+                },
+                "sessionId": {
+                    "label": "Session Id",
+                    "input_type": "text",
+                    "description": "The unique identifier for the session in which the media was played.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

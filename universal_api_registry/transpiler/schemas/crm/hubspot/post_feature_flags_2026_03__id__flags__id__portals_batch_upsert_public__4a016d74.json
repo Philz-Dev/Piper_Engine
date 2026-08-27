@@ -1,0 +1,62 @@
+{
+    "name": "post_feature_flags_2026_03__id__flags__id__portals_batch_upsert_public__4a016d74",
+    "method": "POST",
+    "url": "https://api.hubapi.com/feature-flags/2026-03/{appId}/flags/{flagName}/portals/batch/upsert",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "flagName": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "portalStates": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Batch Set Account Flag State (Public App Feature Flags V3)",
+        "display_name_source": "summary",
+        "description": "Set the portal flag state for multiple HubSpot accounts at once.",
+        "learn_more": "Set the portal flag state for multiple HubSpot accounts at once. Use this endpoint to manage flag exposure for groups of HubSpot accounts.",
+        "operation_id": "post-/feature-flags/2026-03/{appId}/flags/{flagName}/portals/batch/upsert",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "flagName": {
+                    "label": "Flag Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "portalStates": {
+                    "label": "Portal States",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "name": "post_cms_hubdb_2026_03_tables__id__rows_batch_read_hubdb",
+    "method": "POST",
+    "url": "https://api.hubapi.com/cms/hubdb/2026-03/tables/{tableIdOrName}/rows/batch/read",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "tableIdOrName": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Get Set Of Rows (Hubdb)",
+        "display_name_source": "summary",
+        "description": "Returns rows in the published version of the specified table, given a set of row IDs.\n**Note:** This endpoint can be accessed without...",
+        "learn_more": "Returns rows in the published version of the specified table, given a set of row IDs.\n**Note:** This endpoint can be accessed without any authentication if the table is set to be allowed for public access.",
+        "operation_id": "post-/cms/hubdb/2026-03/tables/{tableIdOrName}/rows/batch/read_readTableRows",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "tableIdOrName": {
+                    "label": "Table Id Or Name",
+                    "input_type": "text",
+                    "description": "The ID or name of the table to query.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "name": "post_marketing_marketing_events_2026_03_batch_archive_marketing_events",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/marketing-events/2026-03/batch/archive",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Delete Multiple Marketing Events By Objectid",
+        "display_name_source": "summary",
+        "description": "Deletes multiple Marketing Events from the portal based on their objectId, if they exist.\n\nResponses:\n204: Returned if all specified...",
+        "learn_more": "Deletes multiple Marketing Events from the portal based on their objectId, if they exist.\n\nResponses:\n204: Returned if all specified Marketing Events were successfully deleted.\n207: Returned if some objectIds did not correspond to any existing Marketing Events.",
+        "operation_id": "post-/marketing/marketing-events/2026-03/batch/archive_archiveByObjectId",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "name": "delete_public_api_versioning_test_2026_09_beta_widgets__id__at_tests",
+    "method": "DELETE",
+    "url": "https://private.hubapi.com/public/api/versioning/test/2026-09-beta/widgets/{widgetId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "widgetId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Widget (At Tests)",
+        "display_name_source": "summary",
+        "description": "Delete a specific widget identified by its widgetId from the system.",
+        "learn_more": "Delete a specific widget identified by its widgetId from the system. This operation is useful for removing widgets that are no longer needed or relevant. Upon successful deletion, no content is returned.",
+        "operation_id": "delete-/public/api/versioning/test/2026-09-beta/widgets/{widgetId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "widgetId": {
+                    "label": "Widget Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the widget to delete.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

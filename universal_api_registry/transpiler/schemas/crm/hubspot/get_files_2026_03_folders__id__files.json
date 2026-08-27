@@ -1,0 +1,52 @@
+{
+    "name": "get_files_2026_03_folders__id__files",
+    "method": "GET",
+    "url": "https://api.hubapi.com/files/2026-03/folders/{folderPath}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "folderPath": "{{DataType=str, Required=True}}",
+        "properties": "{{DataType=list, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Folder By Path (Files)",
+        "display_name_source": "summary",
+        "description": "Retrieve a folder, identified by its path.",
+        "learn_more": null,
+        "operation_id": "get-/files/2026-03/folders/{folderPath}_getByPath",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "folderPath": {
+                    "label": "Folder Path",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

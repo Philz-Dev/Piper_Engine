@@ -1,0 +1,121 @@
+{
+    "name": "post_cms_audit_logs_2026_03_export_cms_content_audit",
+    "method": "POST",
+    "url": "https://api.hubapi.com/cms/audit-logs/2026-03/export",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "email": "{{DataType=str, Required=True}}",
+        "filters": {
+            "objectType": "{{DataType=list, Required=True}}"
+        },
+        "format": "{{DataType=str, Required=True}}",
+        "partition": "{{DataType=int, Required=False}}",
+        "portalId": "{{DataType=int, Required=True}}",
+        "recipientUserIds": "{{DataType=list, Required=True}}",
+        "shouldMarkExportFileAsSensitive": "{{DataType=bool, Required=True}}",
+        "type": "{{DataType=str, Required=True}}",
+        "userId": "{{DataType=int, Required=False}}",
+        "userTimeZone": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Export Audit Log (Cms Content Audit)",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "post-/cms/audit-logs/2026-03/export_/cms/audit-logs/2026-03/export",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "email": {
+                    "label": "Email",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "filters": {
+                    "label": "Filters",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "objectType": {
+                            "label": "Object Type",
+                            "input_type": "tags",
+                            "description": "",
+                            "required": true
+                        }
+                    }
+                },
+                "format": {
+                    "label": "Format",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "partition": {
+                    "label": "Partition",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "portalId": {
+                    "label": "Portal Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "recipientUserIds": {
+                    "label": "Recipient User Ids",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                },
+                "shouldMarkExportFileAsSensitive": {
+                    "label": "Should Mark Export File As Sensitive",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": true
+                },
+                "type": {
+                    "label": "Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "userId": {
+                    "label": "User Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "userTimeZone": {
+                    "label": "User Time Zone",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

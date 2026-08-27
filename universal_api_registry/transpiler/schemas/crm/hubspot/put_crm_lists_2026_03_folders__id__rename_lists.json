@@ -1,0 +1,52 @@
+{
+    "name": "put_crm_lists_2026_03_folders__id__rename_lists",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/crm/lists/2026-03/folders/{folderId}/rename",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "folderId": "{{DataType=str, Required=True}}",
+        "newFolderName": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Rename Folder (Lists)",
+        "display_name_source": "summary",
+        "description": "Renames the given folderId with a new name.",
+        "learn_more": null,
+        "operation_id": "put-/crm/lists/2026-03/folders/{folderId}/rename_/crm/lists/v3/folders/{folderId}/rename",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "folderId": {
+                    "label": "Folder Id",
+                    "input_type": "text",
+                    "description": "The ID of the folder to rename",
+                    "required": true
+                },
+                "newFolderName": {
+                    "label": "New Folder Name",
+                    "input_type": "text",
+                    "description": "The new name of the folder.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

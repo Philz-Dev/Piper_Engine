@@ -1,0 +1,66 @@
+{
+    "name": "get_crm_lists_2026_03__id__memberships_lists",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/lists/2026-03/{listId}/memberships",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "listId": "{{DataType=str, Required=True}}",
+        "after": "{{DataType=str, Required=False}}",
+        "before": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Default=100, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Fetch List Memberships Ordered By ID",
+        "display_name_source": "summary",
+        "description": "Fetch the memberships of a list in order sorted by the `recordId` of the records in the list.\n\nThe `recordId`s are sorted in *ascending*...",
+        "learn_more": "Fetch the memberships of a list in order sorted by the `recordId` of the records in the list.\n\nThe `recordId`s are sorted in *ascending* order if an `after` offset or no offset is provided. If only a `before` offset is provided, then the records are sorted in *descending* order.\n\nThe `after` offset parameter will take precedence over the `before` offset in a case where both are provided.",
+        "operation_id": "get-/crm/lists/2026-03/{listId}/memberships_/crm/lists/v3/{listId}/memberships",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "listId": {
+                    "label": "List Id",
+                    "input_type": "text",
+                    "description": "The **ILS ID** of the list.",
+                    "required": true
+                },
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging offset token for the page that comes `after` the previously requested records.\n\nIf provided, then the records in the response will be the records following the offset, sorted in *ascending* order. Takes precedence over the `before` offset.",
+                    "required": false
+                },
+                "before": {
+                    "label": "Before",
+                    "input_type": "text",
+                    "description": "The paging offset token for the page that comes `before` the previously requested records.\n\nIf provided, then the records in the response will be the records preceding the offset, sorted in *descending* order.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The number of records to return in the response. The maximum `limit` is 250.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

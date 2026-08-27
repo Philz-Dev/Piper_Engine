@@ -1,0 +1,59 @@
+{
+    "name": "get_conversations_v3_conversations_threads__id__messages__id__conversations",
+    "method": "GET",
+    "url": "https://api.hubapi.com/conversations/v3/conversations/threads/{threadId}/messages/{messageId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "messageId": "{{DataType=str, Required=True}}",
+        "threadId": "{{DataType=int, Required=True}}",
+        "property": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Single Message (Conversations)",
+        "display_name_source": "summary",
+        "description": "Retrieve a single message from a thread using the message ID.",
+        "learn_more": null,
+        "operation_id": "get-/conversations/v3/conversations/threads/{threadId}/messages/{messageId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "messageId": {
+                    "label": "Message Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "threadId": {
+                    "label": "Thread Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "property": {
+                    "label": "Property",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "name": "post_integrators_timeline_2026_03_types_projects_timeline",
+    "method": "POST",
+    "url": "https://api.hubapi.com/integrators/timeline/2026-03/types/projects",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "developerSymbol": "{{DataType=str, Required=True}}",
+        "projectName": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Project (Timeline)",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "post-/integrators/timeline/2026-03/types/projects_/integrators/timeline/2026-03/types/projects",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "developerSymbol": {
+                    "label": "Developer Symbol",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "projectName": {
+                    "label": "Project Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

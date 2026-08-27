@@ -1,0 +1,52 @@
+{
+    "name": "get_webhooks_journal_journal_2026_03_batch_latest__id__webhooks_journal",
+    "method": "GET",
+    "url": "https://api.hubapi.com/webhooks-journal/journal/2026-03/batch/latest/{count}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "count": "{{DataType=int, Required=True}}",
+        "installPortalId": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Batch (Webhooks Journal)",
+        "display_name_source": "summary",
+        "description": "Retrieve the latest batch of webhook journal entries up to the specified count.",
+        "learn_more": "Retrieve the latest batch of webhook journal entries up to the specified count. This endpoint is useful for fetching recent webhook data for analysis or processing. The count parameter determines the maximum number of entries to return.",
+        "operation_id": "get-/webhooks-journal/journal/2026-03/batch/latest/{count}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "count": {
+                    "label": "Count",
+                    "input_type": "number",
+                    "description": "The maximum number of journal entries to retrieve. This is a required integer parameter with a minimum value of 1.",
+                    "required": true
+                },
+                "installPortalId": {
+                    "label": "Install Portal Id",
+                    "input_type": "number",
+                    "description": "The ID of the portal installation. This is an integer value used to specify the portal context for the request.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

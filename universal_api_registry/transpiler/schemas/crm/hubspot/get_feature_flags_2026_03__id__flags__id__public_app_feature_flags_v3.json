@@ -1,0 +1,52 @@
+{
+    "name": "get_feature_flags_2026_03__id__flags__id__public_app_feature_flags_v3",
+    "method": "GET",
+    "url": "https://api.hubapi.com/feature-flags/2026-03/{appId}/flags/{flagName}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "flagName": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve App's Feature Flags (Public App Feature Flags V3)",
+        "display_name_source": "summary",
+        "description": "Retrieve the current status of the app's feature flags.",
+        "learn_more": "Retrieve the current status of the app's feature flags. No request body is included.",
+        "operation_id": "get-/feature-flags/2026-03/{appId}/flags/{flagName}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "flagName": {
+                    "label": "Flag Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

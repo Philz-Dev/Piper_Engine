@@ -1,0 +1,171 @@
+{
+    "name": "get_cms_site_search_2026_03_search_site_search",
+    "method": "GET",
+    "url": "https://api.hubapi.com/cms/site-search/2026-03/search",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "analytics": "{{DataType=bool, Required=False}}",
+        "autocomplete": "{{DataType=bool, Required=False}}",
+        "boostLimit": "{{DataType=float, Required=False}}",
+        "boostRecent": "{{DataType=str, Required=False}}",
+        "domain": "{{DataType=list, Required=False}}",
+        "groupId": "{{DataType=list, Required=False}}",
+        "hubdbQuery": "{{DataType=str, Required=False}}",
+        "language": "{{DataType=str, Required=False}}",
+        "length": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}",
+        "matchPrefix": "{{DataType=bool, Required=False}}",
+        "offset": "{{DataType=int, Required=False}}",
+        "pathPrefix": "{{DataType=list, Required=False}}",
+        "popularityBoost": "{{DataType=float, Required=False}}",
+        "property": "{{DataType=list, Required=False}}",
+        "q": "{{DataType=str, Required=False}}",
+        "tableId": "{{DataType=int, Required=False}}",
+        "type": "{{DataType=list, Required=False}}",
+        "types": "{{DataType=list, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Search Your Site (Site Search)",
+        "display_name_source": "summary",
+        "description": "Returns any website content matching the given search criteria for a given HubSpot account.",
+        "learn_more": "Returns any website content matching the given search criteria for a given HubSpot account. Searches can be filtered by content type, domain, or URL path. Includes options for weighing results by recency and popularity, along with language support.",
+        "operation_id": "get-/cms/site-search/2026-03/search_/cms/site-search/2026-03/search",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "analytics": {
+                    "label": "Analytics",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "autocomplete": {
+                    "label": "Autocomplete",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "boostLimit": {
+                    "label": "Boost Limit",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "boostRecent": {
+                    "label": "Boost Recent",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "domain": {
+                    "label": "Domain",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "groupId": {
+                    "label": "Group Id",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "hubdbQuery": {
+                    "label": "Hubdb Query",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "language": {
+                    "label": "Language",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "length": {
+                    "label": "Length",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "matchPrefix": {
+                    "label": "Match Prefix",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "offset": {
+                    "label": "Offset",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "pathPrefix": {
+                    "label": "Path Prefix",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "popularityBoost": {
+                    "label": "Popularity Boost",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "property": {
+                    "label": "Property",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "q": {
+                    "label": "Q",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "tableId": {
+                    "label": "Table Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "type": {
+                    "label": "Type",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "types": {
+                    "label": "Types",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

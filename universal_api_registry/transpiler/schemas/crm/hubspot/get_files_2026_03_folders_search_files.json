@@ -1,0 +1,157 @@
+{
+    "name": "get_files_2026_03_folders_search_files",
+    "method": "GET",
+    "url": "https://api.hubapi.com/files/2026-03/folders/search",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "before": "{{DataType=str, Required=False}}",
+        "createdAt": "{{DataType=str, Required=False}}",
+        "createdAtGte": "{{DataType=str, Required=False}}",
+        "createdAtLte": "{{DataType=str, Required=False}}",
+        "idGte": "{{DataType=int, Required=False}}",
+        "idLte": "{{DataType=int, Required=False}}",
+        "ids": "{{DataType=list, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}",
+        "name": "{{DataType=str, Required=False}}",
+        "parentFolderIds": "{{DataType=list, Required=False}}",
+        "path": "{{DataType=str, Required=False}}",
+        "properties": "{{DataType=list, Required=False}}",
+        "sort": "{{DataType=list, Required=False}}",
+        "updatedAt": "{{DataType=str, Required=False}}",
+        "updatedAtGte": "{{DataType=str, Required=False}}",
+        "updatedAtLte": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Search Folders (Files)",
+        "display_name_source": "summary",
+        "description": "Search for folders.",
+        "learn_more": "Search for folders. Does not contain hidden or archived folders.",
+        "operation_id": "get-/files/2026-03/folders/search_doSearch",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "before": {
+                    "label": "Before",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "createdAt": {
+                    "label": "Created At",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "createdAtGte": {
+                    "label": "Created At Gte",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "createdAtLte": {
+                    "label": "Created At Lte",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "idGte": {
+                    "label": "Id Gte",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "idLte": {
+                    "label": "Id Lte",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "ids": {
+                    "label": "Ids",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "parentFolderIds": {
+                    "label": "Parent Folder Ids",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "path": {
+                    "label": "Path",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "sort": {
+                    "label": "Sort",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "updatedAt": {
+                    "label": "Updated At",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "updatedAtGte": {
+                    "label": "Updated At Gte",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "updatedAtLte": {
+                    "label": "Updated At Lte",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "name": "post_webhooks_2026_03__id__subscriptions_batch_update_webhooks",
+    "method": "POST",
+    "url": "https://api.hubapi.com/webhooks/2026-03/{appId}/subscriptions/batch/update",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Batch Create Event Subscriptions (Webhooks)",
+        "display_name_source": "summary",
+        "description": "Batch create event subscriptions for the specified app.",
+        "learn_more": null,
+        "operation_id": "post-/webhooks/2026-03/{appId}/subscriptions/batch/update_updateBatch",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "trigger",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The identifier for the app.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "An array of SubscriptionBatchUpdateRequest objects, each representing a subscription to be updated. This property is required.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

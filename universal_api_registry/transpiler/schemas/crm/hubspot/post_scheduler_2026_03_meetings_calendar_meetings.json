@@ -1,0 +1,187 @@
+{
+    "name": "post_scheduler_2026_03_meetings_calendar_meetings",
+    "method": "POST",
+    "url": "https://api.hubapi.com/scheduler/2026-03/meetings/calendar",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "organizerUserId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "associations": "{{DataType=list, Required=True}}",
+        "emailReminderSchedule": {
+            "reminders": "{{DataType=list, Required=True}}",
+            "shouldIncludeInviteDescription": "{{DataType=bool, Required=True}}"
+        },
+        "properties": {
+            "hs_activity_type": "{{DataType=str, Required=False}}",
+            "hs_attachment_ids": "{{DataType=list, Required=False}}",
+            "hs_attendee_owner_ids": "{{DataType=list, Required=False}}",
+            "hs_internal_meeting_notes": "{{DataType=str, Required=False}}",
+            "hs_meeting_body": "{{DataType=str, Required=False}}",
+            "hs_meeting_end_time": "{{DataType=str, Required=True}}",
+            "hs_meeting_location": "{{DataType=str, Required=False}}",
+            "hs_meeting_location_type": "{{DataType=str, Required=False}}",
+            "hs_meeting_outcome": "{{DataType=str, Required=True}}",
+            "hs_meeting_start_time": "{{DataType=str, Required=True}}",
+            "hs_meeting_title": "{{DataType=str, Required=True}}",
+            "hs_timestamp": "{{DataType=str, Required=True}}",
+            "hubspot_owner_id": "{{DataType=str, Required=True}}"
+        },
+        "timezone": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Meeting",
+        "display_name_source": "summary",
+        "description": "Create a new calendar meeting event in your HubSpot account.",
+        "learn_more": "Create a new calendar meeting event in your HubSpot account. This endpoint allows you to specify details such as the meeting title, start and end times, and associated users. The organizerUserId is required to identify the meeting organizer.",
+        "operation_id": "post-/scheduler/2026-03/meetings/calendar",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "organizerUserId": {
+                    "label": "Organizer User Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the user organizing the meeting. This parameter is required.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "associations": {
+                    "label": "Associations",
+                    "input_type": "tags",
+                    "description": "An array of associations related to the meeting event, each represented by an ExternalAssociationCreateRequest object.",
+                    "required": true
+                },
+                "emailReminderSchedule": {
+                    "label": "Email Reminder Schedule",
+                    "input_type": "group",
+                    "description": "",
+                    "required": true,
+                    "fields": {
+                        "reminders": {
+                            "label": "Reminders",
+                            "input_type": "tags",
+                            "description": "An array of ExternalReminder objects that specify the timing and frequency of the email reminders.",
+                            "required": true
+                        },
+                        "shouldIncludeInviteDescription": {
+                            "label": "Should Include Invite Description",
+                            "input_type": "checkbox",
+                            "description": "A boolean indicating whether the invite description should be included in the email reminder.",
+                            "required": true
+                        }
+                    }
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "group",
+                    "description": "",
+                    "required": true,
+                    "fields": {
+                        "hs_activity_type": {
+                            "label": "Hs Activity Type",
+                            "input_type": "text",
+                            "description": "The type of activity for the meeting. This is a string value.",
+                            "required": false
+                        },
+                        "hs_attachment_ids": {
+                            "label": "Hs Attachment Ids",
+                            "input_type": "tags",
+                            "description": "An array of strings representing the IDs of attachments associated with the meeting.",
+                            "required": false
+                        },
+                        "hs_attendee_owner_ids": {
+                            "label": "Hs Attendee Owner Ids",
+                            "input_type": "tags",
+                            "description": "An array of strings representing the IDs of the owners of the attendees for the meeting.",
+                            "required": false
+                        },
+                        "hs_internal_meeting_notes": {
+                            "label": "Hs Internal Meeting Notes",
+                            "input_type": "text",
+                            "description": "Internal notes for the meeting. This is a string value.",
+                            "required": false
+                        },
+                        "hs_meeting_body": {
+                            "label": "Hs Meeting Body",
+                            "input_type": "text",
+                            "description": "The body content or description of the meeting. This is a string value.",
+                            "required": false
+                        },
+                        "hs_meeting_end_time": {
+                            "label": "Hs Meeting End Time",
+                            "input_type": "text",
+                            "description": "The end time of the meeting, in ISO 8601 format.",
+                            "required": true
+                        },
+                        "hs_meeting_location": {
+                            "label": "Hs Meeting Location",
+                            "input_type": "text",
+                            "description": "The location of the meeting. This is a string value.",
+                            "required": false
+                        },
+                        "hs_meeting_location_type": {
+                            "label": "Hs Meeting Location Type",
+                            "input_type": "text",
+                            "description": "The type of location for the meeting. Valid values include 'PHONE', 'ADDRESS', and 'CUSTOM'.",
+                            "required": false
+                        },
+                        "hs_meeting_outcome": {
+                            "label": "Hs Meeting Outcome",
+                            "input_type": "text",
+                            "description": "A string representing the outcome of the meeting.",
+                            "required": true
+                        },
+                        "hs_meeting_start_time": {
+                            "label": "Hs Meeting Start Time",
+                            "input_type": "text",
+                            "description": "The start time of the meeting, in ISO 8601 format.",
+                            "required": true
+                        },
+                        "hs_meeting_title": {
+                            "label": "Hs Meeting Title",
+                            "input_type": "text",
+                            "description": "The title of the meeting. This is a string value.",
+                            "required": true
+                        },
+                        "hs_timestamp": {
+                            "label": "Hs Timestamp",
+                            "input_type": "text",
+                            "description": "A timestamp indicating when the meeting event was created, in ISO 8601 format.",
+                            "required": true
+                        },
+                        "hubspot_owner_id": {
+                            "label": "Hubspot Owner Id",
+                            "input_type": "text",
+                            "description": "The unique identifier of the HubSpot owner associated with the meeting.",
+                            "required": true
+                        }
+                    }
+                },
+                "timezone": {
+                    "label": "Timezone",
+                    "input_type": "text",
+                    "description": "A string representing the timezone in which the meeting event is scheduled.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

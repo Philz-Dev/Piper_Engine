@@ -1,0 +1,62 @@
+{
+    "name": "post_settings_currencies_2026_03_exchange_rates_update_visibility_multicurrency",
+    "method": "POST",
+    "url": "https://api.hubapi.com/settings/currencies/2026-03/exchange-rates/update-visibility",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "fromCurrencyCode": "{{DataType=str, Required=True}}",
+        "toCurrencyCode": "{{DataType=str, Required=True}}",
+        "visibleInUI": "{{DataType=bool, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Change Visibility Of Specific Currency Pairs (Multicurrency)",
+        "display_name_source": "summary",
+        "description": "Change the visibility setting for a currency pair.",
+        "learn_more": "Change the visibility setting for a currency pair. This will hide or display a currency pair for users in the HubSpot app.",
+        "operation_id": "post-/settings/currencies/2026-03/exchange-rates/update-visibility",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "fromCurrencyCode": {
+                    "label": "From Currency Code",
+                    "input_type": "text",
+                    "description": "This represents the three-letter currency code (such as USD for US Dollar) of the currency you want to convert from.",
+                    "required": true
+                },
+                "toCurrencyCode": {
+                    "label": "To Currency Code",
+                    "input_type": "text",
+                    "description": "This represents the three-letter currency code (such as USD for US Dollar) of the currency you want to convert to.",
+                    "required": true
+                },
+                "visibleInUI": {
+                    "label": "Visible In Ui",
+                    "input_type": "checkbox",
+                    "description": "This indicates if the currency pair is shown in the MultiCurrency settings page. Setting this to false will remove the currency pair from the settings page.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

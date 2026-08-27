@@ -1,0 +1,111 @@
+{
+    "name": "post_files_2026_03_files_import_from_url_async_files",
+    "method": "POST",
+    "url": "https://api.hubapi.com/files/2026-03/files/import-from-url/async",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "access": "{{DataType=str, Required=True}}",
+        "duplicateValidationScope": "{{DataType=str, Required=True}}",
+        "duplicateValidationStrategy": "{{DataType=str, Required=True}}",
+        "expiresAt": "{{DataType=str, Required=False}}",
+        "folderId": "{{DataType=str, Required=False}}",
+        "folderPath": "{{DataType=str, Required=False}}",
+        "name": "{{DataType=str, Required=False}}",
+        "overwrite": "{{DataType=bool, Required=True}}",
+        "ttl": "{{DataType=str, Required=False}}",
+        "url": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Import File From URL",
+        "display_name_source": "summary",
+        "description": "Asynchronously imports the file at the given URL into the file manager.",
+        "learn_more": null,
+        "operation_id": "post-/files/2026-03/files/import-from-url/async_importFromUrl",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "access": {
+                    "label": "Access",
+                    "input_type": "text",
+                    "description": "PUBLIC_INDEXABLE: File is publicly accessible by anyone who has the URL. Search engines can index the file. PUBLIC_NOT_INDEXABLE: File is publicly accessible by anyone who has the URL. Search engines *can't* index the file. PRIVATE: File is NOT publicly accessible. Requires a signed URL to see content. Search engines *can't* index the file.",
+                    "required": true
+                },
+                "duplicateValidationScope": {
+                    "label": "Duplicate Validation Scope",
+                    "input_type": "text",
+                    "description": "ENTIRE_PORTAL: Look for a duplicate file in the entire account. EXACT_FOLDER: Look for a duplicate file in the provided folder.",
+                    "required": true
+                },
+                "duplicateValidationStrategy": {
+                    "label": "Duplicate Validation Strategy",
+                    "input_type": "text",
+                    "description": "NONE: Do not run any duplicate validation. REJECT: Reject the upload if a duplicate is found. RETURN_EXISTING: If a duplicate file is found, do not upload a new file and return the found duplicate instead.",
+                    "required": true
+                },
+                "expiresAt": {
+                    "label": "Expires At",
+                    "input_type": "text",
+                    "description": "Specifies the date and time when the file will expire.",
+                    "required": false
+                },
+                "folderId": {
+                    "label": "Folder Id",
+                    "input_type": "text",
+                    "description": "One of folderId or folderPath is required. Destination folderId for the uploaded file.",
+                    "required": false
+                },
+                "folderPath": {
+                    "label": "Folder Path",
+                    "input_type": "text",
+                    "description": "One of folderPath or folderId is required. Destination folder path for the uploaded file. If the folder path does not exist, there will be an attempt to create the folder path.",
+                    "required": false
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "Name to give the resulting file in the file manager.",
+                    "required": false
+                },
+                "overwrite": {
+                    "label": "Overwrite",
+                    "input_type": "checkbox",
+                    "description": "If true, will overwrite existing file if one with the same name and extension exists in the given folder. The overwritten file will be deleted and the uploaded file will take its place with a new ID. If unset or set as false, the new file's name will be updated to prevent colliding with existing file if one exists with the same path, name, and extension",
+                    "required": true
+                },
+                "ttl": {
+                    "label": "Ttl",
+                    "input_type": "text",
+                    "description": "Time to live. If specified the file will be deleted after the given time frame. If left unset, the file will exist indefinitely",
+                    "required": false
+                },
+                "url": {
+                    "label": "Url",
+                    "input_type": "text",
+                    "description": "URL to download the new file from.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

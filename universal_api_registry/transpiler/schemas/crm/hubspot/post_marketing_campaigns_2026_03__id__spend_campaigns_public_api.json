@@ -1,0 +1,76 @@
+{
+    "name": "post_marketing_campaigns_2026_03__id__spend_campaigns_public_api",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/campaigns/2026-03/{campaignGuid}/spend",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "campaignGuid": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "amount": "{{DataType=float, Required=True}}",
+        "description": "{{DataType=str, Required=False}}",
+        "name": "{{DataType=str, Required=True}}",
+        "order": "{{DataType=int, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Campaign Spend Item (Campaigns Public Api)",
+        "display_name_source": "summary",
+        "description": "Create a new campaign spend item.",
+        "learn_more": "Create a new campaign spend item",
+        "operation_id": "post-/marketing/campaigns/2026-03/{campaignGuid}/spend",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "campaignGuid": {
+                    "label": "Campaign Guid",
+                    "input_type": "text",
+                    "description": "The UUID of the campaign, required\nExample: 9dbec438-53e2-4b28-8c0f-38f56574a6e8",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "amount": {
+                    "label": "Amount",
+                    "input_type": "number",
+                    "description": "The monetary value of the spend item.",
+                    "required": true
+                },
+                "description": {
+                    "label": "Description",
+                    "input_type": "text",
+                    "description": "A brief description of the spend item.",
+                    "required": false
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The name of the spend item.",
+                    "required": true
+                },
+                "order": {
+                    "label": "Order",
+                    "input_type": "number",
+                    "description": "The sequence number indicating the order of the spend item.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

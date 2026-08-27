@@ -1,0 +1,52 @@
+{
+    "name": "get_crm_associations_2026_03__id___id__labels_associations_schema",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/associations/2026-03/{fromObjectType}/{toObjectType}/labels",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "fromObjectType": "{{DataType=str, Required=True}}",
+        "toObjectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Association Labels (Associations Schema)",
+        "display_name_source": "summary",
+        "description": "Retrieve all labels that describe the relationships between two specified CRM object types.",
+        "learn_more": "Retrieve all labels that describe the relationships between two specified CRM object types. These labels provide context about the nature of the associations.",
+        "operation_id": "get-/crm/associations/2026-03/{fromObjectType}/{toObjectType}/labels_getPage",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "fromObjectType": {
+                    "label": "From Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "toObjectType": {
+                    "label": "To Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

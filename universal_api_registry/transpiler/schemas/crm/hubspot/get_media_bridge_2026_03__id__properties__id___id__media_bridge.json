@@ -1,0 +1,73 @@
+{
+    "name": "get_media_bridge_2026_03__id__properties__id___id__media_bridge",
+    "method": "GET",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/{appId}/properties/{objectType}/{propertyName}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "propertyName": "{{DataType=str, Required=True}}",
+        "archived": "{{DataType=bool, Default=false, Required=False}}",
+        "properties": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Property (Media Bridge)",
+        "display_name_source": "summary",
+        "description": "Retrieve a specific property for a given object type within a specified app.",
+        "learn_more": "Retrieve a specific property for a given object type within a specified app. This endpoint allows you to access details about a property, including its configuration and settings, for a particular object type identified by the property name. This can be useful for understanding property configurations or for integration purposes.",
+        "operation_id": "get-/media-bridge/2026-03/{appId}/properties/{objectType}/{propertyName}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the app associated with the property.",
+                    "required": true
+                },
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "The type of object for which the property is being retrieved.",
+                    "required": true
+                },
+                "propertyName": {
+                    "label": "Property Name",
+                    "input_type": "text",
+                    "description": "The name of the property to retrieve.",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived. Defaults to false.",
+                    "required": false
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "text",
+                    "description": "A comma-separated list of property names to include in the response.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

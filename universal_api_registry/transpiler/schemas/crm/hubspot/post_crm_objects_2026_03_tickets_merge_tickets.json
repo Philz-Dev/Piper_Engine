@@ -1,0 +1,55 @@
+{
+    "name": "post_crm_objects_2026_03_tickets_merge_tickets",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/tickets/merge",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "objectIdToMerge": "{{DataType=str, Required=True}}",
+        "primaryObjectId": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Merge Two Tickets",
+        "display_name_source": "summary",
+        "description": "Merge two tickets, combining them into one ticket record.",
+        "learn_more": null,
+        "operation_id": "post-/crm/objects/2026-03/tickets/merge_merge",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "objectIdToMerge": {
+                    "label": "Object Id To Merge",
+                    "input_type": "text",
+                    "description": "The ID of the object that will be merged into the primary object.",
+                    "required": true
+                },
+                "primaryObjectId": {
+                    "label": "Primary Object Id",
+                    "input_type": "text",
+                    "description": "The ID of the primary object into which another object will be merged.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

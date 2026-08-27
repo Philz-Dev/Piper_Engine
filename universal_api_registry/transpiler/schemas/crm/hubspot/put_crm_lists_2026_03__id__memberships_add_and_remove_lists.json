@@ -1,0 +1,62 @@
+{
+    "name": "put_crm_lists_2026_03__id__memberships_add_and_remove_lists",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/crm/lists/2026-03/{listId}/memberships/add-and-remove",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "listId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "recordIdsToAdd": "{{DataType=list, Required=True}}",
+        "recordIdsToRemove": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Add And/or Remove Records From List",
+        "display_name_source": "summary",
+        "description": "Add and/or remove records that have already been created in the system to and/or from a list.\n\nThis endpoint only works for lists that...",
+        "learn_more": "Add and/or remove records that have already been created in the system to and/or from a list.\n\nThis endpoint only works for lists that have a `processingType` of `MANUAL` or `SNAPSHOT`.",
+        "operation_id": "put-/crm/lists/2026-03/{listId}/memberships/add-and-remove_/crm/lists/v3/{listId}/memberships/add-and-remove",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "listId": {
+                    "label": "List Id",
+                    "input_type": "text",
+                    "description": "The **ILS ID** of the `MANUAL` or `SNAPSHOT` list.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "recordIdsToAdd": {
+                    "label": "Record Ids To Add",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                },
+                "recordIdsToRemove": {
+                    "label": "Record Ids To Remove",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

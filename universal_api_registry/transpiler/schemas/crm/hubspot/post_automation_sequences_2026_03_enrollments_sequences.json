@@ -1,0 +1,76 @@
+{
+    "name": "post_automation_sequences_2026_03_enrollments_sequences",
+    "method": "POST",
+    "url": "https://api.hubapi.com/automation/sequences/2026-03/enrollments",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "userId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "contactId": "{{DataType=str, Required=True}}",
+        "senderAliasAddress": "{{DataType=str, Required=False}}",
+        "senderEmail": "{{DataType=str, Required=True}}",
+        "sequenceId": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Enroll Contact In Sequence",
+        "display_name_source": "summary",
+        "description": "Enroll a contact into a sequence using the specified user ID and sequence details.",
+        "learn_more": null,
+        "operation_id": "post-/automation/sequences/2026-03/enrollments",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "userId": {
+                    "label": "User Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "contactId": {
+                    "label": "Contact Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the contact to be enrolled in the sequence.",
+                    "required": true
+                },
+                "senderAliasAddress": {
+                    "label": "Sender Alias Address",
+                    "input_type": "text",
+                    "description": "The alias email address used by the sender when enrolling the contact.",
+                    "required": false
+                },
+                "senderEmail": {
+                    "label": "Sender Email",
+                    "input_type": "text",
+                    "description": "The email address of the sender enrolling the contact in the sequence.",
+                    "required": true
+                },
+                "sequenceId": {
+                    "label": "Sequence Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the sequence in which the contact will be enrolled.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

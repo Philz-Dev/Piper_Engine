@@ -1,0 +1,66 @@
+{
+    "name": "get_forecast_submissions_2026_09_beta_events_forecast_submissions",
+    "method": "GET",
+    "url": "https://api.hubapi.com/forecast-submissions/2026-09-beta/events",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Default=100, Required=False}}",
+        "occurredAfter": "{{DataType=int, Required=False}}",
+        "occurredBefore": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Events (Forecast Submissions)",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of forecast submission events from your HubSpot account.",
+        "learn_more": "Retrieve a list of forecast submission events from your HubSpot account. This endpoint allows you to filter events by their occurrence date and paginate through results. Useful for tracking and analyzing forecast submissions over time.",
+        "operation_id": "get-/forecast-submissions/2026-09-beta/events",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource, returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page. Defaults to 100 and the max is 100.",
+                    "required": false
+                },
+                "occurredAfter": {
+                    "label": "Occurred After",
+                    "input_type": "number",
+                    "description": "Filter events that occurred after this timestamp. The value should be an integer representing the time in milliseconds since the epoch.",
+                    "required": false
+                },
+                "occurredBefore": {
+                    "label": "Occurred Before",
+                    "input_type": "number",
+                    "description": "Filter events that occurred before this timestamp. The value should be an integer representing the time in milliseconds since the epoch.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

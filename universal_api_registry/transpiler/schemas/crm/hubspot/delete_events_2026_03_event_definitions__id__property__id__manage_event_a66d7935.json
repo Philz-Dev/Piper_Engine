@@ -1,0 +1,52 @@
+{
+    "name": "delete_events_2026_03_event_definitions__id__property__id__manage_event_a66d7935",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/events/2026-03/event-definitions/{eventName}/property/{propertyName}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "eventName": "{{DataType=str, Required=True}}",
+        "propertyName": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Property From Custom Event Definition (Manage Event Definitions)",
+        "display_name_source": "summary",
+        "description": "Delete an existing property from a custom event definition.",
+        "learn_more": null,
+        "operation_id": "delete-/events/2026-03/event-definitions/{eventName}/property/{propertyName}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "eventName": {
+                    "label": "Event Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "propertyName": {
+                    "label": "Property Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

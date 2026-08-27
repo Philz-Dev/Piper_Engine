@@ -1,0 +1,59 @@
+{
+    "name": "post_cms_hubdb_2026_03_tables__id__rows__id__draft_clone_hubdb",
+    "method": "POST",
+    "url": "https://api.hubapi.com/cms/hubdb/2026-03/tables/{tableIdOrName}/rows/{rowId}/draft/clone",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "rowId": "{{DataType=str, Required=True}}",
+        "tableIdOrName": "{{DataType=str, Required=True}}",
+        "name": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Clone Row (Hubdb)",
+        "display_name_source": "summary",
+        "description": "Clones a single row in the draft version of a table.",
+        "learn_more": null,
+        "operation_id": "post-/cms/hubdb/2026-03/tables/{tableIdOrName}/rows/{rowId}/draft/clone_cloneDraftTableRow",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "rowId": {
+                    "label": "Row Id",
+                    "input_type": "text",
+                    "description": "The ID of the row",
+                    "required": true
+                },
+                "tableIdOrName": {
+                    "label": "Table Id Or Name",
+                    "input_type": "text",
+                    "description": "The ID or name of the table",
+                    "required": true
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The name for the cloned row.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

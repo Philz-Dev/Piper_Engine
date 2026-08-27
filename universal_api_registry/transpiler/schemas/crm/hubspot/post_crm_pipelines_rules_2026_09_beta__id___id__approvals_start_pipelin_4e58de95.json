@@ -1,0 +1,52 @@
+{
+    "name": "post_crm_pipelines_rules_2026_09_beta__id___id__approvals_start_pipelin_4e58de95",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/pipelines-rules/2026-09-beta/{objectTypeId}/{pipelineId}/approvals/start",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectTypeId": "{{DataType=str, Required=True}}",
+        "pipelineId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Start Approval (Pipeline Governance)",
+        "display_name_source": "summary",
+        "description": "Initiate the approval process for a specific pipeline within a given object type.",
+        "learn_more": "Initiate the approval process for a specific pipeline within a given object type. This endpoint is useful for triggering approval workflows that are associated with pipeline stages, ensuring that the necessary approvals are obtained before proceeding with further actions in the pipeline.",
+        "operation_id": "post-/crm/pipelines-rules/2026-09-beta/{objectTypeId}/{pipelineId}/approvals/start_/crm/pipelines-rules/2026-09-beta/{objectTypeId}/{pipelineId}/approvals/start",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the object type for which the approval process is being started.",
+                    "required": true
+                },
+                "pipelineId": {
+                    "label": "Pipeline Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the pipeline for which the approval process is being initiated.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

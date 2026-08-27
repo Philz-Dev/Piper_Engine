@@ -1,0 +1,62 @@
+{
+    "name": "patch_crm_objects_2026_03_0_410__id__courses",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/0-410/{courseId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "courseId": "{{DataType=str, Required=True}}",
+        "idProperty": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "properties": "{{DataType=dict, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Course",
+        "display_name_source": "summary",
+        "description": "Perform a partial update of an Object identified by `{courseId}`or optionally a unique property value as specified by the `idProperty`...",
+        "learn_more": "Perform a partial update of an Object identified by `{courseId}`or optionally a unique property value as specified by the `idProperty` query param. `{courseId}` refers to the internal object ID by default, and the `idProperty` query param refers to a property whose values are unique for the object. Provided property values will be overwritten. Read-only and non-existent properties will result in an error. Properties values can be cleared by passing an empty string.",
+        "operation_id": "patch-/crm/objects/2026-03/0-410/{courseId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "courseId": {
+                    "label": "Course Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "idProperty": {
+                    "label": "Id Property",
+                    "input_type": "text",
+                    "description": "The name of a property whose values are unique for this object type",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "group",
+                    "description": "An object containing key-value pairs where each key is a property name and each value is a string representing the property's value.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

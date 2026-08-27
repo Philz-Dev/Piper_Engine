@@ -1,0 +1,80 @@
+{
+    "name": "get_marketing_campaigns_2026_03__id__assets__id__campaigns_public_api",
+    "method": "GET",
+    "url": "https://api.hubapi.com/marketing/campaigns/2026-03/{campaignGuid}/assets/{assetType}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "assetType": "{{DataType=str, Required=True}}",
+        "campaignGuid": "{{DataType=str, Required=True}}",
+        "after": "{{DataType=str, Required=False}}",
+        "endDate": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=str, Required=False}}",
+        "startDate": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Assets (Campaigns Public Api)",
+        "display_name_source": "summary",
+        "description": "This endpoint lists all assets of the campaign by asset type.",
+        "learn_more": "This endpoint lists all assets of the campaign by asset type. The assetType parameter is required, and each request can only fetch assets of a single type.\nAsset metrics can also be fetched along with the assets; they are available only if start and end dates are provided.",
+        "operation_id": "get-/marketing/campaigns/2026-03/{campaignGuid}/assets/{assetType}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "assetType": {
+                    "label": "Asset Type",
+                    "input_type": "text",
+                    "description": "The type of asset to fetch, required\nExample: MARKETING_EVENT",
+                    "required": true
+                },
+                "campaignGuid": {
+                    "label": "Campaign Guid",
+                    "input_type": "text",
+                    "description": "The UUID of the campaign, required\nExample: 9dbec438-53e2-4b28-8c0f-38f56574a6e8",
+                    "required": true
+                },
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "endDate": {
+                    "label": "End Date",
+                    "input_type": "text",
+                    "description": "End date to fetch asset metrics, formatted as YYYY-MM-DD. This date is used to fetch the metrics associated with the assets for a specified period.  If not provided, no asset metrics will be fetched.\nExample: 2024-01-27",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "text",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "startDate": {
+                    "label": "Start Date",
+                    "input_type": "text",
+                    "description": "Start date to fetch asset metrics, formatted as YYYY-MM-DD. This date is used to fetch the metrics associated with the assets for a specified period.  If not provided, no asset metrics will be fetched.\nExample: 2023-01-20",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

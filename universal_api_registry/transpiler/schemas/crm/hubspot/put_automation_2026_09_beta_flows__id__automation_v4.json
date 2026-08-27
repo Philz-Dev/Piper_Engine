@@ -1,0 +1,45 @@
+{
+    "name": "put_automation_2026_09_beta_flows__id__automation_v4",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/automation/2026-09-beta/flows/{flowId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "flowId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Update Existing Automation Flow (Automation V4)",
+        "display_name_source": "summary",
+        "description": "Update an existing automation flow in your HubSpot account.",
+        "learn_more": "Update an existing automation flow in your HubSpot account. This endpoint allows you to modify the properties of a specific flow identified by its flowId. It is useful for making changes to the configuration or behavior of an automation flow.",
+        "operation_id": "put-/automation/2026-09-beta/flows/{flowId}_/automation/2026-09-beta/flows/{flowId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "flowId": {
+                    "label": "Flow Id",
+                    "input_type": "text",
+                    "description": "The unique identifier for the automation flow to be updated.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

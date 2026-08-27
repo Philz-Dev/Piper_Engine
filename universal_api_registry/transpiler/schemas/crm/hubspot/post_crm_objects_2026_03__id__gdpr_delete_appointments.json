@@ -1,0 +1,62 @@
+{
+    "name": "post_crm_objects_2026_03__id__gdpr_delete_appointments",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/{objectType}/gdpr-delete",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "idProperty": "{{DataType=str, Required=False}}",
+        "objectId": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Gdpr-delete Object (Appointments)",
+        "display_name_source": "summary",
+        "description": "Fully purge an object type and any GDPR related data.",
+        "learn_more": "Fully purge an object type and any GDPR related data",
+        "operation_id": "post-/crm/objects/2026-03/{objectType}/gdpr-delete_/crm/objects/v3/{objectType}/gdpr-delete",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "idProperty": {
+                    "label": "Id Property",
+                    "input_type": "text",
+                    "description": "The name of a property whose values are unique for this object",
+                    "required": false
+                },
+                "objectId": {
+                    "label": "Object Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the object to be fully purged along with any GDPR-related data.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

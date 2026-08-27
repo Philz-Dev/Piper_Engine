@@ -1,0 +1,45 @@
+{
+    "name": "get_webhooks_journal_journal_local_2026_03_earliest_webhooks_journal",
+    "method": "GET",
+    "url": "https://api.hubapi.com/webhooks-journal/journal-local/2026-03/earliest",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "installPortalId": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Earliest (Webhooks Journal)",
+        "display_name_source": "summary",
+        "description": "Retrieve the earliest webhook journal entries for the specified portal.",
+        "learn_more": "Retrieve the earliest webhook journal entries for the specified portal. This endpoint can be used to access the oldest records available in the webhook journal, which may be useful for auditing or historical analysis.",
+        "operation_id": "get-/webhooks-journal/journal-local/2026-03/earliest",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "installPortalId": {
+                    "label": "Install Portal Id",
+                    "input_type": "number",
+                    "description": "The ID of the portal for which to retrieve the earliest webhook journal entries. This parameter is optional and should be an integer.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

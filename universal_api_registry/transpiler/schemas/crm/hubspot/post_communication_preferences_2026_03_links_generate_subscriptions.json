@@ -1,0 +1,76 @@
+{
+    "name": "post_communication_preferences_2026_03_links_generate_subscriptions",
+    "method": "POST",
+    "url": "https://api.hubapi.com/communication-preferences/2026-03/links/generate",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "channel": "{{DataType=str, Required=True}}",
+        "businessUnitId": "{{DataType=int, Default=0, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "language": "{{DataType=str, Required=False}}",
+        "subscriberIdString": "{{DataType=str, Required=True}}",
+        "subscriptionId": "{{DataType=int, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Generate Subscription Links",
+        "display_name_source": "summary",
+        "description": "Generate communication preference links for a subscriber.",
+        "learn_more": "Generate communication preference links for a subscriber. This endpoint allows you to create URLs for managing preferences and unsubscribing, tailored to a specific subscriber. It is useful for integrating communication preference management into your applications.",
+        "operation_id": "post-/communication-preferences/2026-03/links/generate_/communication-preferences/v4/links/generate",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "trigger",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "channel": {
+                    "label": "Channel",
+                    "input_type": "text",
+                    "description": "The communication channel for which the links are generated. Must be 'EMAIL'.",
+                    "required": true
+                },
+                "businessUnitId": {
+                    "label": "Business Unit Id",
+                    "input_type": "number",
+                    "description": "The identifier of the business unit. Defaults to 0 if not specified.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "language": {
+                    "label": "Language",
+                    "input_type": "text",
+                    "description": "The language in which the generated link should be presented, represented as a string.",
+                    "required": false
+                },
+                "subscriberIdString": {
+                    "label": "Subscriber Id String",
+                    "input_type": "text",
+                    "description": "A string representing the unique identifier of the subscriber. This property is required.",
+                    "required": true
+                },
+                "subscriptionId": {
+                    "label": "Subscription Id",
+                    "input_type": "number",
+                    "description": "The unique identifier for the subscription, represented as an integer in int64 format.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

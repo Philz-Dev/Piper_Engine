@@ -1,0 +1,69 @@
+{
+    "name": "patch_conversations_custom_channels_2026_03__id__messages__id__custom_channels",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/conversations/custom-channels/2026-03/{channelId}/messages/{messageId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "channelId": "{{DataType=int, Required=True}}",
+        "messageId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "errorMessage": "{{DataType=str, Required=False}}",
+        "statusType": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Message (Custom Channels)",
+        "display_name_source": "summary",
+        "description": "Update a message's status to indicate if it was successfully sent, failed to send, or was read.",
+        "learn_more": "Update a message's status to indicate if it was successfully sent, failed to send, or was read. For failed messages, this can also include the error message for the failure.",
+        "operation_id": "patch-/conversations/custom-channels/2026-03/{channelId}/messages/{messageId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "channelId": {
+                    "label": "Channel Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "messageId": {
+                    "label": "Message Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "errorMessage": {
+                    "label": "Error Message",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "statusType": {
+                    "label": "Status Type",
+                    "input_type": "text",
+                    "description": "Valid status are SENT, FAILED, and READ",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

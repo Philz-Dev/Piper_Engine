@@ -1,0 +1,83 @@
+{
+    "name": "post_commerce_contracts_2026_09_beta_contracts__id__renewal_quotes_contracts",
+    "method": "POST",
+    "url": "https://api.hubapi.com/commerce/contracts/2026-09-beta/contracts/{contractId}/renewal-quotes",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "contractId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "dealId": "{{DataType=str, Required=False}}",
+        "dealPipeline": "{{DataType=str, Required=False}}",
+        "dealStage": "{{DataType=str, Required=False}}",
+        "name": "{{DataType=str, Required=False}}",
+        "quoteTemplateId": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Renewal Quote (Contracts)",
+        "display_name_source": "summary",
+        "description": "Generate a renewal quote for a specified contract in your HubSpot account.",
+        "learn_more": "Generate a renewal quote for a specified contract in your HubSpot account. This endpoint allows you to create a new renewal quote based on the contract identified by the contractId path parameter. The request must include a quoteTemplateId to specify the template for the renewal quote.",
+        "operation_id": "post-/commerce/contracts/2026-09-beta/contracts/{contractId}/renewal-quotes",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "contractId": {
+                    "label": "Contract Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the contract for which the renewal quote is being created.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "dealId": {
+                    "label": "Deal Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the deal associated with the renewal quote. It is a string.",
+                    "required": false
+                },
+                "dealPipeline": {
+                    "label": "Deal Pipeline",
+                    "input_type": "text",
+                    "description": "The pipeline in which the deal associated with the renewal quote resides. It is a string.",
+                    "required": false
+                },
+                "dealStage": {
+                    "label": "Deal Stage",
+                    "input_type": "text",
+                    "description": "The stage of the deal associated with the renewal quote. It is a string.",
+                    "required": false
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The name of the renewal quote. It is a string.",
+                    "required": false
+                },
+                "quoteTemplateId": {
+                    "label": "Quote Template Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the template used for the renewal quote. This is a required property and is a string.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

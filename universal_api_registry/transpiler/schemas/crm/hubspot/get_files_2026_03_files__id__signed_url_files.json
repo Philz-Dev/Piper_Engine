@@ -1,0 +1,66 @@
+{
+    "name": "get_files_2026_03_files__id__signed_url_files",
+    "method": "GET",
+    "url": "https://api.hubapi.com/files/2026-03/files/{fileId}/signed-url",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "fileId": "{{DataType=str, Required=True}}",
+        "expirationSeconds": "{{DataType=int, Required=False}}",
+        "size": "{{DataType=str, Required=False}}",
+        "upscale": "{{DataType=bool, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Signed URL To Access Private File",
+        "display_name_source": "summary",
+        "description": "Generates signed URL that allows temporary access to a private file.",
+        "learn_more": null,
+        "operation_id": "get-/files/2026-03/files/{fileId}/signed-url_getSignedUrl",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "fileId": {
+                    "label": "File Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "expirationSeconds": {
+                    "label": "Expiration Seconds",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "size": {
+                    "label": "Size",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "upscale": {
+                    "label": "Upscale",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

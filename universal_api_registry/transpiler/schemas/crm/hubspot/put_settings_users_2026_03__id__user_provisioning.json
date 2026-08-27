@@ -1,0 +1,90 @@
+{
+    "name": "put_settings_users_2026_03__id__user_provisioning",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/settings/users/2026-03/{userId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "userId": "{{DataType=str, Required=True}}",
+        "idProperty": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "firstName": "{{DataType=str, Required=False}}",
+        "lastName": "{{DataType=str, Required=False}}",
+        "primaryTeamId": "{{DataType=str, Required=False}}",
+        "roleId": "{{DataType=str, Required=False}}",
+        "secondaryTeamIds": "{{DataType=list, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Modifies User (User Provisioning)",
+        "display_name_source": "summary",
+        "description": "Modifies a user identified by `userId`.",
+        "learn_more": "Modifies a user identified by `userId`. `userId` refers to the user's ID by default, or optionally email as specified by the `IdProperty` query param.",
+        "operation_id": "put-/settings/users/2026-03/{userId}_update",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "userId": {
+                    "label": "User Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "idProperty": {
+                    "label": "Id Property",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "firstName": {
+                    "label": "First Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "lastName": {
+                    "label": "Last Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "primaryTeamId": {
+                    "label": "Primary Team Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "roleId": {
+                    "label": "Role Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "secondaryTeamIds": {
+                    "label": "Secondary Team Ids",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

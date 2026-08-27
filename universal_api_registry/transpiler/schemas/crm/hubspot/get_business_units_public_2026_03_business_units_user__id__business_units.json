@@ -1,0 +1,59 @@
+{
+    "name": "get_business_units_public_2026_03_business_units_user__id__business_units",
+    "method": "GET",
+    "url": "https://api.hubapi.com/business-units/public/2026-03/business-units/user/{userId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "userId": "{{DataType=str, Required=True}}",
+        "name": "{{DataType=list, Required=False}}",
+        "properties": "{{DataType=list, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Brands By Associated User (Business Units)",
+        "display_name_source": "summary",
+        "description": "Retrieve the brands that a specific user can access.",
+        "learn_more": null,
+        "operation_id": "get-/business-units/public/2026-03/business-units/user/{userId}_getByUserID",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "userId": {
+                    "label": "User Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

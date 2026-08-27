@@ -1,0 +1,66 @@
+{
+    "name": "get_marketing_forms_2026_09_beta_forms",
+    "method": "GET",
+    "url": "https://api.hubapi.com/marketing/forms/2026-09-beta",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "archived": "{{DataType=bool, Required=False}}",
+        "formTypes": "{{DataType=list, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Beta (Forms)",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "get-/marketing/forms/2026-09-beta_/marketing/forms/2026-09-beta",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "formTypes": {
+                    "label": "Form Types",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,59 @@
+{
+    "name": "get_media_bridge_2026_03__id__properties__id__groups__id__media_bridge",
+    "method": "GET",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/{appId}/properties/{objectType}/groups/{groupName}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "groupName": "{{DataType=str, Required=True}}",
+        "objectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Group (Media Bridge)",
+        "display_name_source": "summary",
+        "description": "Retrieve a specific property group for a given object type within an app.",
+        "learn_more": "Retrieve a specific property group for a given object type within an app. This endpoint is useful for accessing detailed information about how properties are grouped under a specific group name for a particular object type in your application.",
+        "operation_id": "get-/media-bridge/2026-03/{appId}/properties/{objectType}/groups/{groupName}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the app associated with the property group.",
+                    "required": true
+                },
+                "groupName": {
+                    "label": "Group Name",
+                    "input_type": "text",
+                    "description": "The name of the property group to retrieve.",
+                    "required": true
+                },
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "The type of object for which the property group is being retrieved.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

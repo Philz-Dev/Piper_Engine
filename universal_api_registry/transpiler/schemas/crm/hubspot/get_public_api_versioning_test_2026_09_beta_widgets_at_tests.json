@@ -1,0 +1,38 @@
+{
+    "name": "get_public_api_versioning_test_2026_09_beta_widgets_at_tests",
+    "method": "GET",
+    "url": "https://private.hubapi.com/public/api/versioning/test/2026-09-beta/widgets",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Widgets (At Tests)",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of widgets available in the PublicApiVersioningTestService.",
+        "learn_more": "Retrieve a list of widgets available in the PublicApiVersioningTestService. This endpoint is useful for obtaining an overview of all widgets currently accessible through the API. It requires appropriate authentication and authorization to access the data.",
+        "operation_id": "get-/public/api/versioning/test/2026-09-beta/widgets",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

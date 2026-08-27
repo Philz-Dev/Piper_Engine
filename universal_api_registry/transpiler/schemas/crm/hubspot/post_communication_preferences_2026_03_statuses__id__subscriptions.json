@@ -1,0 +1,83 @@
+{
+    "name": "post_communication_preferences_2026_03_statuses__id__subscriptions",
+    "method": "POST",
+    "url": "https://api.hubapi.com/communication-preferences/2026-03/statuses/{subscriberIdString}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "subscriberIdString": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "channel": "{{DataType=str, Required=True}}",
+        "legalBasis": "{{DataType=str, Required=False}}",
+        "legalBasisExplanation": "{{DataType=str, Required=False}}",
+        "statusState": "{{DataType=str, Required=True}}",
+        "subscriptionId": "{{DataType=int, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Contact's Subscription Status",
+        "display_name_source": "summary",
+        "description": "Set the subscription status of a specific contact.",
+        "learn_more": null,
+        "operation_id": "post-/communication-preferences/2026-03/statuses/{subscriberIdString}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "trigger",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "subscriberIdString": {
+                    "label": "Subscriber Id String",
+                    "input_type": "text",
+                    "description": "The unique identifier of the subscriber whose communication preferences status is being updated.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "channel": {
+                    "label": "Channel",
+                    "input_type": "text",
+                    "description": "The type of communication channel, with 'EMAIL' as the only supported option.",
+                    "required": true
+                },
+                "legalBasis": {
+                    "label": "Legal Basis",
+                    "input_type": "text",
+                    "description": "The legal basis for communication, with options including 'LEGITIMATE_INTEREST_PQL', 'LEGITIMATE_INTEREST_CLIENT', 'PERFORMANCE_OF_CONTRACT', 'CONSENT_WITH_NOTICE', 'NON_GDPR', 'PROCESS_AND_STORE', and 'LEGITIMATE_INTEREST_OTHER'.",
+                    "required": false
+                },
+                "legalBasisExplanation": {
+                    "label": "Legal Basis Explanation",
+                    "input_type": "text",
+                    "description": "An explanation for the legal basis used for communication.",
+                    "required": false
+                },
+                "statusState": {
+                    "label": "Status State",
+                    "input_type": "text",
+                    "description": "The current subscription status of the contact, which can be 'SUBSCRIBED', 'UNSUBSCRIBED', or 'NOT_SPECIFIED'.",
+                    "required": true
+                },
+                "subscriptionId": {
+                    "label": "Subscription Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the subscription to be updated.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

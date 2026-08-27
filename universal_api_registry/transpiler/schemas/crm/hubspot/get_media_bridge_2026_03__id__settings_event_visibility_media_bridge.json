@@ -1,0 +1,45 @@
+{
+    "name": "get_media_bridge_2026_03__id__settings_event_visibility_media_bridge",
+    "method": "GET",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/{appId}/settings/event-visibility",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Settings (Media Bridge)",
+        "display_name_source": "summary",
+        "description": "Retrieve the event visibility settings for a specific app in the MediaBridge service.",
+        "learn_more": "Retrieve the event visibility settings for a specific app in the MediaBridge service. This endpoint provides information on how events are visible within the specified application context.",
+        "operation_id": "get-/media-bridge/2026-03/{appId}/settings/event-visibility",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the app for which to retrieve event visibility settings.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

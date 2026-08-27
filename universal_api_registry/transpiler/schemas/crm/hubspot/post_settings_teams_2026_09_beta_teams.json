@@ -1,0 +1,62 @@
+{
+    "name": "post_settings_teams_2026_09_beta_teams",
+    "method": "POST",
+    "url": "https://api.hubapi.com/settings/teams/2026-09-beta",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "members": "{{DataType=list, Required=True}}",
+        "name": "{{DataType=str, Required=True}}",
+        "parentTeamId": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Create Team",
+        "display_name_source": "summary",
+        "description": "Create a new team in your HubSpot account.",
+        "learn_more": "Create a new team in your HubSpot account. This endpoint allows you to define the team's name, parent team, and members. The request body must include the team's name and members. Upon successful creation, the response will include the URL of the newly created team resource.",
+        "operation_id": "post-/settings/teams/2026-09-beta",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "members": {
+                    "label": "Members",
+                    "input_type": "tags",
+                    "description": "An array of team members to be assigned to the new team. Each member is represented by a TeamMemberAssignment object. This is a required field.",
+                    "required": true
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The name of the team to be created. This is a required field and must be a string.",
+                    "required": true
+                },
+                "parentTeamId": {
+                    "label": "Parent Team Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the parent team, if the new team is a sub-team. This is an optional field and must be a string if provided.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "name": "post_marketing_emails_2026_03__id__revisions__id__restore_to_draft_mark_0c7d9458",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/emails/2026-03/{emailId}/revisions/{revisionId}/restore-to-draft",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "emailId": "{{DataType=str, Required=True}}",
+        "revisionId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Restore Revision Of Marketing Email To DRAFT State",
+        "display_name_source": "summary",
+        "description": "Restores a previous revision of a marketing email to DRAFT state.",
+        "learn_more": "Restores a previous revision of a marketing email to DRAFT state. If there is currently something in the draft for that object, it is overwritten. ",
+        "operation_id": "post-/marketing/emails/2026-03/{emailId}/revisions/{revisionId}/restore-to-draft_restoreDraftRevision",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "emailId": {
+                    "label": "Email Id",
+                    "input_type": "text",
+                    "description": "The marketing email ID.",
+                    "required": true
+                },
+                "revisionId": {
+                    "label": "Revision Id",
+                    "input_type": "number",
+                    "description": "The ID of a revision.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

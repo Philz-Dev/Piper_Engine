@@ -1,0 +1,167 @@
+{
+    "name": "patch_media_bridge_2026_03__id__properties__id___id__media_bridge",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/{appId}/properties/{objectType}/{propertyName}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "propertyName": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "calculationFormula": "{{DataType=str, Required=False}}",
+        "currencyPropertyName": "{{DataType=str, Required=False}}",
+        "description": "{{DataType=str, Required=False}}",
+        "displayOrder": "{{DataType=int, Required=False}}",
+        "fieldType": "{{DataType=str, Required=False}}",
+        "formField": "{{DataType=bool, Required=False}}",
+        "groupName": "{{DataType=str, Required=False}}",
+        "hasUniqueValue": "{{DataType=bool, Required=False}}",
+        "hidden": "{{DataType=bool, Required=False}}",
+        "label": "{{DataType=str, Required=False}}",
+        "numberDisplayHint": "{{DataType=str, Required=False}}",
+        "options": "{{DataType=list, Required=False}}",
+        "showCurrencySymbol": "{{DataType=bool, Required=False}}",
+        "textDisplayHint": "{{DataType=str, Required=False}}",
+        "type": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Update Property (Media Bridge)",
+        "display_name_source": "summary",
+        "description": "Update an existing property for a specified object type within a given app.",
+        "learn_more": "Update an existing property for a specified object type within a given app. This operation allows you to modify the details of a property, such as its label, type, or description, to better fit your application's requirements.",
+        "operation_id": "patch-/media-bridge/2026-03/{appId}/properties/{objectType}/{propertyName}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the app in which the property exists.",
+                    "required": true
+                },
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "The type of object that the property belongs to, such as a contact or deal.",
+                    "required": true
+                },
+                "propertyName": {
+                    "label": "Property Name",
+                    "input_type": "text",
+                    "description": "The name of the property to be updated.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "calculationFormula": {
+                    "label": "Calculation Formula",
+                    "input_type": "text",
+                    "description": "A string representing the formula used for calculating the property's value.",
+                    "required": false
+                },
+                "currencyPropertyName": {
+                    "label": "Currency Property Name",
+                    "input_type": "text",
+                    "description": "A string representing the name of the currency property associated with this property.",
+                    "required": false
+                },
+                "description": {
+                    "label": "Description",
+                    "input_type": "text",
+                    "description": "A string providing a description of the property.",
+                    "required": false
+                },
+                "displayOrder": {
+                    "label": "Display Order",
+                    "input_type": "number",
+                    "description": "An integer indicating the display order of the property.",
+                    "required": false
+                },
+                "fieldType": {
+                    "label": "Field Type",
+                    "input_type": "text",
+                    "description": "A string specifying the field type of the property. Valid values include 'booleancheckbox', 'calculation_equation', 'checkbox', 'date', 'file', 'html', 'number', 'phonenumber', 'radio', 'select', 'text', and 'textarea'.",
+                    "required": false
+                },
+                "formField": {
+                    "label": "Form Field",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the property is a form field.",
+                    "required": false
+                },
+                "groupName": {
+                    "label": "Group Name",
+                    "input_type": "text",
+                    "description": "A string representing the name of the group to which the property belongs.",
+                    "required": false
+                },
+                "hasUniqueValue": {
+                    "label": "Has Unique Value",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the property has a unique value.",
+                    "required": false
+                },
+                "hidden": {
+                    "label": "Hidden",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the property is hidden.",
+                    "required": false
+                },
+                "label": {
+                    "label": "Label",
+                    "input_type": "text",
+                    "description": "A string representing the display label for the property.",
+                    "required": false
+                },
+                "numberDisplayHint": {
+                    "label": "Number Display Hint",
+                    "input_type": "text",
+                    "description": "A string providing a hint on how to display numbers. Valid values include 'unformatted', 'formatted', 'currency', 'percentage', 'duration', and 'probability'.",
+                    "required": false
+                },
+                "options": {
+                    "label": "Options",
+                    "input_type": "tags",
+                    "description": "An array of OptionInput objects representing the options available for the property.",
+                    "required": false
+                },
+                "showCurrencySymbol": {
+                    "label": "Show Currency Symbol",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether to show the currency symbol for the property.",
+                    "required": false
+                },
+                "textDisplayHint": {
+                    "label": "Text Display Hint",
+                    "input_type": "text",
+                    "description": "A string providing a hint on how to display text. Valid values include 'unformatted_single_line', 'multi_line', 'email', 'phone_number', 'domain_name', 'ip_address', 'physical_address', and 'postal_code'.",
+                    "required": false
+                },
+                "type": {
+                    "label": "Type",
+                    "input_type": "text",
+                    "description": "A string indicating the data type of the property. Valid values include 'bool', 'date', 'datetime', 'enumeration', 'number', 'phone_number', and 'string'.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

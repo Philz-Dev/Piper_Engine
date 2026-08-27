@@ -1,0 +1,83 @@
+{
+    "name": "post_conversations_custom_channels_2026_03_custom_channels",
+    "method": "POST",
+    "url": "https://api.hubapi.com/conversations/custom-channels/2026-03",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "capabilities": "{{DataType=dict, Required=True}}",
+        "channelAccountConnectionRedirectUrl": "{{DataType=str, Required=False}}",
+        "channelDescription": "{{DataType=str, Required=False}}",
+        "channelLogoUrl": "{{DataType=str, Required=False}}",
+        "name": "{{DataType=str, Required=True}}",
+        "webhookUrl": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Create Custom Channel",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "post-/conversations/custom-channels/2026-03_/conversations/custom-channels/v3",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "capabilities": {
+                    "label": "Capabilities",
+                    "input_type": "group",
+                    "description": "",
+                    "required": true
+                },
+                "channelAccountConnectionRedirectUrl": {
+                    "label": "Channel Account Connection Redirect Url",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "channelDescription": {
+                    "label": "Channel Description",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "channelLogoUrl": {
+                    "label": "Channel Logo Url",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "webhookUrl": {
+                    "label": "Webhook Url",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

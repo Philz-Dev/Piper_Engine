@@ -1,0 +1,111 @@
+{
+    "name": "post_cms_url_redirects_2026_03_url_redirects",
+    "method": "POST",
+    "url": "https://api.hubapi.com/cms/url-redirects/2026-03",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "destination": "{{DataType=str, Required=True}}",
+        "isMatchFullUrl": "{{DataType=bool, Required=False}}",
+        "isMatchQueryString": "{{DataType=bool, Required=False}}",
+        "isOnlyAfterNotFound": "{{DataType=bool, Required=False}}",
+        "isPattern": "{{DataType=bool, Required=False}}",
+        "isProtocolAgnostic": "{{DataType=bool, Required=False}}",
+        "isTrailingSlashOptional": "{{DataType=bool, Required=False}}",
+        "precedence": "{{DataType=int, Required=False}}",
+        "redirectStyle": "{{DataType=int, Required=True}}",
+        "routePrefix": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Url Redirect",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "post-/cms/url-redirects/2026-03_/cms/url-redirects/v3",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "destination": {
+                    "label": "Destination",
+                    "input_type": "text",
+                    "description": "The destination URL, where the target URL should be redirected if it matches the `routePrefix`.",
+                    "required": true
+                },
+                "isMatchFullUrl": {
+                    "label": "Is Match Full Url",
+                    "input_type": "checkbox",
+                    "description": "Whether the `routePrefix` should match on the entire URL, including the domain.",
+                    "required": false
+                },
+                "isMatchQueryString": {
+                    "label": "Is Match Query String",
+                    "input_type": "checkbox",
+                    "description": "Whether the `routePrefix` should match on the entire URL path, including the query string.",
+                    "required": false
+                },
+                "isOnlyAfterNotFound": {
+                    "label": "Is Only After Not Found",
+                    "input_type": "checkbox",
+                    "description": "Whether the URL redirect mapping should apply only if a live page on the URL isn't found. If False, the URL redirect mapping will take precedence over any existing page.",
+                    "required": false
+                },
+                "isPattern": {
+                    "label": "Is Pattern",
+                    "input_type": "checkbox",
+                    "description": "Whether the `routePrefix` should match based on pattern.",
+                    "required": false
+                },
+                "isProtocolAgnostic": {
+                    "label": "Is Protocol Agnostic",
+                    "input_type": "checkbox",
+                    "description": "Whether the `routePrefix` should match both HTTP and HTTPS protocols.",
+                    "required": false
+                },
+                "isTrailingSlashOptional": {
+                    "label": "Is Trailing Slash Optional",
+                    "input_type": "checkbox",
+                    "description": "Whether a trailing slash will be ignored.",
+                    "required": false
+                },
+                "precedence": {
+                    "label": "Precedence",
+                    "input_type": "number",
+                    "description": "Used to prioritize URL redirection. If a given URL matches more than one redirect, the one with the **lower** precedence will be used.",
+                    "required": false
+                },
+                "redirectStyle": {
+                    "label": "Redirect Style",
+                    "input_type": "number",
+                    "description": "The type of redirect to create. Options include: 301 (permanent), 302 (temporary), or 305 (proxy). Find more details [here](https://knowledge.hubspot.com/cos-general/how-to-redirect-a-hubspot-page).",
+                    "required": true
+                },
+                "routePrefix": {
+                    "label": "Route Prefix",
+                    "input_type": "text",
+                    "description": "The target incoming URL, path, or pattern to match for redirection.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "name": "post_marketing_transactional_2026_03_smtp_tokens_transactional_single_send",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/transactional/2026-03/smtp-tokens",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "campaignName": "{{DataType=str, Required=True}}",
+        "createContact": "{{DataType=bool, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create SMTP API Token (Transactional Single Send)",
+        "display_name_source": "summary",
+        "description": "Create a SMTP API token.",
+        "learn_more": null,
+        "operation_id": "post-/marketing/transactional/2026-03/smtp-tokens_createToken",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "campaignName": {
+                    "label": "Campaign Name",
+                    "input_type": "text",
+                    "description": "A name for the campaign tied to the SMTP API token.",
+                    "required": true
+                },
+                "createContact": {
+                    "label": "Create Contact",
+                    "input_type": "checkbox",
+                    "description": "Indicates whether a contact should be created for email recipients.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

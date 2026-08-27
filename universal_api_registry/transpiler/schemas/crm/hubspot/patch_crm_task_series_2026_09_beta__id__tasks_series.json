@@ -1,0 +1,86 @@
+{
+    "name": "patch_crm_task_series_2026_09_beta__id__tasks_series",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/crm/task-series/2026-09-beta/{taskId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "taskId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "properties": "{{DataType=dict, Required=False}}",
+        "series": {
+            "repeatInterval": "{{DataType=str, Required=False}}",
+            "repeatStatus": "{{DataType=str, Required=False}}",
+            "startsAt": "{{DataType=str, Required=False}}"
+        }
+    },
+    "metadata": {
+        "display_name": "Update Task Series (Tasks Series)",
+        "display_name_source": "summary",
+        "description": "Update the details of a specific task series in your HubSpot account.",
+        "learn_more": "Update the details of a specific task series in your HubSpot account. This endpoint allows you to modify properties and series configurations for the task identified by the taskId. Use this to adjust task scheduling or update task-related information.",
+        "operation_id": "patch-/crm/task-series/2026-09-beta/{taskId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "taskId": {
+                    "label": "Task Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the task series to update.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "group",
+                    "description": "A map of additional property names to their values, represented as key-value pairs where both keys and values are strings.",
+                    "required": false
+                },
+                "series": {
+                    "label": "Series",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "repeatInterval": {
+                            "label": "Repeat Interval",
+                            "input_type": "text",
+                            "description": "The recurrence schedule as a standards-compliant RFC-5545 RRULE string.",
+                            "required": false
+                        },
+                        "repeatStatus": {
+                            "label": "Repeat Status",
+                            "input_type": "text",
+                            "description": "A string representing the current status of the task series repetition.",
+                            "required": false
+                        },
+                        "startsAt": {
+                            "label": "Starts At",
+                            "input_type": "text",
+                            "description": "The date and time when the task series is scheduled to start, in ISO 8601 format.",
+                            "required": false
+                        }
+                    }
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

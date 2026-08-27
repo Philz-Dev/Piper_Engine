@@ -1,0 +1,14 @@
+{
+    "name": "hubspot",
+    "display_name": "Hubspot",
+    "description": "Basepom for all HubSpot Projects",
+    "version": "2026-03",
+    "category": "crm",
+    "base_url": "https://api.hubapi.com",
+    "favicon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+    "favicon_local_path": "hubspot_favicon.svg",
+    "logo_background_color": "#ff7a59",
+    "source": "transpiled_official",
+    "last_updated": "2026-08-23T07:46:45Z",
+    "first_created": "2026-08-23T07:46:45Z"
+}

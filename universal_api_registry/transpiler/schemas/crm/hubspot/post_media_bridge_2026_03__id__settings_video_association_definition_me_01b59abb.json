@@ -1,0 +1,45 @@
+{
+    "name": "post_media_bridge_2026_03__id__settings_video_association_definition_me_01b59abb",
+    "method": "POST",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/{appId}/settings/video-association-definition",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Define Video Association (Media Bridge)",
+        "display_name_source": "summary",
+        "description": "Create a video association definition for a specific application in the HubSpot Media Bridge.",
+        "learn_more": "Create a video association definition for a specific application in the HubSpot Media Bridge. This endpoint is used to define how videos are associated with other objects within the specified app. It is particularly useful for applications that need to manage video content and its relationships programmatically.",
+        "operation_id": "post-/media-bridge/2026-03/{appId}/settings/video-association-definition_/media-bridge/v1/{appId}/settings/video-association-definition",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the application for which the video association definition is being created. It is an integer value.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

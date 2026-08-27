@@ -1,0 +1,83 @@
+{
+    "name": "post_crm_objects_2026_09_beta__id__batch_read_price_book_items_crm_reads_api",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2026-09-beta/{objectType}/batch/read",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "archived": "{{DataType=bool, Default=false, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "idProperty": "{{DataType=str, Required=False}}",
+        "inputs": "{{DataType=list, Required=True}}",
+        "properties": "{{DataType=list, Required=True}}",
+        "propertiesWithHistory": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Batch Of Price Book Items (Price Book Items Crm Reads Api)",
+        "display_name_source": "summary",
+        "description": "Retrieve a batch of CRM objects by their internal IDs or unique property values.",
+        "learn_more": "Retrieve a batch of CRM objects by their internal IDs or unique property values. This endpoint is useful for fetching multiple objects in a single request, allowing for efficient data retrieval. You can specify whether to include archived objects in the results.",
+        "operation_id": "post-/crm/objects/2026-09-beta/{objectType}/batch/read",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "The type of CRM object to read in batch, such as contacts, companies, or deals.",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived. Defaults to false.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "idProperty": {
+                    "label": "Id Property",
+                    "input_type": "text",
+                    "description": "A string representing the name of a property whose values are unique for this object type. This property is used to identify objects uniquely.",
+                    "required": false
+                },
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "An array of SimplePublicObjectId objects, each containing an 'id' field that specifies the internal ID of an object to be read.",
+                    "required": true
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "An array of strings representing the properties to be returned for each object. If a specified property is not present on the requested object(s), it will be ignored.",
+                    "required": true
+                },
+                "propertiesWithHistory": {
+                    "label": "Properties With History",
+                    "input_type": "tags",
+                    "description": "An array of strings representing the properties to be returned along with their history of previous values. If a specified property is not present on the requested object(s), it will be ignored.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

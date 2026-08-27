@@ -1,0 +1,59 @@
+{
+    "name": "delete_media_bridge_2026_03__id__schemas__id__associations__id__media_bridge",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/{appId}/schemas/{objectType}/associations/{associationId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "associationId": "{{DataType=str, Required=True}}",
+        "objectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Association (Media Bridge)",
+        "display_name_source": "summary",
+        "description": "Remove an existing association between schemas for a specified app in the MediaBridge service.",
+        "learn_more": "Remove an existing association between schemas for a specified app in the MediaBridge service. This operation is useful when you need to disassociate entities that are no longer related or to clean up outdated associations.",
+        "operation_id": "delete-/media-bridge/2026-03/{appId}/schemas/{objectType}/associations/{associationId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the app within which the association exists.",
+                    "required": true
+                },
+                "associationId": {
+                    "label": "Association Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the association to delete.",
+                    "required": true
+                },
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "The type of object schema from which the association is being removed.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

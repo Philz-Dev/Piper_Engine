@@ -1,0 +1,69 @@
+{
+    "name": "post_crm_properties_2026_03__id__groups_properties",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/properties/2026-03/{objectType}/groups",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "displayOrder": "{{DataType=int, Required=False}}",
+        "label": "{{DataType=str, Required=True}}",
+        "name": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Property Group",
+        "display_name_source": "summary",
+        "description": "Create and return a copy of a new property group.",
+        "learn_more": null,
+        "operation_id": "post-/crm/properties/2026-03/{objectType}/groups_/crm/properties/2025-09/{objectType}/groups",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "displayOrder": {
+                    "label": "Display Order",
+                    "input_type": "number",
+                    "description": "Property groups are displayed in order starting with the lowest positive integer value. Values of -1 will cause the property group to be displayed after any positive values.",
+                    "required": false
+                },
+                "label": {
+                    "label": "Label",
+                    "input_type": "text",
+                    "description": "A human-readable label that will be shown in HubSpot.",
+                    "required": true
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The internal property group name, which must be used when referencing the property group via the API.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

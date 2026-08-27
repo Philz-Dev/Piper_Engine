@@ -1,0 +1,26 @@
+# stretis-transpiler
+
+CLI + library for turning a public OpenAPI/Discovery/GraphQL spec into the stretis schema DSL, on demand, locally.
+
+## Install
+
+```bash
+pip install stretis-transpiler
+```
+
+## Usage
+
+```bash
+stretis transpile                    # every app in the manifest
+stretis transpile stripe asana       # just these apps
+stretis transpile --check-drift      # refuse to apply breaking changes
+stretis transpile --check-drift --smoke_test     # cross-check every generated  api schema for authenticity
+without review
+stretis manifest show                # see which manifest is active
+stretis manifest update              # explicit refresh — never automatic
+stretis manifest reset               # back to the bundled default
+```
+
+## License
+
+Apache-2.0

@@ -1,0 +1,66 @@
+{
+    "name": "get_media_bridge_2026_03__id__properties__id__media_bridge",
+    "method": "GET",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/{appId}/properties/{objectType}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "archived": "{{DataType=bool, Default=false, Required=False}}",
+        "properties": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Properties (Media Bridge)",
+        "display_name_source": "summary",
+        "description": "Retrieve properties for a specified object type within a given app.",
+        "learn_more": "Retrieve properties for a specified object type within a given app. This endpoint allows you to filter properties based on whether they are archived and to specify which properties to include in the response. It is useful for accessing and managing the properties associated with different object types in your application.",
+        "operation_id": "get-/media-bridge/2026-03/{appId}/properties/{objectType}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the app associated with the properties.",
+                    "required": true
+                },
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "The type of object for which properties are being retrieved.",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived. Defaults to false.",
+                    "required": false
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "text",
+                    "description": "A comma-separated list of property names to include in the response.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "name": "post_crm_extensions_calling_2026_03_recordings_ready_calling_extensions",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/extensions/calling/2026-03/recordings/ready",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "engagementId": "{{DataType=int, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Mark Call Recording As Ready For Retrieval (Calling Extensions)",
+        "display_name_source": "summary",
+        "description": "This endpoint is used to mark a call recording as ready.",
+        "learn_more": "This endpoint is used to mark a call recording as ready. It requires the engagementId to identify the specific recording.",
+        "operation_id": "post-/crm/extensions/calling/2026-03/recordings/ready_markAsReady",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "engagementId": {
+                    "label": "Engagement Id",
+                    "input_type": "number",
+                    "description": "The unique identifier for the engagement associated with the call recording.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

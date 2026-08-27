@@ -1,0 +1,1044 @@
+{
+    "name": "patch_marketing_emails_2026_03__id__marketing_emails",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/marketing/emails/2026-03/{emailId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "emailId": "{{DataType=str, Required=True}}",
+        "archived": "{{DataType=bool, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "activeDomain": "{{DataType=str, Required=False}}",
+        "archived": "{{DataType=bool, Required=False}}",
+        "businessUnitId": "{{DataType=int, Required=False}}",
+        "campaign": "{{DataType=str, Required=False}}",
+        "content": {
+            "flexAreas": "{{DataType=dict, Required=False}}",
+            "plainTextVersion": "{{DataType=str, Required=False}}",
+            "smartFields": "{{DataType=dict, Required=False}}",
+            "styleSettings": {
+                "backgroundColor": "{{DataType=str, Required=False}}",
+                "backgroundImage": "{{DataType=str, Required=False}}",
+                "backgroundImageType": "{{DataType=str, Required=False}}",
+                "bodyBorderColor": "{{DataType=str, Required=False}}",
+                "bodyBorderColorChoice": "{{DataType=str, Required=False}}",
+                "bodyBorderWidth": "{{DataType=float, Required=False}}",
+                "bodyColor": "{{DataType=str, Required=False}}",
+                "buttonStyleSettings": {
+                    "backgroundColor": "{{DataType=dict, Required=False}}",
+                    "cornerRadius": "{{DataType=int, Required=False}}",
+                    "fontStyle": {
+                        "bold": "{{DataType=bool, Required=False}}",
+                        "color": "{{DataType=str, Required=False}}",
+                        "font": "{{DataType=str, Required=False}}",
+                        "italic": "{{DataType=bool, Required=False}}",
+                        "size": "{{DataType=int, Required=False}}",
+                        "underline": "{{DataType=bool, Required=False}}"
+                    }
+                },
+                "colorPickerFavorite1": "{{DataType=str, Required=False}}",
+                "colorPickerFavorite2": "{{DataType=str, Required=False}}",
+                "colorPickerFavorite3": "{{DataType=str, Required=False}}",
+                "colorPickerFavorite4": "{{DataType=str, Required=False}}",
+                "colorPickerFavorite5": "{{DataType=str, Required=False}}",
+                "colorPickerFavorite6": "{{DataType=str, Required=False}}",
+                "dividerStyleSettings": {
+                    "color": "{{DataType=dict, Required=False}}",
+                    "height": "{{DataType=int, Required=False}}",
+                    "lineType": "{{DataType=str, Required=False}}"
+                },
+                "emailBodyPadding": "{{DataType=str, Required=False}}",
+                "emailBodyWidth": "{{DataType=str, Required=False}}",
+                "headingOneFont": {
+                    "bold": "{{DataType=bool, Required=False}}",
+                    "color": "{{DataType=str, Required=False}}",
+                    "font": "{{DataType=str, Required=False}}",
+                    "italic": "{{DataType=bool, Required=False}}",
+                    "size": "{{DataType=int, Required=False}}",
+                    "underline": "{{DataType=bool, Required=False}}"
+                },
+                "headingTwoFont": {
+                    "bold": "{{DataType=bool, Required=False}}",
+                    "color": "{{DataType=str, Required=False}}",
+                    "font": "{{DataType=str, Required=False}}",
+                    "italic": "{{DataType=bool, Required=False}}",
+                    "size": "{{DataType=int, Required=False}}",
+                    "underline": "{{DataType=bool, Required=False}}"
+                },
+                "linksFont": {
+                    "bold": "{{DataType=bool, Required=False}}",
+                    "color": "{{DataType=str, Required=False}}",
+                    "font": "{{DataType=str, Required=False}}",
+                    "italic": "{{DataType=bool, Required=False}}",
+                    "size": "{{DataType=int, Required=False}}",
+                    "underline": "{{DataType=bool, Required=False}}"
+                },
+                "primaryAccentColor": "{{DataType=str, Required=False}}",
+                "primaryFont": "{{DataType=str, Required=False}}",
+                "primaryFontColor": "{{DataType=str, Required=False}}",
+                "primaryFontLineHeight": "{{DataType=str, Required=False}}",
+                "primaryFontSize": "{{DataType=float, Required=False}}",
+                "secondaryAccentColor": "{{DataType=str, Required=False}}",
+                "secondaryFont": "{{DataType=str, Required=False}}",
+                "secondaryFontColor": "{{DataType=str, Required=False}}",
+                "secondaryFontLineHeight": "{{DataType=str, Required=False}}",
+                "secondaryFontSize": "{{DataType=float, Required=False}}"
+            },
+            "templatePath": "{{DataType=str, Required=False}}",
+            "themeSettingsValues": "{{DataType=dict, Required=False}}",
+            "widgetContainers": "{{DataType=dict, Required=False}}",
+            "widgets": "{{DataType=dict, Required=False}}"
+        },
+        "folderIdV2": "{{DataType=int, Required=False}}",
+        "from": {
+            "customReplyTo": "{{DataType=str, Required=False}}",
+            "fromName": "{{DataType=str, Required=False}}",
+            "replyTo": "{{DataType=str, Required=False}}"
+        },
+        "jitterSendTime": "{{DataType=bool, Required=False}}",
+        "language": "{{DataType=str, Required=False}}",
+        "name": "{{DataType=str, Required=False}}",
+        "publishDate": "{{DataType=str, Required=False}}",
+        "rssData": {
+            "blogEmailType": "{{DataType=str, Required=False}}",
+            "blogImageMaxWidth": "{{DataType=int, Required=False}}",
+            "blogLayout": "{{DataType=str, Required=False}}",
+            "hubspotBlogId": "{{DataType=str, Required=False}}",
+            "maxEntries": "{{DataType=int, Required=False}}",
+            "rssEntryTemplate": "{{DataType=str, Required=False}}",
+            "timing": "{{DataType=dict, Required=False}}",
+            "url": "{{DataType=str, Required=False}}",
+            "useHeadlineAsSubject": "{{DataType=bool, Required=False}}"
+        },
+        "sendOnPublish": "{{DataType=bool, Required=False}}",
+        "state": "{{DataType=str, Required=False}}",
+        "subcategory": "{{DataType=str, Required=False}}",
+        "subject": "{{DataType=str, Required=False}}",
+        "subscriptionDetails": {
+            "officeLocationId": "{{DataType=str, Required=False}}",
+            "preferencesGroupId": "{{DataType=str, Required=False}}",
+            "subscriptionId": "{{DataType=str, Required=False}}",
+            "subscriptionName": "{{DataType=str, Required=False}}"
+        },
+        "testing": {
+            "abSampleSizeDefault": "{{DataType=str, Required=False}}",
+            "abSamplingDefault": "{{DataType=str, Required=False}}",
+            "abStatus": "{{DataType=str, Required=False}}",
+            "abSuccessMetric": "{{DataType=str, Required=False}}",
+            "abTestPercentage": "{{DataType=int, Required=False}}",
+            "hoursToWait": "{{DataType=int, Required=False}}",
+            "isAbVariation": "{{DataType=bool, Required=True}}",
+            "testId": "{{DataType=str, Required=False}}"
+        },
+        "to": {
+            "contactIds": {
+                "exclude": "{{DataType=list, Required=False}}",
+                "include": "{{DataType=list, Required=False}}"
+            },
+            "contactIlsLists": {
+                "exclude": "{{DataType=list, Required=False}}",
+                "include": "{{DataType=list, Required=False}}"
+            },
+            "contactLists": {
+                "exclude": "{{DataType=list, Required=False}}",
+                "include": "{{DataType=list, Required=False}}"
+            },
+            "limitSendFrequency": "{{DataType=bool, Required=False}}",
+            "suppressGraymail": "{{DataType=bool, Required=False}}"
+        },
+        "webversion": {
+            "domain": "{{DataType=str, Required=False}}",
+            "enabled": "{{DataType=bool, Required=False}}",
+            "expiresAt": "{{DataType=str, Required=False}}",
+            "isPageRedirected": "{{DataType=bool, Required=False}}",
+            "metaDescription": "{{DataType=str, Required=False}}",
+            "pageExpiryEnabled": "{{DataType=bool, Required=False}}",
+            "redirectToPageId": "{{DataType=str, Required=False}}",
+            "redirectToUrl": "{{DataType=str, Required=False}}",
+            "slug": "{{DataType=str, Required=False}}",
+            "title": "{{DataType=str, Required=False}}",
+            "url": "{{DataType=str, Required=False}}"
+        }
+    },
+    "metadata": {
+        "display_name": "Update Marketing Email",
+        "display_name_source": "summary",
+        "description": "Change properties of a marketing email.",
+        "learn_more": null,
+        "operation_id": "patch-/marketing/emails/2026-03/{emailId}_update",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "emailId": {
+                    "label": "Email Id",
+                    "input_type": "text",
+                    "description": "The ID of the marketing email that should get updated",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "activeDomain": {
+                    "label": "Active Domain",
+                    "input_type": "text",
+                    "description": "The active domain of the email.",
+                    "required": false
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Determines if the email is archived or not.",
+                    "required": false
+                },
+                "businessUnitId": {
+                    "label": "Business Unit Id",
+                    "input_type": "number",
+                    "description": "The ID of the business unit associated with the email.",
+                    "required": false
+                },
+                "campaign": {
+                    "label": "Campaign",
+                    "input_type": "text",
+                    "description": "The ID of the campaign this email is associated to.",
+                    "required": false
+                },
+                "content": {
+                    "label": "Content",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "flexAreas": {
+                            "label": "Flex Areas",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false
+                        },
+                        "plainTextVersion": {
+                            "label": "Plain Text Version",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "smartFields": {
+                            "label": "Smart Fields",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false
+                        },
+                        "styleSettings": {
+                            "label": "Style Settings",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false,
+                            "fields": {
+                                "backgroundColor": {
+                                    "label": "Background Color",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "backgroundImage": {
+                                    "label": "Background Image",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "backgroundImageType": {
+                                    "label": "Background Image Type",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "bodyBorderColor": {
+                                    "label": "Body Border Color",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "bodyBorderColorChoice": {
+                                    "label": "Body Border Color Choice",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "bodyBorderWidth": {
+                                    "label": "Body Border Width",
+                                    "input_type": "number",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "bodyColor": {
+                                    "label": "Body Color",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "buttonStyleSettings": {
+                                    "label": "Button Style Settings",
+                                    "input_type": "group",
+                                    "description": "",
+                                    "required": false,
+                                    "fields": {
+                                        "backgroundColor": {
+                                            "label": "Background Color",
+                                            "input_type": "group",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "cornerRadius": {
+                                            "label": "Corner Radius",
+                                            "input_type": "number",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "fontStyle": {
+                                            "label": "Font Style",
+                                            "input_type": "group",
+                                            "description": "",
+                                            "required": false,
+                                            "fields": {
+                                                "bold": {
+                                                    "label": "Bold",
+                                                    "input_type": "checkbox",
+                                                    "description": "",
+                                                    "required": false
+                                                },
+                                                "color": {
+                                                    "label": "Color",
+                                                    "input_type": "text",
+                                                    "description": "",
+                                                    "required": false
+                                                },
+                                                "font": {
+                                                    "label": "Font",
+                                                    "input_type": "text",
+                                                    "description": "",
+                                                    "required": false
+                                                },
+                                                "italic": {
+                                                    "label": "Italic",
+                                                    "input_type": "checkbox",
+                                                    "description": "",
+                                                    "required": false
+                                                },
+                                                "size": {
+                                                    "label": "Size",
+                                                    "input_type": "number",
+                                                    "description": "",
+                                                    "required": false
+                                                },
+                                                "underline": {
+                                                    "label": "Underline",
+                                                    "input_type": "checkbox",
+                                                    "description": "",
+                                                    "required": false
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "colorPickerFavorite1": {
+                                    "label": "Color Picker Favorite1",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "colorPickerFavorite2": {
+                                    "label": "Color Picker Favorite2",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "colorPickerFavorite3": {
+                                    "label": "Color Picker Favorite3",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "colorPickerFavorite4": {
+                                    "label": "Color Picker Favorite4",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "colorPickerFavorite5": {
+                                    "label": "Color Picker Favorite5",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "colorPickerFavorite6": {
+                                    "label": "Color Picker Favorite6",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "dividerStyleSettings": {
+                                    "label": "Divider Style Settings",
+                                    "input_type": "group",
+                                    "description": "",
+                                    "required": false,
+                                    "fields": {
+                                        "color": {
+                                            "label": "Color",
+                                            "input_type": "group",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "height": {
+                                            "label": "Height",
+                                            "input_type": "number",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "lineType": {
+                                            "label": "Line Type",
+                                            "input_type": "text",
+                                            "description": "",
+                                            "required": false
+                                        }
+                                    }
+                                },
+                                "emailBodyPadding": {
+                                    "label": "Email Body Padding",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "emailBodyWidth": {
+                                    "label": "Email Body Width",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "headingOneFont": {
+                                    "label": "Heading One Font",
+                                    "input_type": "group",
+                                    "description": "",
+                                    "required": false,
+                                    "fields": {
+                                        "bold": {
+                                            "label": "Bold",
+                                            "input_type": "checkbox",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "color": {
+                                            "label": "Color",
+                                            "input_type": "text",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "font": {
+                                            "label": "Font",
+                                            "input_type": "text",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "italic": {
+                                            "label": "Italic",
+                                            "input_type": "checkbox",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "size": {
+                                            "label": "Size",
+                                            "input_type": "number",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "underline": {
+                                            "label": "Underline",
+                                            "input_type": "checkbox",
+                                            "description": "",
+                                            "required": false
+                                        }
+                                    }
+                                },
+                                "headingTwoFont": {
+                                    "label": "Heading Two Font",
+                                    "input_type": "group",
+                                    "description": "",
+                                    "required": false,
+                                    "fields": {
+                                        "bold": {
+                                            "label": "Bold",
+                                            "input_type": "checkbox",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "color": {
+                                            "label": "Color",
+                                            "input_type": "text",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "font": {
+                                            "label": "Font",
+                                            "input_type": "text",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "italic": {
+                                            "label": "Italic",
+                                            "input_type": "checkbox",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "size": {
+                                            "label": "Size",
+                                            "input_type": "number",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "underline": {
+                                            "label": "Underline",
+                                            "input_type": "checkbox",
+                                            "description": "",
+                                            "required": false
+                                        }
+                                    }
+                                },
+                                "linksFont": {
+                                    "label": "Links Font",
+                                    "input_type": "group",
+                                    "description": "",
+                                    "required": false,
+                                    "fields": {
+                                        "bold": {
+                                            "label": "Bold",
+                                            "input_type": "checkbox",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "color": {
+                                            "label": "Color",
+                                            "input_type": "text",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "font": {
+                                            "label": "Font",
+                                            "input_type": "text",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "italic": {
+                                            "label": "Italic",
+                                            "input_type": "checkbox",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "size": {
+                                            "label": "Size",
+                                            "input_type": "number",
+                                            "description": "",
+                                            "required": false
+                                        },
+                                        "underline": {
+                                            "label": "Underline",
+                                            "input_type": "checkbox",
+                                            "description": "",
+                                            "required": false
+                                        }
+                                    }
+                                },
+                                "primaryAccentColor": {
+                                    "label": "Primary Accent Color",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "primaryFont": {
+                                    "label": "Primary Font",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "primaryFontColor": {
+                                    "label": "Primary Font Color",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "primaryFontLineHeight": {
+                                    "label": "Primary Font Line Height",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "primaryFontSize": {
+                                    "label": "Primary Font Size",
+                                    "input_type": "number",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "secondaryAccentColor": {
+                                    "label": "Secondary Accent Color",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "secondaryFont": {
+                                    "label": "Secondary Font",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "secondaryFontColor": {
+                                    "label": "Secondary Font Color",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "secondaryFontLineHeight": {
+                                    "label": "Secondary Font Line Height",
+                                    "input_type": "text",
+                                    "description": "",
+                                    "required": false
+                                },
+                                "secondaryFontSize": {
+                                    "label": "Secondary Font Size",
+                                    "input_type": "number",
+                                    "description": "",
+                                    "required": false
+                                }
+                            }
+                        },
+                        "templatePath": {
+                            "label": "Template Path",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "themeSettingsValues": {
+                            "label": "Theme Settings Values",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false
+                        },
+                        "widgetContainers": {
+                            "label": "Widget Containers",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false
+                        },
+                        "widgets": {
+                            "label": "Widgets",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false
+                        }
+                    }
+                },
+                "folderIdV2": {
+                    "label": "Folder Id V2",
+                    "input_type": "number",
+                    "description": "The ID of the folder where the email will be stored.",
+                    "required": false
+                },
+                "from": {
+                    "label": "From",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "customReplyTo": {
+                            "label": "Custom Reply To",
+                            "input_type": "text",
+                            "description": "The reply to recipients will see.",
+                            "required": false
+                        },
+                        "fromName": {
+                            "label": "From Name",
+                            "input_type": "text",
+                            "description": "The name recipients will see.",
+                            "required": false
+                        },
+                        "replyTo": {
+                            "label": "Reply To",
+                            "input_type": "text",
+                            "description": "The from address and reply to email address (if no customReplyTo defined) recipients will see.",
+                            "required": false
+                        }
+                    }
+                },
+                "jitterSendTime": {
+                    "label": "Jitter Send Time",
+                    "input_type": "checkbox",
+                    "description": "Determines whether the email send time should be randomized to avoid sending all emails at the exact same time.",
+                    "required": false
+                },
+                "language": {
+                    "label": "Language",
+                    "input_type": "text",
+                    "description": "The language code for the email, such as 'en' for English.",
+                    "required": false
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The name of the email, as displayed on the email dashboard.",
+                    "required": false
+                },
+                "publishDate": {
+                    "label": "Publish Date",
+                    "input_type": "text",
+                    "description": "The date and time the email is scheduled for, in ISO8601 representation. This is only used in local time or scheduled emails.",
+                    "required": false
+                },
+                "rssData": {
+                    "label": "Rss Data",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "blogEmailType": {
+                            "label": "Blog Email Type",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "blogImageMaxWidth": {
+                            "label": "Blog Image Max Width",
+                            "input_type": "number",
+                            "description": "",
+                            "required": false
+                        },
+                        "blogLayout": {
+                            "label": "Blog Layout",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "hubspotBlogId": {
+                            "label": "Hubspot Blog Id",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "maxEntries": {
+                            "label": "Max Entries",
+                            "input_type": "number",
+                            "description": "",
+                            "required": false
+                        },
+                        "rssEntryTemplate": {
+                            "label": "Rss Entry Template",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "timing": {
+                            "label": "Timing",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false
+                        },
+                        "url": {
+                            "label": "Url",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "useHeadlineAsSubject": {
+                            "label": "Use Headline As Subject",
+                            "input_type": "checkbox",
+                            "description": "",
+                            "required": false
+                        }
+                    }
+                },
+                "sendOnPublish": {
+                    "label": "Send On Publish",
+                    "input_type": "checkbox",
+                    "description": "Determines whether the email will be sent immediately on publish.",
+                    "required": false
+                },
+                "state": {
+                    "label": "State",
+                    "input_type": "text",
+                    "description": "The email state.",
+                    "required": false
+                },
+                "subcategory": {
+                    "label": "Subcategory",
+                    "input_type": "text",
+                    "description": "The email subcategory.",
+                    "required": false
+                },
+                "subject": {
+                    "label": "Subject",
+                    "input_type": "text",
+                    "description": "The subject of the email.",
+                    "required": false
+                },
+                "subscriptionDetails": {
+                    "label": "Subscription Details",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "officeLocationId": {
+                            "label": "Office Location Id",
+                            "input_type": "text",
+                            "description": "ID of the selected office location.",
+                            "required": false
+                        },
+                        "preferencesGroupId": {
+                            "label": "Preferences Group Id",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "subscriptionId": {
+                            "label": "Subscription Id",
+                            "input_type": "text",
+                            "description": "ID of the subscription.",
+                            "required": false
+                        },
+                        "subscriptionName": {
+                            "label": "Subscription Name",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        }
+                    }
+                },
+                "testing": {
+                    "label": "Testing",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "abSampleSizeDefault": {
+                            "label": "Ab Sample Size Default",
+                            "input_type": "text",
+                            "description": "Version of the email that should be sent if there are too few recipients to conduct an AB test.",
+                            "required": false
+                        },
+                        "abSamplingDefault": {
+                            "label": "Ab Sampling Default",
+                            "input_type": "text",
+                            "description": "Version of the email that should be sent if the results are inconclusive after the test period, master or variant.",
+                            "required": false
+                        },
+                        "abStatus": {
+                            "label": "Ab Status",
+                            "input_type": "text",
+                            "description": "Status of the AB test.",
+                            "required": false
+                        },
+                        "abSuccessMetric": {
+                            "label": "Ab Success Metric",
+                            "input_type": "text",
+                            "description": "Metric to determine the version that will be sent to the remaining contacts.",
+                            "required": false
+                        },
+                        "abTestPercentage": {
+                            "label": "Ab Test Percentage",
+                            "input_type": "number",
+                            "description": "The size of your test group.",
+                            "required": false
+                        },
+                        "hoursToWait": {
+                            "label": "Hours To Wait",
+                            "input_type": "number",
+                            "description": "Time limit on gathering test results. After this time is up, the winning version will be sent to the remaining contacts.",
+                            "required": false
+                        },
+                        "isAbVariation": {
+                            "label": "Is Ab Variation",
+                            "input_type": "checkbox",
+                            "description": "",
+                            "required": true
+                        },
+                        "testId": {
+                            "label": "Test Id",
+                            "input_type": "text",
+                            "description": "The ID of the AB test.",
+                            "required": false
+                        }
+                    }
+                },
+                "to": {
+                    "label": "To",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "contactIds": {
+                            "label": "Contact Ids",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false,
+                            "fields": {
+                                "exclude": {
+                                    "label": "Exclude",
+                                    "input_type": "tags",
+                                    "description": "Excluded IDs.",
+                                    "required": false
+                                },
+                                "include": {
+                                    "label": "Include",
+                                    "input_type": "tags",
+                                    "description": "Included IDs.",
+                                    "required": false
+                                }
+                            }
+                        },
+                        "contactIlsLists": {
+                            "label": "Contact Ils Lists",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false,
+                            "fields": {
+                                "exclude": {
+                                    "label": "Exclude",
+                                    "input_type": "tags",
+                                    "description": "Excluded IDs.",
+                                    "required": false
+                                },
+                                "include": {
+                                    "label": "Include",
+                                    "input_type": "tags",
+                                    "description": "Included IDs.",
+                                    "required": false
+                                }
+                            }
+                        },
+                        "contactLists": {
+                            "label": "Contact Lists",
+                            "input_type": "group",
+                            "description": "",
+                            "required": false,
+                            "fields": {
+                                "exclude": {
+                                    "label": "Exclude",
+                                    "input_type": "tags",
+                                    "description": "Excluded IDs.",
+                                    "required": false
+                                },
+                                "include": {
+                                    "label": "Include",
+                                    "input_type": "tags",
+                                    "description": "Included IDs.",
+                                    "required": false
+                                }
+                            }
+                        },
+                        "limitSendFrequency": {
+                            "label": "Limit Send Frequency",
+                            "input_type": "checkbox",
+                            "description": "",
+                            "required": false
+                        },
+                        "suppressGraymail": {
+                            "label": "Suppress Graymail",
+                            "input_type": "checkbox",
+                            "description": "Whether to send to unengaged contacts (false) or not (true).",
+                            "required": false
+                        }
+                    }
+                },
+                "webversion": {
+                    "label": "Webversion",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "domain": {
+                            "label": "Domain",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "enabled": {
+                            "label": "Enabled",
+                            "input_type": "checkbox",
+                            "description": "",
+                            "required": false
+                        },
+                        "expiresAt": {
+                            "label": "Expires At",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "isPageRedirected": {
+                            "label": "Is Page Redirected",
+                            "input_type": "checkbox",
+                            "description": "",
+                            "required": false
+                        },
+                        "metaDescription": {
+                            "label": "Meta Description",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "pageExpiryEnabled": {
+                            "label": "Page Expiry Enabled",
+                            "input_type": "checkbox",
+                            "description": "",
+                            "required": false
+                        },
+                        "redirectToPageId": {
+                            "label": "Redirect To Page Id",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "redirectToUrl": {
+                            "label": "Redirect To Url",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "slug": {
+                            "label": "Slug",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "title": {
+                            "label": "Title",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        },
+                        "url": {
+                            "label": "Url",
+                            "input_type": "text",
+                            "description": "",
+                            "required": false
+                        }
+                    }
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

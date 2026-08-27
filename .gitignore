@@ -1,6 +1,26 @@
+# Python / Build artifacts
 __pycache__/
-*.pyc
-.piper_config/
-templates/client_temp/
-.env
-src/dev_utils.egg-info/
+*.py[cod]
+*$py.class
+dist/
+build/
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Local configuration / scratch directories
+universal_api_registry/schemas/
+.gitignore
+universal_api_registry/credentials.db
+universal_api_registry/credential.db-shm
+universal_api_registry/credential.db-wal
+universal_api_registry/package-lock.json
+universal_api_registry/package.json
+universal_api_registry/node_modules.json
+stretis_frontend/
+automation_engine/.piper_config
+
+# OS metadata
+.DS_Store
+Thumbs.db

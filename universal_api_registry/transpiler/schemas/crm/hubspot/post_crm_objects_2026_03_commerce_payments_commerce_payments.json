@@ -1,0 +1,55 @@
+{
+    "name": "post_crm_objects_2026_03_commerce_payments_commerce_payments",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/commerce_payments",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "associations": "{{DataType=list, Required=True}}",
+        "properties": "{{DataType=dict, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Commerce Payment",
+        "display_name_source": "summary+path_heuristic",
+        "description": "Create a commerce payment with the given properties and return a copy of the object, including the ID.",
+        "learn_more": "Create a commerce payment with the given properties and return a copy of the object, including the ID. Documentation and examples for creating standard commerce payments is provided.",
+        "operation_id": "post-/crm/objects/2026-03/commerce_payments",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "associations": {
+                    "label": "Associations",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "group",
+                    "description": "Key-value pairs for setting properties for the new object.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

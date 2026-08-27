@@ -1,0 +1,48 @@
+{
+    "name": "post_crm_objects_2026_03_partner_clients_batch_update_partner_clients",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/partner_clients/batch/update",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Multiple Partner Client Records In Single Request",
+        "display_name_source": "summary",
+        "description": "This endpoint allows you to update several partner client records at once by providing a batch of CRM object records with their...",
+        "learn_more": "This endpoint allows you to update several partner client records at once by providing a batch of CRM object records with their respective IDs and properties. It is useful for synchronizing data across systems or making bulk updates efficiently.",
+        "operation_id": "post-/crm/objects/2026-03/partner_clients/batch/update",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

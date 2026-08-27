@@ -1,0 +1,52 @@
+{
+    "name": "get_automation_sequences_2026_03__id__sequences",
+    "method": "GET",
+    "url": "https://api.hubapi.com/automation/sequences/2026-03/{sequenceId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "sequenceId": "{{DataType=str, Required=True}}",
+        "userId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Details For Sequence",
+        "display_name_source": "summary",
+        "description": "Retrieve details of a specific sequence by its ID.",
+        "learn_more": null,
+        "operation_id": "get-/automation/sequences/2026-03/{sequenceId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "sequenceId": {
+                    "label": "Sequence Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "userId": {
+                    "label": "User Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

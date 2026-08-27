@@ -1,0 +1,175 @@
+{
+    "name": "put_crm_pipelines_rules_2026_09_beta__id___id__pipeline_governance",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/crm/pipelines-rules/2026-09-beta/{objectTypeId}/{pipelineId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectTypeId": "{{DataType=str, Required=True}}",
+        "pipelineId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "approvalStage": {
+            "approvalComment": "{{DataType=str, Required=False}}",
+            "approvalMode": "{{DataType=str, Required=True}}",
+            "approverUserIds": "{{DataType=list, Required=True}}",
+            "conditionalApprovalFilterBranch": "{{DataType=str, Required=False}}",
+            "pipelineStageId": "{{DataType=str, Required=True}}"
+        },
+        "governanceValidationRules": {
+            "noBackwardsMovementRule": {
+                "enabledForAllStages": "{{DataType=bool, Required=True}}",
+                "pipelineStageIds": "{{DataType=list, Required=True}}"
+            },
+            "noSkippingStagesRule": {
+                "enabledForAllStages": "{{DataType=bool, Required=True}}",
+                "pipelineStageIds": "{{DataType=list, Required=True}}"
+            },
+            "objectCreationRule": {
+                "pipelineStageIds": "{{DataType=list, Required=True}}"
+            }
+        }
+    },
+    "metadata": {
+        "display_name": "Update Rules (replace) (Pipeline Governance)",
+        "display_name_source": "summary",
+        "description": "Update the rules for a specific pipeline in your HubSpot account.",
+        "learn_more": "Update the rules for a specific pipeline in your HubSpot account. This endpoint allows you to modify governance validation rules and approval stages associated with a pipeline. It requires specifying the object type and pipeline identifiers.",
+        "operation_id": "put-/crm/pipelines-rules/2026-09-beta/{objectTypeId}/{pipelineId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the object type for which the pipeline rules are being updated.",
+                    "required": true
+                },
+                "pipelineId": {
+                    "label": "Pipeline Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the pipeline whose rules are being updated.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "approvalStage": {
+                    "label": "Approval Stage",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "approvalComment": {
+                            "label": "Approval Comment",
+                            "input_type": "text",
+                            "description": "A string that allows an optional comment to be added to the approval rule.",
+                            "required": false
+                        },
+                        "approvalMode": {
+                            "label": "Approval Mode",
+                            "input_type": "text",
+                            "description": "Specifies the mode of approval required. It can be either 'ALL', meaning all specified users must approve, or 'ANY', meaning any one of the specified users can approve.",
+                            "required": true
+                        },
+                        "approverUserIds": {
+                            "label": "Approver User Ids",
+                            "input_type": "tags",
+                            "description": "An array of user IDs representing the users who are authorized to approve the stage transition. Each ID is a string.",
+                            "required": true
+                        },
+                        "conditionalApprovalFilterBranch": {
+                            "label": "Conditional Approval Filter Branch",
+                            "input_type": "text",
+                            "description": "Defines conditional logic for the approval process using a filter branch. It can be one of several types, such as PublicOrFilterBranch or PublicAndFilterBranch, to specify complex approval conditions.",
+                            "required": false
+                        },
+                        "pipelineStageId": {
+                            "label": "Pipeline Stage Id",
+                            "input_type": "text",
+                            "description": "The unique identifier for the pipeline stage that the approval rule applies to. It is a string.",
+                            "required": true
+                        }
+                    }
+                },
+                "governanceValidationRules": {
+                    "label": "Governance Validation Rules",
+                    "input_type": "group",
+                    "description": "",
+                    "required": true,
+                    "fields": {
+                        "noBackwardsMovementRule": {
+                            "label": "No Backwards Movement Rule",
+                            "input_type": "group",
+                            "description": "",
+                            "required": true,
+                            "fields": {
+                                "enabledForAllStages": {
+                                    "label": "Enabled For All Stages",
+                                    "input_type": "checkbox",
+                                    "description": "A boolean indicating whether the validation rule is enabled for all stages in the pipeline.",
+                                    "required": true
+                                },
+                                "pipelineStageIds": {
+                                    "label": "Pipeline Stage Ids",
+                                    "input_type": "tags",
+                                    "description": "An array of strings representing the specific pipeline stage IDs for which the validation rule is applicable.",
+                                    "required": true
+                                }
+                            }
+                        },
+                        "noSkippingStagesRule": {
+                            "label": "No Skipping Stages Rule",
+                            "input_type": "group",
+                            "description": "",
+                            "required": true,
+                            "fields": {
+                                "enabledForAllStages": {
+                                    "label": "Enabled For All Stages",
+                                    "input_type": "checkbox",
+                                    "description": "A boolean indicating whether the validation rule is enabled for all stages in the pipeline.",
+                                    "required": true
+                                },
+                                "pipelineStageIds": {
+                                    "label": "Pipeline Stage Ids",
+                                    "input_type": "tags",
+                                    "description": "An array of strings representing the specific pipeline stage IDs for which the validation rule is applicable.",
+                                    "required": true
+                                }
+                            }
+                        },
+                        "objectCreationRule": {
+                            "label": "Object Creation Rule",
+                            "input_type": "group",
+                            "description": "",
+                            "required": true,
+                            "fields": {
+                                "pipelineStageIds": {
+                                    "label": "Pipeline Stage Ids",
+                                    "input_type": "tags",
+                                    "description": "An array of strings representing the IDs of pipeline stages where objects can be created.",
+                                    "required": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

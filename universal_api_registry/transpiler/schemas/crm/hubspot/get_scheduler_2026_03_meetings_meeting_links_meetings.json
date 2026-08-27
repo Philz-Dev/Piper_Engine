@@ -1,0 +1,73 @@
+{
+    "name": "get_scheduler_2026_03_meetings_meeting_links_meetings",
+    "method": "GET",
+    "url": "https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}",
+        "name": "{{DataType=str, Required=False}}",
+        "organizerUserId": "{{DataType=str, Required=False}}",
+        "type": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Meeting Links",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of meeting links available in the HubSpot account.",
+        "learn_more": "Retrieve a list of meeting links available in the HubSpot account. This endpoint allows filtering by various criteria such as meeting name, organizer user ID, and meeting type. It supports pagination to navigate through large sets of results.",
+        "operation_id": "get-/scheduler/2026-03/meetings/meeting-links",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource, used for pagination.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "Filter meeting links by name.",
+                    "required": false
+                },
+                "organizerUserId": {
+                    "label": "Organizer User Id",
+                    "input_type": "text",
+                    "description": "Filter meeting links by the organizer's user ID.",
+                    "required": false
+                },
+                "type": {
+                    "label": "Type",
+                    "input_type": "text",
+                    "description": "Filter meeting links by type. Valid values are PERSONAL_LINK, GROUP_CALENDAR, and ROUND_ROBIN_CALENDAR.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

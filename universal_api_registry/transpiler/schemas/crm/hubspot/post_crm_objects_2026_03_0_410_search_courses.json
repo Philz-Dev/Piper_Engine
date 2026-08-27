@@ -1,0 +1,83 @@
+{
+    "name": "post_crm_objects_2026_03_0_410_search_courses",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/0-410/search",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "after": "{{DataType=str, Required=True}}",
+        "filterGroups": "{{DataType=list, Required=True}}",
+        "limit": "{{DataType=int, Required=True}}",
+        "properties": "{{DataType=list, Required=True}}",
+        "query": "{{DataType=str, Required=False}}",
+        "sorts": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Search For Courses",
+        "display_name_source": "summary",
+        "description": "Fetch objects using a search query.",
+        "learn_more": "Fetch objects using a search query",
+        "operation_id": "post-/crm/objects/2026-03/0-410/search",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "A string representing the paging cursor token to fetch the next set of results.",
+                    "required": true
+                },
+                "filterGroups": {
+                    "label": "Filter Groups",
+                    "input_type": "tags",
+                    "description": "An array of FilterGroup objects that define the criteria for filtering the search results.",
+                    "required": true
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "An integer specifying the maximum number of results to return.",
+                    "required": true
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "An array of strings indicating which properties of the objects should be returned in the search results.",
+                    "required": true
+                },
+                "query": {
+                    "label": "Query",
+                    "input_type": "text",
+                    "description": "A string representing the search query to filter the objects.",
+                    "required": false
+                },
+                "sorts": {
+                    "label": "Sorts",
+                    "input_type": "tags",
+                    "description": "An array of strings specifying the fields by which the search results should be sorted.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

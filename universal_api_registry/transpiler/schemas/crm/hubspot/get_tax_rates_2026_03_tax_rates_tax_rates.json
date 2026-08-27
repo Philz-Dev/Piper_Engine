@@ -1,0 +1,59 @@
+{
+    "name": "get_tax_rates_2026_03_tax_rates_tax_rates",
+    "method": "GET",
+    "url": "https://api.hubapi.com/tax-rates/2026-03/tax-rates",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "active": "{{DataType=bool, Required=False}}",
+        "after": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get All Tax Rates",
+        "display_name_source": "summary",
+        "description": "Retrieve a paginated list of all tax rates set up in the account tax rate library.",
+        "learn_more": "Retrieve a paginated list of all tax rates set up in the account tax rate library",
+        "operation_id": "get-/tax-rates/2026-03/tax-rates",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "active": {
+                    "label": "Active",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

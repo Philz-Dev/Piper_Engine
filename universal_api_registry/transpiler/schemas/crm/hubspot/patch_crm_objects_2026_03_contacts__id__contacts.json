@@ -1,0 +1,62 @@
+{
+    "name": "patch_crm_objects_2026_03_contacts__id__contacts",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/contacts/{contactId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "contactId": "{{DataType=str, Required=True}}",
+        "idProperty": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "properties": "{{DataType=dict, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Contact",
+        "display_name_source": "summary",
+        "description": "Update an existing contact, identified by ID or email/unique property value.",
+        "learn_more": "Update an existing contact, identified by ID or email/unique property value. To identify a contact by ID, include the ID in the request URL path. To identify a contact by their email or other unique property, include the email/property value in the request URL path, and add the `idProperty` query parameter (`/crm/v3/objects/contacts/jon@website.com?idProperty=email`). Provided property values will be overwritten. Read-only and non-existent properties will result in an error. Properties values can be cleared by passing an empty string.",
+        "operation_id": "patch-/crm/objects/2026-03/contacts/{contactId}_update",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "contactId": {
+                    "label": "Contact Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "idProperty": {
+                    "label": "Id Property",
+                    "input_type": "text",
+                    "description": "The name of a property whose values are unique for this object type",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "group",
+                    "description": "Key value pairs representing the properties of the object.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

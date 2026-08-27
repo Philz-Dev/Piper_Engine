@@ -1,0 +1,66 @@
+{
+    "name": "get_cms_pages_2026_03_site_pages__id__revisions_pages",
+    "method": "GET",
+    "url": "https://api.hubapi.com/cms/pages/2026-03/site-pages/{objectId}/revisions",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectId": "{{DataType=str, Required=True}}",
+        "after": "{{DataType=str, Required=False}}",
+        "before": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve All Previous Versions Of Website Page",
+        "display_name_source": "summary",
+        "description": "Retrieves all the previous versions of a website page, specified by page ID.",
+        "learn_more": null,
+        "operation_id": "get-/cms/pages/2026-03/site-pages/{objectId}/revisions_getPreviousVersions",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectId": {
+                    "label": "Object Id",
+                    "input_type": "text",
+                    "description": "The ID of the website page.",
+                    "required": true
+                },
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "before": {
+                    "label": "Before",
+                    "input_type": "text",
+                    "description": "The cursor token value to retrieve the set of results before the current page.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to return. Default is 100.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

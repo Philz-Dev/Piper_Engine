@@ -1,0 +1,52 @@
+{
+    "name": "get_cms_blog_settings_2026_03_settings__id__revisions__id__blog_settings",
+    "method": "GET",
+    "url": "https://api.hubapi.com/cms/blog-settings/2026-03/settings/{blogId}/revisions/{revisionId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "blogId": "{{DataType=str, Required=True}}",
+        "revisionId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Specific Blog Revision (Blog Settings)",
+        "display_name_source": "summary",
+        "description": "Get a specific blog revision.",
+        "learn_more": null,
+        "operation_id": "get-/cms/blog-settings/2026-03/settings/{blogId}/revisions/{revisionId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "blogId": {
+                    "label": "Blog Id",
+                    "input_type": "text",
+                    "description": "The Blog id.",
+                    "required": true
+                },
+                "revisionId": {
+                    "label": "Revision Id",
+                    "input_type": "text",
+                    "description": "The Blog version id.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

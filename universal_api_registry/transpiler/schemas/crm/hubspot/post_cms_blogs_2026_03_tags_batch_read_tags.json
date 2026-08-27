@@ -1,0 +1,45 @@
+{
+    "name": "post_cms_blogs_2026_03_tags_batch_read_tags",
+    "method": "POST",
+    "url": "https://api.hubapi.com/cms/blogs/2026-03/tags/batch/read",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "archived": "{{DataType=bool, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Batch Of Blog Tags",
+        "display_name_source": "summary",
+        "description": "Retrieve the Blog Tag objects identified in the request body.",
+        "learn_more": null,
+        "operation_id": "post-/cms/blogs/2026-03/tags/batch/read_readBatch",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Specifies whether to return deleted Blog Tags. Defaults to `false`.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

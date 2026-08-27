@@ -1,0 +1,52 @@
+{
+    "name": "get_cms_site_search_2026_03_indexed_data__id__site_search",
+    "method": "GET",
+    "url": "https://api.hubapi.com/cms/site-search/2026-03/indexed-data/{contentId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "contentId": "{{DataType=str, Required=True}}",
+        "type": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Indexed Properties (Site Search)",
+        "display_name_source": "summary",
+        "description": "Return all indexed data for an asset (e.g., page, blog post, HubDB table), specified by ID.",
+        "learn_more": "Return all indexed data for an asset (e.g., page, blog post, HubDB table), specified by ID. This is useful when debugging why a particular asset is not returned from a custom search.",
+        "operation_id": "get-/cms/site-search/2026-03/indexed-data/{contentId}_getById",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "contentId": {
+                    "label": "Content Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "type": {
+                    "label": "Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,62 @@
+{
+    "name": "put_crm_pipelines_rules_2026_09_beta__id___id__stage_edit_permissions_p_020906fb",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/crm/pipelines-rules/2026-09-beta/{objectTypeId}/{pipelineId}/stage-edit-permissions",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectTypeId": "{{DataType=str, Required=True}}",
+        "pipelineId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "stages": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Permissions (Pipeline Governance)",
+        "display_name_source": "summary",
+        "description": "Update the stage edit permissions for a specific pipeline in your HubSpot account.",
+        "learn_more": "Update the stage edit permissions for a specific pipeline in your HubSpot account. This endpoint allows you to modify which users or teams have access to edit stages within a specified pipeline. It is useful for managing access control and ensuring that only authorized personnel can make changes to the pipeline stages.",
+        "operation_id": "put-/crm/pipelines-rules/2026-09-beta/{objectTypeId}/{pipelineId}/stage-edit-permissions",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the object type associated with the pipeline.",
+                    "required": true
+                },
+                "pipelineId": {
+                    "label": "Pipeline Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the pipeline for which stage edit permissions are being updated.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "stages": {
+                    "label": "Stages",
+                    "input_type": "tags",
+                    "description": "An array of stage permission requests, each defined by the PublicStagePermissionRequest schema. This property specifies the permissions to be updated for each stage in the pipeline.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

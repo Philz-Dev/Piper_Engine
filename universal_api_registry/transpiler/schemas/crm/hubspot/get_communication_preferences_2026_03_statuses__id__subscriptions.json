@@ -1,0 +1,59 @@
+{
+    "name": "get_communication_preferences_2026_03_statuses__id__subscriptions",
+    "method": "GET",
+    "url": "https://api.hubapi.com/communication-preferences/2026-03/statuses/{subscriberIdString}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "subscriberIdString": "{{DataType=str, Required=True}}",
+        "channel": "{{DataType=str, Required=True}}",
+        "businessUnitId": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Subscription Preferences For Specific Contact",
+        "display_name_source": "summary",
+        "description": "Retrieve a contact's current email subscription preferences.",
+        "learn_more": null,
+        "operation_id": "get-/communication-preferences/2026-03/statuses/{subscriberIdString}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "subscriberIdString": {
+                    "label": "Subscriber Id String",
+                    "input_type": "text",
+                    "description": "The unique identifier of the subscriber whose communication preferences status is being retrieved.",
+                    "required": true
+                },
+                "channel": {
+                    "label": "Channel",
+                    "input_type": "text",
+                    "description": "The communication channel for which the subscription status is being retrieved. This parameter is required and currently supports only 'EMAIL'.",
+                    "required": true
+                },
+                "businessUnitId": {
+                    "label": "Business Unit Id",
+                    "input_type": "number",
+                    "description": "The ID of the business unit to filter the subscription status by. This is an optional parameter.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

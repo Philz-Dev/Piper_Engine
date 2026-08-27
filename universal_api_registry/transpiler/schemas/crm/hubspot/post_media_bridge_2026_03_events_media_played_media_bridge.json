@@ -1,0 +1,153 @@
+{
+    "name": "post_media_bridge_2026_03_events_media_played_media_bridge",
+    "method": "POST",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/events/media-played",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "_hsenc": "{{DataType=str, Required=False}}",
+        "contactId": "{{DataType=int, Required=False}}",
+        "contactUtk": "{{DataType=str, Required=False}}",
+        "externalId": "{{DataType=str, Required=False}}",
+        "externalPlayContext": "{{DataType=str, Required=False}}",
+        "iframeUrl": "{{DataType=str, Required=False}}",
+        "mediaBridgeId": "{{DataType=int, Required=False}}",
+        "mediaName": "{{DataType=str, Required=False}}",
+        "mediaType": "{{DataType=str, Required=True}}",
+        "mediaUrl": "{{DataType=str, Required=False}}",
+        "occurredTimestamp": "{{DataType=int, Required=True}}",
+        "pageId": "{{DataType=int, Required=False}}",
+        "pageName": "{{DataType=str, Required=False}}",
+        "pageUrl": "{{DataType=str, Required=False}}",
+        "sessionId": "{{DataType=str, Required=True}}",
+        "state": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Media Played (Media Bridge)",
+        "display_name_source": "summary+path_heuristic",
+        "description": "Create a media played event in the HubSpot account.",
+        "learn_more": "Create a media played event in the HubSpot account. This endpoint is used to log when media content has been played, which can be useful for tracking user engagement with media resources.",
+        "operation_id": "post-/media-bridge/2026-03/events/media-played",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "_hsenc": {
+                    "label": "Hsenc",
+                    "input_type": "text",
+                    "description": "An encoding parameter used internally by HubSpot.",
+                    "required": false
+                },
+                "contactId": {
+                    "label": "Contact Id",
+                    "input_type": "number",
+                    "description": "The unique identifier for the contact associated with the media play event.",
+                    "required": false
+                },
+                "contactUtk": {
+                    "label": "Contact Utk",
+                    "input_type": "text",
+                    "description": "The unique tracking key for the contact, used for tracking purposes.",
+                    "required": false
+                },
+                "externalId": {
+                    "label": "External Id",
+                    "input_type": "text",
+                    "description": "An external identifier for the media, used to correlate with external systems.",
+                    "required": false
+                },
+                "externalPlayContext": {
+                    "label": "External Play Context",
+                    "input_type": "text",
+                    "description": "Additional context about the media play event, provided by external systems.",
+                    "required": false
+                },
+                "iframeUrl": {
+                    "label": "Iframe Url",
+                    "input_type": "text",
+                    "description": "The URL of the iframe containing the media, if applicable.",
+                    "required": false
+                },
+                "mediaBridgeId": {
+                    "label": "Media Bridge Id",
+                    "input_type": "number",
+                    "description": "A unique identifier for the media bridge instance.",
+                    "required": false
+                },
+                "mediaName": {
+                    "label": "Media Name",
+                    "input_type": "text",
+                    "description": "The name of the media that was played.",
+                    "required": false
+                },
+                "mediaType": {
+                    "label": "Media Type",
+                    "input_type": "text",
+                    "description": "The type of media that was played, such as 'VIDEO', 'AUDIO', 'DOCUMENT', 'OTHER', or 'IMAGE'.",
+                    "required": true
+                },
+                "mediaUrl": {
+                    "label": "Media Url",
+                    "input_type": "text",
+                    "description": "The URL of the media that was played.",
+                    "required": false
+                },
+                "occurredTimestamp": {
+                    "label": "Occurred Timestamp",
+                    "input_type": "number",
+                    "description": "The timestamp when the media play event occurred, in Unix time format.",
+                    "required": true
+                },
+                "pageId": {
+                    "label": "Page Id",
+                    "input_type": "number",
+                    "description": "A unique identifier for the page where the media was played.",
+                    "required": false
+                },
+                "pageName": {
+                    "label": "Page Name",
+                    "input_type": "text",
+                    "description": "The name of the page where the media was played.",
+                    "required": false
+                },
+                "pageUrl": {
+                    "label": "Page Url",
+                    "input_type": "text",
+                    "description": "The URL of the page where the media was played.",
+                    "required": false
+                },
+                "sessionId": {
+                    "label": "Session Id",
+                    "input_type": "text",
+                    "description": "A unique identifier for the session during which the media was played.",
+                    "required": true
+                },
+                "state": {
+                    "label": "State",
+                    "input_type": "text",
+                    "description": "The state of the media play event, indicating the current status.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

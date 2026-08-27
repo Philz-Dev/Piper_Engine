@@ -1,0 +1,115 @@
+{
+    "name": "get_cms_blogs_2026_03_tags_cursor_posts",
+    "method": "GET",
+    "url": "https://api.hubapi.com/cms/blogs/2026-03/tags/cursor",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "archived": "{{DataType=bool, Required=False}}",
+        "createdAfter": "{{DataType=str, Required=False}}",
+        "createdAt": "{{DataType=str, Required=False}}",
+        "createdBefore": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}",
+        "property": "{{DataType=str, Required=False}}",
+        "sort": "{{DataType=list, Required=False}}",
+        "updatedAfter": "{{DataType=str, Required=False}}",
+        "updatedAt": "{{DataType=str, Required=False}}",
+        "updatedBefore": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Cursor (Posts)",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "get-/cms/blogs/2026-03/tags/cursor_/cms/blogs/v3/tags/cursor",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived.",
+                    "required": false
+                },
+                "createdAfter": {
+                    "label": "Created After",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "createdAt": {
+                    "label": "Created At",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "createdBefore": {
+                    "label": "Created Before",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "property": {
+                    "label": "Property",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "sort": {
+                    "label": "Sort",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "updatedAfter": {
+                    "label": "Updated After",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "updatedAt": {
+                    "label": "Updated At",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "updatedBefore": {
+                    "label": "Updated Before",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

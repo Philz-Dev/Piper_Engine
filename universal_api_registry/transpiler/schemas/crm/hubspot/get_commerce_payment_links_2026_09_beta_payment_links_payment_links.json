@@ -1,0 +1,108 @@
+{
+    "name": "get_commerce_payment_links_2026_09_beta_payment_links_payment_links",
+    "method": "GET",
+    "url": "https://api.hubapi.com/commerce/payment-links/2026-09-beta/payment-links",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "archived": "{{DataType=bool, Default=false, Required=False}}",
+        "createdAfter": "{{DataType=int, Required=False}}",
+        "createdAt": "{{DataType=int, Required=False}}",
+        "createdBefore": "{{DataType=int, Required=False}}",
+        "limit": "{{DataType=int, Default=20, Required=False}}",
+        "sort": "{{DataType=str, Required=False}}",
+        "updatedAfter": "{{DataType=int, Required=False}}",
+        "updatedAt": "{{DataType=int, Required=False}}",
+        "updatedBefore": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve All Payment Links",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of payment links from your HubSpot account.",
+        "learn_more": "Retrieve a list of payment links from your HubSpot account. This endpoint allows you to filter and sort payment links based on various criteria such as creation and update timestamps. It supports pagination and can include archived payment links if specified.",
+        "operation_id": "get-/commerce/payment-links/2026-09-beta/payment-links",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived.",
+                    "required": false
+                },
+                "createdAfter": {
+                    "label": "Created After",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "createdAt": {
+                    "label": "Created At",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "createdBefore": {
+                    "label": "Created Before",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "sort": {
+                    "label": "Sort",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "updatedAfter": {
+                    "label": "Updated After",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "updatedAt": {
+                    "label": "Updated At",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "updatedBefore": {
+                    "label": "Updated Before",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,86 @@
+{
+    "name": "patch_conversations_custom_channels_2026_03__id__channel_account_stagin_1269e7b9",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/conversations/custom-channels/2026-03/{channelId}/channel-account-staging-tokens/{accountToken}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "accountToken": "{{DataType=str, Required=True}}",
+        "channelId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "accountName": "{{DataType=str, Required=False}}",
+        "deliveryIdentifier": {
+            "type": "{{DataType=str, Required=True}}",
+            "value": "{{DataType=str, Required=True}}"
+        }
+    },
+    "metadata": {
+        "display_name": "Update Channel Account Staging Token (Custom Channels)",
+        "display_name_source": "summary",
+        "description": "Update a channel account staging token's account name and delivery identifier.",
+        "learn_more": "Update a channel account staging token's account name and delivery identifier. This information will be applied to the channel account created from this staging token. This is used for public apps.",
+        "operation_id": "patch-/conversations/custom-channels/2026-03/{channelId}/channel-account-staging-tokens/{accountToken}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "accountToken": {
+                    "label": "Account Token",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "channelId": {
+                    "label": "Channel Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "accountName": {
+                    "label": "Account Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "deliveryIdentifier": {
+                    "label": "Delivery Identifier",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "type": {
+                            "label": "Type",
+                            "input_type": "text",
+                            "description": "",
+                            "required": true
+                        },
+                        "value": {
+                            "label": "Value",
+                            "input_type": "text",
+                            "description": "",
+                            "required": true
+                        }
+                    }
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "name": "post_automation_2026_09_beta_flows_automation_v4",
+    "method": "POST",
+    "url": "https://api.hubapi.com/automation/2026-09-beta/flows",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Create New Automation Flow (Automation V4)",
+        "display_name_source": "summary",
+        "description": "Create a new automation flow in your HubSpot account using the AutomationFlowApiService.",
+        "learn_more": "Create a new automation flow in your HubSpot account using the AutomationFlowApiService. This endpoint allows you to define the flow's properties and actions, enabling automated processes tailored to your business needs. Ensure that the request body is correctly structured as per the ApiFlowCreateRequest schema.",
+        "operation_id": "post-/automation/2026-09-beta/flows_/automation/2026-09-beta/flows",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

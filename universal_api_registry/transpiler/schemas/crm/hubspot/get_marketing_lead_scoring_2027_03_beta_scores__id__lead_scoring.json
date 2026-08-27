@@ -1,0 +1,45 @@
+{
+    "name": "get_marketing_lead_scoring_2027_03_beta_scores__id__lead_scoring",
+    "method": "GET",
+    "url": "https://api.hubapi.com/marketing/lead-scoring/2027-03-beta/scores/{scoreId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "scoreId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Score (Lead Scoring)",
+        "display_name_source": "summary",
+        "description": "Retrieve the configuration details of a specific lead scoring model in your HubSpot account using its unique score ID.",
+        "learn_more": "Retrieve the configuration details of a specific lead scoring model in your HubSpot account using its unique score ID. This endpoint is useful for accessing the setup and parameters of a particular scoring model to understand how leads are being evaluated.",
+        "operation_id": "get-/marketing/lead-scoring/2027-03-beta/scores/{scoreId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "scoreId": {
+                    "label": "Score Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,125 @@
+{
+    "name": "patch_marketing_marketing_events_2026_03_events__id__marketing_events",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/marketing/marketing-events/2026-03/events/{externalEventId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "externalEventId": "{{DataType=str, Required=True}}",
+        "externalAccountId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "customProperties": "{{DataType=list, Required=True}}",
+        "endDateTime": "{{DataType=str, Required=False}}",
+        "eventCancelled": "{{DataType=bool, Required=False}}",
+        "eventCompleted": "{{DataType=bool, Required=False}}",
+        "eventDescription": "{{DataType=str, Required=False}}",
+        "eventName": "{{DataType=str, Required=False}}",
+        "eventOrganizer": "{{DataType=str, Required=False}}",
+        "eventType": "{{DataType=str, Required=False}}",
+        "eventUrl": "{{DataType=str, Required=False}}",
+        "startDateTime": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Update Marketing Event By External Ids",
+        "display_name_source": "summary",
+        "description": "Updates the details of an existing Marketing Event identified by its externalAccountId, externalEventId if it exists.\n\nOnly Marketing...",
+        "learn_more": "Updates the details of an existing Marketing Event identified by its externalAccountId, externalEventId if it exists.\n\nOnly Marketing Events created by the same app can be updated.",
+        "operation_id": "patch-/marketing/marketing-events/2026-03/events/{externalEventId}_update",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "externalEventId": {
+                    "label": "External Event Id",
+                    "input_type": "text",
+                    "description": "The id of the marketing event in the external event application",
+                    "required": true
+                },
+                "externalAccountId": {
+                    "label": "External Account Id",
+                    "input_type": "text",
+                    "description": "The accountId that is associated with this marketing event in the external event application",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "customProperties": {
+                    "label": "Custom Properties",
+                    "input_type": "tags",
+                    "description": "A list of PropertyValues. These can be whatever kind of property names and values you want. However, they must already exist on the HubSpot account's definition of the MarketingEvent Object. If they don't they will be filtered out and not set.\nIn order to do this you'll need to create a new PropertyGroup on the HubSpot account's MarketingEvent object for your specific app and create the Custom Property you want to track on that HubSpot account. Do not create any new default properties on the MarketingEvent object as that will apply to all HubSpot accounts.\n",
+                    "required": true
+                },
+                "endDateTime": {
+                    "label": "End Date Time",
+                    "input_type": "text",
+                    "description": "The end date and time of the marketing event.",
+                    "required": false
+                },
+                "eventCancelled": {
+                    "label": "Event Cancelled",
+                    "input_type": "checkbox",
+                    "description": "Indicates if the marketing event has been cancelled. Defaults to `false`",
+                    "required": false
+                },
+                "eventCompleted": {
+                    "label": "Event Completed",
+                    "input_type": "checkbox",
+                    "description": "Indicates if the marketing event has been completed. Defaults to `false`",
+                    "required": false
+                },
+                "eventDescription": {
+                    "label": "Event Description",
+                    "input_type": "text",
+                    "description": "The description of the marketing event.",
+                    "required": false
+                },
+                "eventName": {
+                    "label": "Event Name",
+                    "input_type": "text",
+                    "description": "The name of the marketing event.",
+                    "required": false
+                },
+                "eventOrganizer": {
+                    "label": "Event Organizer",
+                    "input_type": "text",
+                    "description": "The name of the organizer of the marketing event.",
+                    "required": false
+                },
+                "eventType": {
+                    "label": "Event Type",
+                    "input_type": "text",
+                    "description": "Describes what type of event this is.  For example: `WEBINAR`, `CONFERENCE`, `WORKSHOP`",
+                    "required": false
+                },
+                "eventUrl": {
+                    "label": "Event Url",
+                    "input_type": "text",
+                    "description": "A URL in the external event application where the marketing event can be managed.",
+                    "required": false
+                },
+                "startDateTime": {
+                    "label": "Start Date Time",
+                    "input_type": "text",
+                    "description": "The start date and time of the marketing event.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

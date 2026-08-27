@@ -1,0 +1,45 @@
+{
+    "name": "get_crm_extensions_cards_dev_2026_03__id__public_app_crm_cards",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/extensions/cards-dev/2026-03/{appId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get All Cards (Public App Crm Cards)",
+        "display_name_source": "summary",
+        "description": "Returns a list of cards for a given app.",
+        "learn_more": null,
+        "operation_id": "get-/crm/extensions/cards-dev/2026-03/{appId}_getAll",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The appId of the app containing the Legacy CRM Card(s)",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

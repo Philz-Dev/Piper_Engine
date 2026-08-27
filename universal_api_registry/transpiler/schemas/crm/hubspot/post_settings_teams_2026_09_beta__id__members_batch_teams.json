@@ -1,0 +1,55 @@
+{
+    "name": "post_settings_teams_2026_09_beta__id__members_batch_teams",
+    "method": "POST",
+    "url": "https://api.hubapi.com/settings/teams/2026-09-beta/{teamId}/members/batch",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "teamId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Batch Assign Members (Teams)",
+        "display_name_source": "summary",
+        "description": "Assign multiple members to a specific team in a single request.",
+        "learn_more": "Assign multiple members to a specific team in a single request. This endpoint allows for efficient management of team memberships by processing multiple assignments at once. It is useful for organizations looking to streamline their team management processes.",
+        "operation_id": "post-/settings/teams/2026-09-beta/{teamId}/members/batch",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "teamId": {
+                    "label": "Team Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the team to which members will be assigned.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "An array of team member assignments, where each item specifies the details of a team member to be assigned. Each item is of type 'TeamMemberAssignment'.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

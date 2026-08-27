@@ -1,0 +1,52 @@
+{
+    "name": "get_commerce_payment_links_2026_09_beta_payment_links__id__payment_links",
+    "method": "GET",
+    "url": "https://api.hubapi.com/commerce/payment-links/2026-09-beta/payment-links/{paymentLinkId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "paymentLinkId": "{{DataType=str, Required=True}}",
+        "archived": "{{DataType=bool, Default=false, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Payment Link",
+        "display_name_source": "summary",
+        "description": "Retrieve details of a specific payment link using its unique identifier.",
+        "learn_more": "Retrieve details of a specific payment link using its unique identifier. This endpoint allows you to access information about the payment link, including its status and configuration. It is useful for checking the current settings or status of a payment link in your HubSpot account.",
+        "operation_id": "get-/commerce/payment-links/2026-09-beta/payment-links/{paymentLinkId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "paymentLinkId": {
+                    "label": "Payment Link Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

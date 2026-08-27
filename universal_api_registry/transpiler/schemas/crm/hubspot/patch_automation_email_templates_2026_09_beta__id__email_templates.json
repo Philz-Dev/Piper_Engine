@@ -1,0 +1,76 @@
+{
+    "name": "patch_automation_email_templates_2026_09_beta__id__email_templates",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/automation/email-templates/2026-09-beta/{templateId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "templateId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "body": "{{DataType=dict, Required=True}}",
+        "folderId": "{{DataType=dict, Required=True}}",
+        "name": "{{DataType=dict, Required=True}}",
+        "subject": "{{DataType=dict, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Template (Email Templates)",
+        "display_name_source": "summary",
+        "description": "Update an existing email template in your HubSpot account.",
+        "learn_more": "Update an existing email template in your HubSpot account. This endpoint allows you to modify the template's properties such as name, subject, body, and folderId. Ensure that the templateId provided corresponds to an existing template. Please note: the scopes for these endpoints require user-level access and will not work for existing apps with portal-level access. ",
+        "operation_id": "patch-/automation/email-templates/2026-09-beta/{templateId}_/automation/email-templates/2026-09-beta/{templateId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "templateId": {
+                    "label": "Template Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the email template to update.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "body": {
+                    "label": "Body",
+                    "input_type": "group",
+                    "description": "An object representing the body content of the email template.",
+                    "required": true
+                },
+                "folderId": {
+                    "label": "Folder Id",
+                    "input_type": "group",
+                    "description": "An object representing the identifier of the folder where the email template is stored.",
+                    "required": true
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "group",
+                    "description": "An object representing the name of the email template.",
+                    "required": true
+                },
+                "subject": {
+                    "label": "Subject",
+                    "input_type": "group",
+                    "description": "An object representing the subject line of the email template.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

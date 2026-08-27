@@ -1,0 +1,83 @@
+{
+    "name": "post_crm_objects_2027_03_beta__id__batch_read_price_books_crm_reads_api",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2027-03-beta/{objectType}/batch/read",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "archived": "{{DataType=bool, Default=false, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "idProperty": "{{DataType=str, Required=False}}",
+        "inputs": "{{DataType=list, Required=True}}",
+        "properties": "{{DataType=list, Required=True}}",
+        "propertiesWithHistory": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Batch Of Price Books (Price Books Crm Reads Api)",
+        "display_name_source": "summary",
+        "description": "Retrieve a batch of CRM objects by their internal IDs or unique property values.",
+        "learn_more": "Retrieve a batch of CRM objects by their internal IDs or unique property values. This endpoint allows you to specify the properties and their history to be included in the response. It is useful for efficiently fetching multiple objects' data in a single request.",
+        "operation_id": "post-/crm/objects/2027-03-beta/{objectType}/batch/read",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "idProperty": {
+                    "label": "Id Property",
+                    "input_type": "text",
+                    "description": "A string representing the name of a property whose values are unique for this object type.",
+                    "required": false
+                },
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "An array of SimplePublicObjectId objects, each containing an ID of a CRM object to be read.",
+                    "required": true
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "An array of strings representing the properties to be returned in the response. If any specified properties are not present on the requested objects, they will be ignored.",
+                    "required": true
+                },
+                "propertiesWithHistory": {
+                    "label": "Properties With History",
+                    "input_type": "tags",
+                    "description": "An array of strings representing the properties to be returned along with their history of previous values. If any specified properties are not present on the requested objects, they will be ignored. Using this parameter may reduce the maximum number of objects that can be read in a single request.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

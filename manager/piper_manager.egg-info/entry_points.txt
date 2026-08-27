@@ -1,2 +1,0 @@
-[console_scripts]
-piper-cli = cli_manager.core:main

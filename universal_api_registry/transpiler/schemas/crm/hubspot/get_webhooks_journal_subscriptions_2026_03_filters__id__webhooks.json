@@ -1,0 +1,45 @@
+{
+    "name": "get_webhooks_journal_subscriptions_2026_03_filters__id__webhooks",
+    "method": "GET",
+    "url": "https://api.hubapi.com/webhooks-journal/subscriptions/2026-03/filters/{filterId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "filterId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Filter (Webhooks)",
+        "display_name_source": "summary",
+        "description": "Retrieve details of a specific filter associated with a webhook subscription in the HubSpot account.",
+        "learn_more": "Retrieve details of a specific filter associated with a webhook subscription in the HubSpot account. This endpoint is useful for accessing the configuration and conditions of a filter by its unique identifier.",
+        "operation_id": "get-/webhooks-journal/subscriptions/2026-03/filters/{filterId}_/webhooks-journal/subscriptions/2026-03/filters/{filterId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "filterId": {
+                    "label": "Filter Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the filter to retrieve.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

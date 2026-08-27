@@ -1,0 +1,45 @@
+{
+    "name": "delete_crm_extensions_videoconferencing_2026_03_settings__id__video_con_411a2223",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/crm/extensions/videoconferencing/2026-03/settings/{appId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Settings (Video Conferencing Extension)",
+        "display_name_source": "summary",
+        "description": "Delete video conference extension settings for your app.",
+        "learn_more": "Delete video conference extension settings for your app",
+        "operation_id": "delete-/crm/extensions/videoconferencing/2026-03/settings/{appId}_archive",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

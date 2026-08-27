@@ -1,0 +1,87 @@
+{
+    "name": "get_account_info_2026_03_activity_audit_logs_audit_logs",
+    "method": "GET",
+    "url": "https://api.hubapi.com/account-info/2026-03/activity/audit-logs",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "actingUserId": "{{DataType=list, Required=False}}",
+        "after": "{{DataType=str, Required=False}}",
+        "fillFinalTimestamp": "{{DataType=bool, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}",
+        "occurredAfter": "{{DataType=str, Required=False}}",
+        "occurredBefore": "{{DataType=str, Required=False}}",
+        "sort": "{{DataType=list, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Audit Logs",
+        "display_name_source": "summary",
+        "description": "Retrieve activity history for user actions related to approvals, content updates, CRM object updates, security activity, and more...",
+        "learn_more": "Retrieve activity history for user actions related to approvals, content updates, CRM object updates, security activity, and more (Enterprise only). Learn more about [activities included in audit log exports](https://knowledge.hubspot.com/account-management/view-and-export-account-activity-history-in-a-centralized-audit-log?hubs_content=knowledge.hubspot.com/account-management/view-and-export-account-activity-history&hubs_content-cta=centralized%20audit%20log#data-included-in-the-centralized-audit-log).",
+        "operation_id": "get-/account-info/2026-03/activity/audit-logs",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "actingUserId": {
+                    "label": "Acting User Id",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "fillFinalTimestamp": {
+                    "label": "Fill Final Timestamp",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "occurredAfter": {
+                    "label": "Occurred After",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "occurredBefore": {
+                    "label": "Occurred Before",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "sort": {
+                    "label": "Sort",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

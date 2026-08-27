@@ -1,0 +1,261 @@
+{
+    "name": "patch_commerce_payment_links_2026_09_beta_payment_links__id__payment_links",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/commerce/payment-links/2026-09-beta/payment-links/{paymentLinkId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "paymentLinkId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "acceptedPaymentMethods": "{{DataType=list, Required=False}}",
+        "additionalFormFields": "{{DataType=list, Required=False}}",
+        "automatedSalesTaxEnabled": "{{DataType=bool, Required=False}}",
+        "businessUnitId": "{{DataType=dict, Required=True}}",
+        "collectFullBillingAddress": "{{DataType=bool, Required=False}}",
+        "collectShippingAddress": "{{DataType=bool, Required=False}}",
+        "currencyCode": "{{DataType=str, Required=False}}",
+        "dealConfigurations": "{{DataType=dict, Required=True}}",
+        "descriptionHtml": "{{DataType=dict, Required=True}}",
+        "discount": {
+            "label": "{{DataType=str, Required=True}}",
+            "value": "{{DataType=float, Required=True}}",
+            "valueType": "{{DataType=str, Required=True}}"
+        },
+        "discountCodeEnabled": "{{DataType=bool, Required=False}}",
+        "discountObjectId": "{{DataType=dict, Required=True}}",
+        "discountObjectIds": "{{DataType=list, Required=False}}",
+        "domainId": "{{DataType=dict, Required=True}}",
+        "enableDefaultCheckoutFees": "{{DataType=bool, Required=False}}",
+        "feeObjectIds": "{{DataType=list, Required=False}}",
+        "fees": "{{DataType=list, Required=False}}",
+        "includeEmailInSuccessRedirect": "{{DataType=bool, Required=False}}",
+        "isOneTimeUseEnabled": "{{DataType=bool, Required=False}}",
+        "lineItemObjectIds": "{{DataType=list, Required=False}}",
+        "lineItems": "{{DataType=list, Required=False}}",
+        "paymentLinkName": "{{DataType=str, Required=False}}",
+        "state": "{{DataType=str, Required=False}}",
+        "storePaymentMethodAtCheckout": "{{DataType=bool, Required=False}}",
+        "successUrl": "{{DataType=dict, Required=True}}",
+        "taxObjectIds": "{{DataType=list, Required=False}}",
+        "taxes": "{{DataType=list, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Update Payment Link",
+        "display_name_source": "summary",
+        "description": "Update a payment link by ID.",
+        "learn_more": null,
+        "operation_id": "patch-/commerce/payment-links/2026-09-beta/payment-links/{paymentLinkId}_/commerce/payment-links/2026-09-beta/payment-links/{paymentLinkId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "paymentLinkId": {
+                    "label": "Payment Link Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "acceptedPaymentMethods": {
+                    "label": "Accepted Payment Methods",
+                    "input_type": "tags",
+                    "description": "An array of strings indicating the accepted payment methods. Valid values include 'CREDIT_OR_DEBIT_CARD', 'ACH', 'SEPA', 'BACS', and 'PADS'.",
+                    "required": false
+                },
+                "additionalFormFields": {
+                    "label": "Additional Form Fields",
+                    "input_type": "tags",
+                    "description": "An array of PaymentLinkFormField objects representing additional form fields for the payment link.",
+                    "required": false
+                },
+                "automatedSalesTaxEnabled": {
+                    "label": "Automated Sales Tax Enabled",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether automated sales tax is enabled.",
+                    "required": false
+                },
+                "businessUnitId": {
+                    "label": "Business Unit Id",
+                    "input_type": "group",
+                    "description": "An object representing the business unit ID associated with the payment link.",
+                    "required": true
+                },
+                "collectFullBillingAddress": {
+                    "label": "Collect Full Billing Address",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether to collect the full billing address during checkout.",
+                    "required": false
+                },
+                "collectShippingAddress": {
+                    "label": "Collect Shipping Address",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether to collect the shipping address during checkout.",
+                    "required": false
+                },
+                "currencyCode": {
+                    "label": "Currency Code",
+                    "input_type": "text",
+                    "description": "The currency code for the payment link, represented as a string.",
+                    "required": false
+                },
+                "dealConfigurations": {
+                    "label": "Deal Configurations",
+                    "input_type": "group",
+                    "description": "An object containing deal configuration settings.",
+                    "required": true
+                },
+                "descriptionHtml": {
+                    "label": "Description Html",
+                    "input_type": "group",
+                    "description": "An object containing the HTML description of the payment link.",
+                    "required": true
+                },
+                "discount": {
+                    "label": "Discount",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "label": {
+                            "label": "Label",
+                            "input_type": "text",
+                            "description": "A descriptive label for the discount. This is a string.",
+                            "required": true
+                        },
+                        "value": {
+                            "label": "Value",
+                            "input_type": "number",
+                            "description": "The numerical value of the discount to be applied. This is a number.",
+                            "required": true
+                        },
+                        "valueType": {
+                            "label": "Value Type",
+                            "input_type": "text",
+                            "description": "The type of discount value, which can either be 'FIXED' or 'PERCENT'.",
+                            "required": true
+                        }
+                    }
+                },
+                "discountCodeEnabled": {
+                    "label": "Discount Code Enabled",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether discount codes are enabled for the payment link.",
+                    "required": false
+                },
+                "discountObjectId": {
+                    "label": "Discount Object Id",
+                    "input_type": "group",
+                    "description": "An object representing the discount object ID associated with the payment link.",
+                    "required": true
+                },
+                "discountObjectIds": {
+                    "label": "Discount Object Ids",
+                    "input_type": "tags",
+                    "description": "An array of strings representing the IDs of discount objects associated with the payment link.",
+                    "required": false
+                },
+                "domainId": {
+                    "label": "Domain Id",
+                    "input_type": "group",
+                    "description": "An object representing the domain ID associated with the payment link.",
+                    "required": true
+                },
+                "enableDefaultCheckoutFees": {
+                    "label": "Enable Default Checkout Fees",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether default checkout fees are enabled.",
+                    "required": false
+                },
+                "feeObjectIds": {
+                    "label": "Fee Object Ids",
+                    "input_type": "tags",
+                    "description": "An array of strings representing the IDs of fee objects associated with the payment link.",
+                    "required": false
+                },
+                "fees": {
+                    "label": "Fees",
+                    "input_type": "tags",
+                    "description": "An array of FeeRequest objects representing the fees associated with the payment link.",
+                    "required": false
+                },
+                "includeEmailInSuccessRedirect": {
+                    "label": "Include Email In Success Redirect",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether to include the email in the success redirect.",
+                    "required": false
+                },
+                "isOneTimeUseEnabled": {
+                    "label": "Is One Time Use Enabled",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the payment link is enabled for one-time use.",
+                    "required": false
+                },
+                "lineItemObjectIds": {
+                    "label": "Line Item Object Ids",
+                    "input_type": "tags",
+                    "description": "An array of strings representing the IDs of line item objects associated with the payment link.",
+                    "required": false
+                },
+                "lineItems": {
+                    "label": "Line Items",
+                    "input_type": "tags",
+                    "description": "An array of line item objects, which can be of types LineItemCustomCreateRequest, LineItemFromProductCreateRequest, or LineItemCloneCreateRequest.",
+                    "required": false
+                },
+                "paymentLinkName": {
+                    "label": "Payment Link Name",
+                    "input_type": "text",
+                    "description": "The name of the payment link, represented as a string.",
+                    "required": false
+                },
+                "state": {
+                    "label": "State",
+                    "input_type": "text",
+                    "description": "The state of the payment link, represented as a string. Valid values are 'ON' and 'OFF'.",
+                    "required": false
+                },
+                "storePaymentMethodAtCheckout": {
+                    "label": "Store Payment Method At Checkout",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the payment method should be stored at checkout.",
+                    "required": false
+                },
+                "successUrl": {
+                    "label": "Success Url",
+                    "input_type": "group",
+                    "description": "An object representing the success URL where the user is redirected after a successful transaction.",
+                    "required": true
+                },
+                "taxObjectIds": {
+                    "label": "Tax Object Ids",
+                    "input_type": "tags",
+                    "description": "An array of strings representing the IDs of tax objects associated with the payment link.",
+                    "required": false
+                },
+                "taxes": {
+                    "label": "Taxes",
+                    "input_type": "tags",
+                    "description": "An array of TaxRequest objects representing the taxes associated with the payment link.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

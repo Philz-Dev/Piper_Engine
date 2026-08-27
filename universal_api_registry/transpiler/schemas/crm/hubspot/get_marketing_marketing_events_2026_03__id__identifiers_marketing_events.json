@@ -1,0 +1,45 @@
+{
+    "name": "get_marketing_marketing_events_2026_03__id__identifiers_marketing_events",
+    "method": "GET",
+    "url": "https://api.hubapi.com/marketing/marketing-events/2026-03/{externalEventId}/identifiers",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "externalEventId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Find Marketing Events By External Event Id",
+        "display_name_source": "summary",
+        "description": "This endpoint searches the portal for all Marketing Events whose externalEventId matches the value provided in the request.\n\nIt...",
+        "learn_more": "This endpoint searches the portal for all Marketing Events whose externalEventId matches the value provided in the request.\n\nIt retrieves the objectId and additional event details for each matching Marketing Event.\n\nSince multiple Marketing Events can have the same externalEventId, the endpoint returns all matching results.\n\nNote: Marketing Events become searchable by externalEventId a few minutes after creation.",
+        "operation_id": "get-/marketing/marketing-events/2026-03/{externalEventId}/identifiers_searchPortalEvents",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "externalEventId": {
+                    "label": "External Event Id",
+                    "input_type": "text",
+                    "description": "The id of the marketing event in the external event application.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

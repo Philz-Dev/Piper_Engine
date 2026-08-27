@@ -1,0 +1,185 @@
+{
+    "name": "get_marketing_emails_2026_03_marketing_emails",
+    "method": "GET",
+    "url": "https://api.hubapi.com/marketing/emails/2026-03",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "archived": "{{DataType=bool, Required=False}}",
+        "campaign": "{{DataType=str, Required=False}}",
+        "createdAfter": "{{DataType=str, Required=False}}",
+        "createdAt": "{{DataType=str, Required=False}}",
+        "createdBefore": "{{DataType=str, Required=False}}",
+        "includedProperties": "{{DataType=list, Required=False}}",
+        "includeStats": "{{DataType=bool, Required=False}}",
+        "isPublished": "{{DataType=bool, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}",
+        "marketingCampaignNames": "{{DataType=bool, Required=False}}",
+        "publishedAfter": "{{DataType=str, Required=False}}",
+        "publishedAt": "{{DataType=str, Required=False}}",
+        "publishedBefore": "{{DataType=str, Required=False}}",
+        "sort": "{{DataType=list, Required=False}}",
+        "type": "{{DataType=str, Required=False}}",
+        "updatedAfter": "{{DataType=str, Required=False}}",
+        "updatedAt": "{{DataType=str, Required=False}}",
+        "updatedBefore": "{{DataType=str, Required=False}}",
+        "variantStats": "{{DataType=bool, Required=False}}",
+        "workflowNames": "{{DataType=bool, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "List Emails (Marketing Emails)",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "get-/marketing/emails/2026-03_/marketing/emails/v3",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "campaign": {
+                    "label": "Campaign",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "createdAfter": {
+                    "label": "Created After",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "createdAt": {
+                    "label": "Created At",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "createdBefore": {
+                    "label": "Created Before",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "includedProperties": {
+                    "label": "Included Properties",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "includeStats": {
+                    "label": "Include Stats",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "isPublished": {
+                    "label": "Is Published",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "marketingCampaignNames": {
+                    "label": "Marketing Campaign Names",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "publishedAfter": {
+                    "label": "Published After",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "publishedAt": {
+                    "label": "Published At",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "publishedBefore": {
+                    "label": "Published Before",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "sort": {
+                    "label": "Sort",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "type": {
+                    "label": "Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "updatedAfter": {
+                    "label": "Updated After",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "updatedAt": {
+                    "label": "Updated At",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "updatedBefore": {
+                    "label": "Updated Before",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "variantStats": {
+                    "label": "Variant Stats",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "workflowNames": {
+                    "label": "Workflow Names",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

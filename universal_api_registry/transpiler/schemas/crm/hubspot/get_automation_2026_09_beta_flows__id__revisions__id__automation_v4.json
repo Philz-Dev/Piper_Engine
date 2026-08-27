@@ -1,0 +1,52 @@
+{
+    "name": "get_automation_2026_09_beta_flows__id__revisions__id__automation_v4",
+    "method": "GET",
+    "url": "https://api.hubapi.com/automation/2026-09-beta/flows/{flowId}/revisions/{revisionId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "flowId": "{{DataType=str, Required=True}}",
+        "revisionId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Revision (Automation V4)",
+        "display_name_source": "summary",
+        "description": "Retrieve a specific revision of an automation flow using its flow ID and revision ID.",
+        "learn_more": "Retrieve a specific revision of an automation flow using its flow ID and revision ID. This endpoint is useful for accessing historical versions of a flow to review changes or restore previous configurations.",
+        "operation_id": "get-/automation/2026-09-beta/flows/{flowId}/revisions/{revisionId}_/automation/2026-09-beta/flows/{flowId}/revisions/{revisionId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "flowId": {
+                    "label": "Flow Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "revisionId": {
+                    "label": "Revision Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "name": "delete_commerce_price_books_2026_09_beta_price_books__id__items__id__price_books",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/commerce/price-books/2026-09-beta/price-books/{priceBookId}/items/{priceBookItemId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "priceBookId": "{{DataType=int, Required=True}}",
+        "priceBookItemId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Price Book Item",
+        "display_name_source": "summary",
+        "description": "Remove a specific item from a price book in your HubSpot account.",
+        "learn_more": "Remove a specific item from a price book in your HubSpot account. This operation is irreversible and will permanently delete the item identified by the given priceBookItemId from the price book specified by priceBookId.",
+        "operation_id": "delete-/commerce/price-books/2026-09-beta/price-books/{priceBookId}/items/{priceBookItemId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "priceBookId": {
+                    "label": "Price Book Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the price book from which the item will be deleted.",
+                    "required": true
+                },
+                "priceBookItemId": {
+                    "label": "Price Book Item Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the item to be deleted from the price book.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

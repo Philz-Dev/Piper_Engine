@@ -1,0 +1,66 @@
+{
+    "name": "get_crm_object_schemas_2026_03_schemas__id__schemas",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm-object-schemas/2026-03/schemas/{objectType}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "includeAssociationDefinitions": "{{DataType=bool, Default=true, Required=False}}",
+        "includeAuditMetadata": "{{DataType=bool, Default=true, Required=False}}",
+        "includePropertyDefinitions": "{{DataType=bool, Default=true, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Schema Of Specified Custom Object",
+        "display_name_source": "summary",
+        "description": "Retrieve details of a custom object schema, including its properties and associations, using the object type ID or fully qualified name.",
+        "learn_more": null,
+        "operation_id": "get-/crm-object-schemas/2026-03/schemas/{objectType}_getById",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "includeAssociationDefinitions": {
+                    "label": "Include Association Definitions",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "includeAuditMetadata": {
+                    "label": "Include Audit Metadata",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "includePropertyDefinitions": {
+                    "label": "Include Property Definitions",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

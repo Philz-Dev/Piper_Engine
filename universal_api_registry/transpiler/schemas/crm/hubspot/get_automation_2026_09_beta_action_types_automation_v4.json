@@ -1,0 +1,45 @@
+{
+    "name": "get_automation_2026_09_beta_action_types_automation_v4",
+    "method": "GET",
+    "url": "https://api.hubapi.com/automation/2026-09-beta/action-types",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectTypeId": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Action Types (Automation V4)",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of available workflow action types.",
+        "learn_more": "Retrieve a list of available workflow action types. This endpoint can be used to understand the types of actions that can be incorporated into automation workflows, which is useful for developers looking to customize or extend workflow capabilities.",
+        "operation_id": "get-/automation/2026-09-beta/action-types_/automation/2026-09-beta/action-types",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectTypeId": {
+                    "label": "Object Type Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

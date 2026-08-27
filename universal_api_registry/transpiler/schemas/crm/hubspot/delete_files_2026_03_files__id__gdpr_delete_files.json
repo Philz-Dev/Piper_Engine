@@ -1,0 +1,45 @@
+{
+    "name": "delete_files_2026_03_files__id__gdpr_delete_files",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/files/2026-03/files/{fileId}/gdpr-delete",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "fileId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Gdpr-delete File",
+        "display_name_source": "summary",
+        "description": "Delete a file in accordance with GDPR regulations.",
+        "learn_more": null,
+        "operation_id": "delete-/files/2026-03/files/{fileId}/gdpr-delete_delete",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "fileId": {
+                    "label": "File Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

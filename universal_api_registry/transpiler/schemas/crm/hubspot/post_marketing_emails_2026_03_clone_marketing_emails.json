@@ -1,0 +1,62 @@
+{
+    "name": "post_marketing_emails_2026_03_clone_marketing_emails",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/emails/2026-03/clone",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "cloneName": "{{DataType=str, Required=False}}",
+        "id": "{{DataType=str, Required=True}}",
+        "language": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Clone Marketing Email",
+        "display_name_source": "summary",
+        "description": "This will create a duplicate email with the same properties as the original, with the exception of a unique ID.",
+        "learn_more": null,
+        "operation_id": "post-/marketing/emails/2026-03/clone_clone",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "cloneName": {
+                    "label": "Clone Name",
+                    "input_type": "text",
+                    "description": "The name to assign to the cloned email.",
+                    "required": false
+                },
+                "id": {
+                    "label": "Id",
+                    "input_type": "text",
+                    "description": "The email ID.",
+                    "required": true
+                },
+                "language": {
+                    "label": "Language",
+                    "input_type": "text",
+                    "description": "The language code for the cloned email, such as 'en' for English.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

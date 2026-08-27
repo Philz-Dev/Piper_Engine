@@ -1,0 +1,76 @@
+{
+    "name": "patch_commerce_contracts_2026_09_beta_changes__id__contracts",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/commerce/contracts/2026-09-beta/changes/{changeId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "changeId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "effectiveDate": "{{DataType=str, Required=False}}",
+        "lineItemChanges": "{{DataType=list, Required=False}}",
+        "name": "{{DataType=dict, Required=True}}",
+        "prorating": "{{DataType=bool, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Update Change (Contracts)",
+        "display_name_source": "summary",
+        "description": "Update an existing contract change in your HubSpot account.",
+        "learn_more": "Update an existing contract change in your HubSpot account. This endpoint allows you to modify the details of a specific change identified by its changeId. The request must include the necessary fields to update the contract change, such as the name and any line item changes.",
+        "operation_id": "patch-/commerce/contracts/2026-09-beta/changes/{changeId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "changeId": {
+                    "label": "Change Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the contract change to update.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "effectiveDate": {
+                    "label": "Effective Date",
+                    "input_type": "text",
+                    "description": "The date on which the contract change becomes effective, formatted as a date string.",
+                    "required": false
+                },
+                "lineItemChanges": {
+                    "label": "Line Item Changes",
+                    "input_type": "tags",
+                    "description": "An array of line item changes associated with the contract change, each represented by a LineItemChangeRequest object.",
+                    "required": false
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "group",
+                    "description": "An object representing the name of the contract change.",
+                    "required": true
+                },
+                "prorating": {
+                    "label": "Prorating",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the contract change should be prorated.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

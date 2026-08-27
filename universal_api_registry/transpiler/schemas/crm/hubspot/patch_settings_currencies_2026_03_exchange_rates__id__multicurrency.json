@@ -1,0 +1,62 @@
+{
+    "name": "patch_settings_currencies_2026_03_exchange_rates__id__multicurrency",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/settings/currencies/2026-03/exchange-rates/{exchangeRateId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "exchangeRateId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "conversionRate": "{{DataType=float, Required=True}}",
+        "effectiveAt": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Update Conversion Rate (Multicurrency)",
+        "display_name_source": "summary",
+        "description": "Update an existing conversion rate, specified by its ID.",
+        "learn_more": null,
+        "operation_id": "patch-/settings/currencies/2026-03/exchange-rates/{exchangeRateId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "exchangeRateId": {
+                    "label": "Exchange Rate Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "conversionRate": {
+                    "label": "Conversion Rate",
+                    "input_type": "number",
+                    "description": "The updated conversion rate between the to and from currency code of this exchange rate.",
+                    "required": true
+                },
+                "effectiveAt": {
+                    "label": "Effective At",
+                    "input_type": "text",
+                    "description": "The date the exchange rate is in effect.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

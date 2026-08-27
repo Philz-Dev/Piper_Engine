@@ -1,0 +1,48 @@
+{
+    "name": "post_marketing_campaigns_2026_03_batch_create_campaigns_public_api",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/campaigns/2026-03/batch/create",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Batch Of Campaigns (Campaigns Public Api)",
+        "display_name_source": "summary",
+        "description": "This endpoint creates a batch of campaigns.",
+        "learn_more": "This endpoint creates a batch of campaigns. The maximum number of items in a batch request is 50.\nThe campaigns in the response are not guaranteed to be in the same order as they were provided in the request.",
+        "operation_id": "post-/marketing/campaigns/2026-03/batch/create",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "An array of PublicCampaignInput objects, each representing the properties of a campaign to be created in the batch. This property is required.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "name": "get_marketing_marketing_events_2026_03_associations__id___id__lists_mar_75bb51a6",
+    "method": "GET",
+    "url": "https://api.hubapi.com/marketing/marketing-events/2026-03/associations/{externalAccountId}/{externalEventId}/lists",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "externalAccountId": "{{DataType=str, Required=True}}",
+        "externalEventId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Lists Associated With Marketing Event",
+        "display_name_source": "summary",
+        "description": "Gets lists associated with a marketing event by external account id and external event id.",
+        "learn_more": "Gets lists associated with a marketing event by external account id and external event id",
+        "operation_id": "get-/marketing/marketing-events/2026-03/associations/{externalAccountId}/{externalEventId}/lists_getAllByExternalAccountAndEventIds",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "externalAccountId": {
+                    "label": "External Account Id",
+                    "input_type": "text",
+                    "description": "The accountId that is associated with this marketing event in the external event application.",
+                    "required": true
+                },
+                "externalEventId": {
+                    "label": "External Event Id",
+                    "input_type": "text",
+                    "description": "The id of the marketing event in the external event application.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

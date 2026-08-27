@@ -1,0 +1,59 @@
+{
+    "name": "delete_feature_flags_2026_03__id__flags__id__portals__id__public_app_fe_3440fb3a",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/feature-flags/2026-03/{appId}/flags/{flagName}/portals/{portalId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "flagName": "{{DataType=str, Required=True}}",
+        "portalId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Account Flag State (Public App Feature Flags V3)",
+        "display_name_source": "summary",
+        "description": "Delete an account-level flag state for a specific HubSpot account.",
+        "learn_more": "Delete an account-level flag state for a specific HubSpot account. No request body is included.",
+        "operation_id": "delete-/feature-flags/2026-03/{appId}/flags/{flagName}/portals/{portalId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "flagName": {
+                    "label": "Flag Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "portalId": {
+                    "label": "Portal Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "name": "post_commerce_price_books_2026_09_beta_price_books__id__validate_price_books",
+    "method": "POST",
+    "url": "https://api.hubapi.com/commerce/price-books/2026-09-beta/price-books/{priceBookId}/validate",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "priceBookId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Validate Price Book",
+        "display_name_source": "summary",
+        "description": "Validate a specific price book in your HubSpot account.",
+        "learn_more": "Validate a specific price book in your HubSpot account. This endpoint checks the integrity and correctness of the price book identified by the given priceBookId. Use this to ensure that the price book meets all necessary criteria before proceeding with further operations.",
+        "operation_id": "post-/commerce/price-books/2026-09-beta/price-books/{priceBookId}/validate",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "priceBookId": {
+                    "label": "Price Book Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the price book to validate.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "name": "get_crm_objects_2026_03_0_420__id__listings",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/0-420/{listingId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "listingId": "{{DataType=str, Required=True}}",
+        "archived": "{{DataType=bool, Default=false, Required=False}}",
+        "associations": "{{DataType=list, Required=False}}",
+        "idProperty": "{{DataType=str, Required=False}}",
+        "properties": "{{DataType=list, Required=False}}",
+        "propertiesWithHistory": "{{DataType=list, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Listing",
+        "display_name_source": "path_heuristic+hint",
+        "description": "Read an Object identified by `{listingId}`.",
+        "learn_more": "Read an Object identified by `{listingId}`. `{listingId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param.  Control what is returned via the `properties` query param.",
+        "operation_id": "get-/crm/objects/2026-03/0-420/{listingId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "listingId": {
+                    "label": "Listing Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived.",
+                    "required": false
+                },
+                "associations": {
+                    "label": "Associations",
+                    "input_type": "tags",
+                    "description": "A comma separated list of object types to retrieve associated IDs for. If any of the specified associations do not exist, they will be ignored.",
+                    "required": false
+                },
+                "idProperty": {
+                    "label": "Id Property",
+                    "input_type": "text",
+                    "description": "The name of a property whose values are unique for this object type",
+                    "required": false
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "A comma separated list of the properties to be returned in the response. If any of the specified properties are not present on the requested object(s), they will be ignored.",
+                    "required": false
+                },
+                "propertiesWithHistory": {
+                    "label": "Properties With History",
+                    "input_type": "tags",
+                    "description": "A comma separated list of the properties to be returned along with their history of previous values. If any of the specified properties are not present on the requested object(s), they will be ignored.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

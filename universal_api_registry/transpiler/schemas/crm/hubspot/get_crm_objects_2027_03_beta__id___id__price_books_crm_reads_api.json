@@ -1,0 +1,87 @@
+{
+    "name": "get_crm_objects_2027_03_beta__id___id__price_books_crm_reads_api",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/objects/2027-03-beta/{objectType}/{objectId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectId": "{{DataType=str, Required=True}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "archived": "{{DataType=bool, Default=false, Required=False}}",
+        "associations": "{{DataType=list, Required=False}}",
+        "idProperty": "{{DataType=str, Required=False}}",
+        "properties": "{{DataType=list, Required=False}}",
+        "propertiesWithHistory": "{{DataType=list, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Price Book (Price Books Crm Reads Api)",
+        "display_name_source": "summary",
+        "description": "Read an object identified by `{objectId}`.",
+        "learn_more": "Read an object identified by `{objectId}`. By default, `{objectId}` refers to the internal object ID, but you can specify any unique property value using the `idProperty` query parameter. Use the `properties` query parameter to control which properties are returned in the response.",
+        "operation_id": "get-/crm/objects/2027-03-beta/{objectType}/{objectId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectId": {
+                    "label": "Object Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived.",
+                    "required": false
+                },
+                "associations": {
+                    "label": "Associations",
+                    "input_type": "tags",
+                    "description": "A comma separated list of object types to retrieve associated IDs for. If any of the specified associations do not exist, they will be ignored.",
+                    "required": false
+                },
+                "idProperty": {
+                    "label": "Id Property",
+                    "input_type": "text",
+                    "description": "The name of a property whose values are unique for this object type",
+                    "required": false
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "A comma separated list of the properties to be returned in the response. If any of the specified properties are not present on the requested object(s), they will be ignored.",
+                    "required": false
+                },
+                "propertiesWithHistory": {
+                    "label": "Properties With History",
+                    "input_type": "tags",
+                    "description": "A comma separated list of the properties to be returned along with their history of previous values. If any of the specified properties are not present on the requested object(s), they will be ignored.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

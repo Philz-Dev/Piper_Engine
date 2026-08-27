@@ -1,0 +1,76 @@
+{
+    "name": "post_crm_associations_2026_03__id___id__labels_associations_schema",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/associations/2026-03/{fromObjectType}/{toObjectType}/labels",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "fromObjectType": "{{DataType=str, Required=True}}",
+        "toObjectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inverseLabel": "{{DataType=str, Required=False}}",
+        "label": "{{DataType=str, Required=True}}",
+        "name": "{{DataType=str, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Association Label (Associations Schema)",
+        "display_name_source": "summary",
+        "description": "Create a new label that describes the relationship between two specified CRM object types.",
+        "learn_more": "Create a new label that describes the relationship between two specified CRM object types. This can help in categorizing and managing associations more effectively.",
+        "operation_id": "post-/crm/associations/2026-03/{fromObjectType}/{toObjectType}/labels_create",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "fromObjectType": {
+                    "label": "From Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "toObjectType": {
+                    "label": "To Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inverseLabel": {
+                    "label": "Inverse Label",
+                    "input_type": "text",
+                    "description": "An optional descriptor that clarifies the reverse relationship in the association.",
+                    "required": false
+                },
+                "label": {
+                    "label": "Label",
+                    "input_type": "text",
+                    "description": "A descriptor that provides context about the relationship between two associated CRM objects.",
+                    "required": true
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The unique identifier for the association definition.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,135 @@
+{
+    "name": "patch_media_bridge_2026_03__id__schemas__id__media_bridge",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/media-bridge/2026-03/{appId}/schemas/{objectType}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "objectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "allowsSensitiveProperties": "{{DataType=bool, Required=False}}",
+        "clearDescription": "{{DataType=bool, Required=True}}",
+        "description": "{{DataType=str, Required=False}}",
+        "labels": {
+            "plural": "{{DataType=str, Required=False}}",
+            "singular": "{{DataType=str, Required=False}}"
+        },
+        "primaryDisplayProperty": "{{DataType=str, Required=False}}",
+        "requiredProperties": "{{DataType=list, Required=False}}",
+        "restorable": "{{DataType=bool, Required=False}}",
+        "searchableProperties": "{{DataType=list, Required=False}}",
+        "secondaryDisplayProperties": "{{DataType=list, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Update Schema (Media Bridge)",
+        "display_name_source": "summary",
+        "description": "Update the schema for a specific object type within a given app.",
+        "learn_more": "Update the schema for a specific object type within a given app. This operation allows you to modify the existing schema details, which can be useful for adapting to changes in data structure requirements or business logic.",
+        "operation_id": "patch-/media-bridge/2026-03/{appId}/schemas/{objectType}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the app associated with the schema.",
+                    "required": true
+                },
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "The type of object whose schema is being updated.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "allowsSensitiveProperties": {
+                    "label": "Allows Sensitive Properties",
+                    "input_type": "checkbox",
+                    "description": "A boolean that specifies if the object type allows properties marked as sensitive.",
+                    "required": false
+                },
+                "clearDescription": {
+                    "label": "Clear Description",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the description should be cleared or reset.",
+                    "required": true
+                },
+                "description": {
+                    "label": "Description",
+                    "input_type": "text",
+                    "description": "A string providing a description of the object type.",
+                    "required": false
+                },
+                "labels": {
+                    "label": "Labels",
+                    "input_type": "group",
+                    "description": "",
+                    "required": false,
+                    "fields": {
+                        "plural": {
+                            "label": "Plural",
+                            "input_type": "text",
+                            "description": "The plural label for the object type, used to represent multiple instances of the object. It is a string.",
+                            "required": false
+                        },
+                        "singular": {
+                            "label": "Singular",
+                            "input_type": "text",
+                            "description": "The singular label for the object type, used to represent a single instance of the object. It is a string.",
+                            "required": false
+                        }
+                    }
+                },
+                "primaryDisplayProperty": {
+                    "label": "Primary Display Property",
+                    "input_type": "text",
+                    "description": "A string that identifies the primary property used for displaying the object.",
+                    "required": false
+                },
+                "requiredProperties": {
+                    "label": "Required Properties",
+                    "input_type": "tags",
+                    "description": "An array of strings indicating which properties are required for the object type.",
+                    "required": false
+                },
+                "restorable": {
+                    "label": "Restorable",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether the object type can be restored after deletion.",
+                    "required": false
+                },
+                "searchableProperties": {
+                    "label": "Searchable Properties",
+                    "input_type": "tags",
+                    "description": "An array of strings specifying which properties can be used in search queries.",
+                    "required": false
+                },
+                "secondaryDisplayProperties": {
+                    "label": "Secondary Display Properties",
+                    "input_type": "tags",
+                    "description": "An array of strings that list additional properties used for displaying the object.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

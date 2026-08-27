@@ -1,0 +1,52 @@
+{
+    "name": "delete_crm_extensions_cards_dev_2026_03__id___id__public_app_crm_cards",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/crm/extensions/cards-dev/2026-03/{appId}/{cardId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "cardId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Card (Public App Crm Cards)",
+        "display_name_source": "summary",
+        "description": "Permanently deletes a card definition with the given ID.",
+        "learn_more": "Permanently deletes a card definition with the given ID. Once deleted, data fetch requests for this card will no longer be sent to your service. This can't be undone.",
+        "operation_id": "delete-/crm/extensions/cards-dev/2026-03/{appId}/{cardId}_archive",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The appId of the app containing the Legacy CRM Card(s)",
+                    "required": true
+                },
+                "cardId": {
+                    "label": "Card Id",
+                    "input_type": "text",
+                    "description": "The ID of the card to delete.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

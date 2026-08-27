@@ -1,0 +1,45 @@
+{
+    "name": "post_marketing_lead_scoring_2027_03_beta_scores__id__deactivate_lead_scoring",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/lead-scoring/2027-03-beta/scores/{scoreId}/deactivate",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "scoreId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Deactivate Score (Lead Scoring)",
+        "display_name_source": "summary",
+        "description": "Deactivate a specific lead scoring configuration in your HubSpot account.",
+        "learn_more": "Deactivate a specific lead scoring configuration in your HubSpot account. This endpoint is useful when you want to temporarily disable a scoring configuration without deleting it. The operation returns the updated score configuration.",
+        "operation_id": "post-/marketing/lead-scoring/2027-03-beta/scores/{scoreId}/deactivate",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "scoreId": {
+                    "label": "Score Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

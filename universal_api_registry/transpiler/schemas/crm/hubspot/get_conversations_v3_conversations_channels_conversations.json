@@ -1,0 +1,66 @@
+{
+    "name": "get_conversations_v3_conversations_channels_conversations",
+    "method": "GET",
+    "url": "https://api.hubapi.com/conversations/v3/conversations/channels",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "defaultPageLength": "{{DataType=int, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}",
+        "sort": "{{DataType=list, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Channels (Conversations)",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of channels, with optional filters and sorting.",
+        "learn_more": null,
+        "operation_id": "get-/conversations/v3/conversations/channels",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "defaultPageLength": {
+                    "label": "Default Page Length",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "sort": {
+                    "label": "Sort",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

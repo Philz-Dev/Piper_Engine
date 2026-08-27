@@ -1,0 +1,62 @@
+{
+    "name": "put_data_studio_data_source_2026_09_beta__id__datasource_ingestion",
+    "method": "PUT",
+    "url": "https://api.hubapi.com/data-studio/data-source/2026-09-beta/{datasourceId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "datasourceId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "file": "{{DataType=str, Required=False}}",
+        "request": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Update Data Source (Datasource Ingestion)",
+        "display_name_source": "summary",
+        "description": "Update an existing data source in HubSpot Data Studio.",
+        "learn_more": "Update an existing data source in HubSpot Data Studio. This endpoint allows you to modify the details of a specific data source identified by its datasourceId. The request must include a multipart form-data body with the necessary fields to update the data source",
+        "operation_id": "put-/data-studio/data-source/2026-09-beta/{datasourceId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "datasourceId": {
+                    "label": "Datasource Id",
+                    "input_type": "number",
+                    "description": "The ID of the datasource.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "file": {
+                    "label": "File",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "request": {
+                    "label": "Request",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

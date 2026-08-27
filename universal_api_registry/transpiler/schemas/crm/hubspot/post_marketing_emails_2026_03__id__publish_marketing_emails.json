@@ -1,0 +1,45 @@
+{
+    "name": "post_marketing_emails_2026_03__id__publish_marketing_emails",
+    "method": "POST",
+    "url": "https://api.hubapi.com/marketing/emails/2026-03/{emailId}/publish",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "emailId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Publish Or Send Marketing Email",
+        "display_name_source": "summary",
+        "description": "If you have a Marketing Hub Enterprise account or the transactional email add-on, you can use this endpoint to publish an automated...",
+        "learn_more": "If you have a Marketing Hub Enterprise account or the transactional email add-on, you can use this endpoint to publish an automated email or send/schedule a regular email.",
+        "operation_id": "post-/marketing/emails/2026-03/{emailId}/publish_publishOrSend",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "emailId": {
+                    "label": "Email Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

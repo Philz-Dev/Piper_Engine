@@ -1,0 +1,53 @@
+{
+    "name": "hubspot_oauth_config",
+    "token_url": "https://api.hubapi.com/oauth/v1/token",
+    "auth_link": "https://app.hubspot.com/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope={scopes}",
+    "method": "POST",
+    "class": {
+        "CLIENT_ID": "{{DataType=str}}",
+        "CLIENT_SECRET": "{{DataType=str}}",
+        "scopes": "{{DataType=str, Default=crm.objects.appointments.read crm.objects.appointments.sensitive.read.v2 crm.objects.appointments.sensitive.write.v2 crm.objects.appointments.write crm.objects.calls.read crm.objects.carts.read crm.objects.carts.write crm.objects.commercepayments.read crm.objects.commercepayments.write crm.objects.companies.highly_sensitive.read.v2 crm.objects.companies.highly_sensitive.write.v2 crm.objects.companies.read crm.objects.companies.sensitive.read.v2 crm.objects.companies.sensitive.write.v2 crm.objects.companies.write crm.objects.contacts.highly_sensitive.read.v2 crm.objects.contacts.highly_sensitive.write.v2 crm.objects.contacts.read crm.objects.contacts.sensitive.read.v2 crm.objects.contacts.sensitive.write.v2 crm.objects.contacts.write crm.objects.courses.read crm.objects.courses.write crm.objects.custom.highly_sensitive.read.v2 crm.objects.custom.highly_sensitive.write.v2 crm.objects.custom.read crm.objects.custom.sensitive.read.v2 crm.objects.custom.sensitive.write.v2 crm.objects.custom.write crm.objects.deals.highly_sensitive.read.v2 crm.objects.deals.highly_sensitive.write.v2 crm.objects.deals.read crm.objects.deals.sensitive.read.v2 crm.objects.deals.sensitive.write.v2 crm.objects.deals.write crm.objects.emails.read crm.objects.goals.read crm.objects.goals.write crm.objects.invoices.read crm.objects.invoices.write crm.objects.leads.read crm.objects.leads.write crm.objects.line_items.read crm.objects.line_items.write crm.objects.listings.read crm.objects.listings.write crm.objects.meetings.read crm.objects.notes.read crm.objects.orders.read crm.objects.orders.write crm.objects.partner-clients.read crm.objects.partner-clients.write crm.objects.partner-services.read crm.objects.partner-services.write crm.objects.products.read crm.objects.products.write crm.objects.projects.highly_sensitive.read crm.objects.projects.highly_sensitive.write crm.objects.projects.read crm.objects.projects.sensitive.read crm.objects.projects.sensitive.write crm.objects.projects.write crm.objects.quotes.read crm.objects.quotes.write crm.objects.services.read crm.objects.services.write crm.objects.subscriptions.read crm.objects.subscriptions.write crm.objects.tasks.read crm.objects.tickets.highly_sensitive.read crm.objects.tickets.highly_sensitive.write crm.objects.tickets.sensitive.read crm.objects.tickets.sensitive.write crm.objects.users.read crm.objects.users.write e-commerce media_bridge.read oauth tickets tickets.highly_sensitive.v2 tickets.sensitive.v2}}",
+        "REDIRECT_URI": "{{DataType=str, Default=http://localhost:8080/callback/hubspot}}"
+    },
+    "metadata": {
+        "display_name": "Connect Fees",
+        "description": "Authorize access to Fees via OAuth2.",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "auth",
+        "node_type_confidence": "verified",
+        "source": "transpiled_official",
+        "fields": {
+            "class": {
+                "CLIENT_ID": {
+                    "label": "Client Id",
+                    "input_type": "text",
+                    "description": "OAuth client ID from the app's developer portal.",
+                    "required": true
+                },
+                "CLIENT_SECRET": {
+                    "label": "Client Secret",
+                    "input_type": "text",
+                    "description": "OAuth client secret \u2014 store via secrets manager, never commit.",
+                    "required": true
+                },
+                "scopes": {
+                    "label": "Scopes",
+                    "input_type": "text",
+                    "description": "Space-separated OAuth scopes to request. Pre-filled from the API spec \u2014 narrow this if the integration doesn't need full access.",
+                    "required": true
+                },
+                "REDIRECT_URI": {
+                    "label": "Redirect Uri",
+                    "input_type": "text",
+                    "description": "OAuth callback URL. Override to match your app's registered redirect URI.",
+                    "required": true
+                }
+            },
+            "body": {}
+        },
+        "last_updated": "2026-08-23T07:46:45Z",
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

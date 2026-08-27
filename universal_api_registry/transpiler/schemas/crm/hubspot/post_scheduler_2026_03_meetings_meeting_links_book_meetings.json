@@ -1,0 +1,118 @@
+{
+    "name": "post_scheduler_2026_03_meetings_meeting_links_book_meetings",
+    "method": "POST",
+    "url": "https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "duration": "{{DataType=int, Required=True}}",
+        "email": "{{DataType=str, Required=True}}",
+        "firstName": "{{DataType=str, Required=True}}",
+        "formFields": "{{DataType=list, Required=True}}",
+        "lastName": "{{DataType=str, Required=True}}",
+        "legalConsentResponses": "{{DataType=list, Required=True}}",
+        "likelyAvailableUserIds": "{{DataType=list, Required=True}}",
+        "locale": "{{DataType=str, Required=False}}",
+        "slug": "{{DataType=str, Required=True}}",
+        "startTime": "{{DataType=str, Required=True}}",
+        "timezone": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Book Meeting",
+        "display_name_source": "summary",
+        "description": "Book a meeting using a specified meeting link.",
+        "learn_more": "Book a meeting using a specified meeting link. This endpoint allows you to create a meeting by providing necessary details such as duration, email, and start time. It is useful for scheduling meetings programmatically through HubSpot's API.",
+        "operation_id": "post-/scheduler/2026-03/meetings/meeting-links/book",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "duration": {
+                    "label": "Duration",
+                    "input_type": "number",
+                    "description": "An integer representing the duration of the meeting in minutes.",
+                    "required": true
+                },
+                "email": {
+                    "label": "Email",
+                    "input_type": "text",
+                    "description": "The email address of the person booking the meeting.",
+                    "required": true
+                },
+                "firstName": {
+                    "label": "First Name",
+                    "input_type": "text",
+                    "description": "The first name of the person booking the meeting.",
+                    "required": true
+                },
+                "formFields": {
+                    "label": "Form Fields",
+                    "input_type": "tags",
+                    "description": "An array of form fields filled out by the participant, each containing a name and value.",
+                    "required": true
+                },
+                "lastName": {
+                    "label": "Last Name",
+                    "input_type": "text",
+                    "description": "The last name of the person booking the meeting.",
+                    "required": true
+                },
+                "legalConsentResponses": {
+                    "label": "Legal Consent Responses",
+                    "input_type": "tags",
+                    "description": "An array of legal consent responses, each detailing the consent given by the participant.",
+                    "required": true
+                },
+                "likelyAvailableUserIds": {
+                    "label": "Likely Available User Ids",
+                    "input_type": "tags",
+                    "description": "An array of strings representing the user IDs of those likely available for the meeting.",
+                    "required": true
+                },
+                "locale": {
+                    "label": "Locale",
+                    "input_type": "text",
+                    "description": "A string representing the locale of the person booking the meeting.",
+                    "required": false
+                },
+                "slug": {
+                    "label": "Slug",
+                    "input_type": "text",
+                    "description": "A string representing the unique identifier for the meeting link.",
+                    "required": true
+                },
+                "startTime": {
+                    "label": "Start Time",
+                    "input_type": "text",
+                    "description": "The start time of the meeting in ISO 8601 date-time format.",
+                    "required": true
+                },
+                "timezone": {
+                    "label": "Timezone",
+                    "input_type": "text",
+                    "description": "A string representing the timezone of the person booking the meeting.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

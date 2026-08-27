@@ -1,0 +1,52 @@
+{
+    "name": "get_communication_preferences_2026_03_definitions_subscriptions",
+    "method": "GET",
+    "url": "https://api.hubapi.com/communication-preferences/2026-03/definitions",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "businessUnitId": "{{DataType=int, Required=False}}",
+        "includeTranslations": "{{DataType=bool, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve All Subscription Status Definitions",
+        "display_name_source": "summary",
+        "description": "Get a list of subscription status definitions from the account.",
+        "learn_more": null,
+        "operation_id": "get-/communication-preferences/2026-03/definitions",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "businessUnitId": {
+                    "label": "Business Unit Id",
+                    "input_type": "number",
+                    "description": "An integer representing the ID of the business unit for which to retrieve subscription definitions.",
+                    "required": false
+                },
+                "includeTranslations": {
+                    "label": "Include Translations",
+                    "input_type": "checkbox",
+                    "description": "A boolean indicating whether to include translations of the communication preferences definitions in the response.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

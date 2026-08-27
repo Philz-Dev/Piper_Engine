@@ -1,0 +1,52 @@
+{
+    "name": "delete_webhooks_2026_03__id__subscriptions__id__webhooks",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/webhooks/2026-03/{appId}/subscriptions/{subscriptionId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "subscriptionId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Event Subscription (Webhooks)",
+        "display_name_source": "summary",
+        "description": "Delete an existing event subscription by ID.",
+        "learn_more": null,
+        "operation_id": "delete-/webhooks/2026-03/{appId}/subscriptions/{subscriptionId}_archive",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "The identifier for the app.",
+                    "required": true
+                },
+                "subscriptionId": {
+                    "label": "Subscription Id",
+                    "input_type": "number",
+                    "description": "The identifier for the subscription.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

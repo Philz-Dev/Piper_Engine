@@ -1,0 +1,45 @@
+{
+    "name": "get_cms_domains_2026_03__id__domains",
+    "method": "GET",
+    "url": "https://api.hubapi.com/cms/domains/2026-03/{domainId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "domainId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Single Domain",
+        "display_name_source": "summary",
+        "description": "Returns a single domains with the id specified.",
+        "learn_more": null,
+        "operation_id": "get-/cms/domains/2026-03/{domainId}_getById",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "domainId": {
+                    "label": "Domain Id",
+                    "input_type": "text",
+                    "description": "The unique ID of the domain.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

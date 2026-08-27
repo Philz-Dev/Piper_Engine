@@ -1,0 +1,45 @@
+{
+    "name": "post_payments_subscriptions_v1_subscriptions_crm__id__cancel_subscripti_82b7bb55",
+    "method": "POST",
+    "url": "https://api.hubapi.com/payments-subscriptions/v1/subscriptions/crm/{objectId}/cancel",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectId": "{{DataType=int, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Cancel Subscription (Subscription Lifecycle)",
+        "display_name_source": "summary",
+        "description": "Cancel an active commerce subscription using the subscription ID.",
+        "learn_more": null,
+        "operation_id": "post-/payments-subscriptions/v1/subscriptions/crm/{objectId}/cancel_/payments-subscriptions/v1/subscriptions/crm/{objectId}/cancel",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "trigger",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectId": {
+                    "label": "Object Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

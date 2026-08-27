@@ -1,0 +1,76 @@
+{
+    "name": "post_crm_pipelines_2026_03__id__pipelines",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/pipelines/2026-03/{objectType}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "displayOrder": "{{DataType=int, Required=True}}",
+        "label": "{{DataType=str, Required=True}}",
+        "pipelineId": "{{DataType=str, Required=False}}",
+        "stages": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Create Pipeline",
+        "display_name_source": "summary",
+        "description": "Create a new pipeline with the provided property values.",
+        "learn_more": "Create a new pipeline with the provided property values. The entire pipeline object, including its unique ID, will be returned in the response.",
+        "operation_id": "post-/crm/pipelines/2026-03/{objectType}_create",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "displayOrder": {
+                    "label": "Display Order",
+                    "input_type": "number",
+                    "description": "The order for displaying this pipeline. If two pipelines have a matching `displayOrder`, they will be sorted alphabetically by label.",
+                    "required": true
+                },
+                "label": {
+                    "label": "Label",
+                    "input_type": "text",
+                    "description": "A unique label used to organize pipelines in HubSpot's UI",
+                    "required": true
+                },
+                "pipelineId": {
+                    "label": "Pipeline Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "stages": {
+                    "label": "Stages",
+                    "input_type": "tags",
+                    "description": "Pipeline stage inputs used to create the new or replacement pipeline.",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

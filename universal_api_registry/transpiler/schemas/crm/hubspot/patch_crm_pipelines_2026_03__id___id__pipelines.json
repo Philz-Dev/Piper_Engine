@@ -1,0 +1,90 @@
+{
+    "name": "patch_crm_pipelines_2026_03__id___id__pipelines",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/crm/pipelines/2026-03/{objectType}/{pipelineId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "pipelineId": "{{DataType=str, Required=True}}",
+        "validateDealStageUsagesBeforeDelete": "{{DataType=bool, Default=false, Required=False}}",
+        "validateReferencesBeforeDelete": "{{DataType=bool, Default=false, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "archived": "{{DataType=bool, Required=False}}",
+        "displayOrder": "{{DataType=int, Required=False}}",
+        "label": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Perform Partial Update Of Pipeline Identified By Pipelineid",
+        "display_name_source": "summary",
+        "description": "Perform a partial update of the pipeline identified by `{pipelineId}`.",
+        "learn_more": "Perform a partial update of the pipeline identified by `{pipelineId}`. The updated pipeline will be returned in the response.",
+        "operation_id": "patch-/crm/pipelines/2026-03/{objectType}/{pipelineId}_update",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "pipelineId": {
+                    "label": "Pipeline Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "validateDealStageUsagesBeforeDelete": {
+                    "label": "Validate Deal Stage Usages Before Delete",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "validateReferencesBeforeDelete": {
+                    "label": "Validate References Before Delete",
+                    "input_type": "checkbox",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether the pipeline is archived. This property should only be provided when restoring an archived pipeline. If it's provided in any other call, the request will fail and a `400 Bad Request` will be returned.",
+                    "required": false
+                },
+                "displayOrder": {
+                    "label": "Display Order",
+                    "input_type": "number",
+                    "description": "The order for displaying this pipeline. If two pipelines have a matching `displayOrder`, they will be sorted alphabetically by label.",
+                    "required": false
+                },
+                "label": {
+                    "label": "Label",
+                    "input_type": "text",
+                    "description": "A unique label used to organize pipelines in HubSpot's UI",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

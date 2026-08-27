@@ -1,0 +1,45 @@
+{
+    "name": "post_commerce_contracts_2026_09_beta_changes__id__cancel_contracts",
+    "method": "POST",
+    "url": "https://api.hubapi.com/commerce/contracts/2026-09-beta/changes/{changeId}/cancel",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "changeId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Cancel Change (Contracts)",
+        "display_name_source": "summary",
+        "description": "Cancel a specific change request associated with a commerce contract.",
+        "learn_more": "Cancel a specific change request associated with a commerce contract. This operation is useful when you need to revoke a proposed or pending change to a contract. It requires the unique identifier of the change you wish to cancel.",
+        "operation_id": "post-/commerce/contracts/2026-09-beta/changes/{changeId}/cancel",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "changeId": {
+                    "label": "Change Id",
+                    "input_type": "text",
+                    "description": "The unique identifier of the change to cancel.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

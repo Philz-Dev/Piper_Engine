@@ -1,0 +1,55 @@
+{
+    "name": "post_crm_imports_2026_03_imports",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/imports/2026-03",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "files": "{{DataType=str, Required=False}}",
+        "importRequest": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Create Import",
+        "display_name_source": "path_heuristic",
+        "description": "",
+        "learn_more": null,
+        "operation_id": "post-/crm/imports/2026-03_/crm/imports/v3",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "files": {
+                    "label": "Files",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                },
+                "importRequest": {
+                    "label": "Import Request",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

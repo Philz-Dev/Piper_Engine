@@ -1,0 +1,38 @@
+{
+    "name": "get_commerce_payment_accounts_2026_09_beta_status_paymentsaccounts",
+    "method": "GET",
+    "url": "https://api.hubapi.com/commerce/payment-accounts/2026-09-beta/status",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Status And General Information About Portal's Payments Account (Paymentsaccounts)",
+        "display_name_source": "summary",
+        "description": "Retrieve the status of payment accounts in your HubSpot account.",
+        "learn_more": "Retrieve the status of payment accounts in your HubSpot account. This endpoint provides information about the account's ability to transact and payout, its enrollment state, when or if it has transacted last, and the types of payment processors it is eligible for. Use this to monitor and manage your payment account's operational status.",
+        "operation_id": "get-/commerce/payment-accounts/2026-09-beta/status",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

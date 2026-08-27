@@ -1,0 +1,52 @@
+{
+    "name": "get_marketing_emails_2026_03__id__revisions__id__marketing_emails",
+    "method": "GET",
+    "url": "https://api.hubapi.com/marketing/emails/2026-03/{emailId}/revisions/{revisionId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "emailId": "{{DataType=str, Required=True}}",
+        "revisionId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Revision Of Marketing Email",
+        "display_name_source": "summary",
+        "description": "Get a specific revision of a marketing email.",
+        "learn_more": null,
+        "operation_id": "get-/marketing/emails/2026-03/{emailId}/revisions/{revisionId}_getRevisionById",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "emailId": {
+                    "label": "Email Id",
+                    "input_type": "text",
+                    "description": "The marketing email ID.",
+                    "required": true
+                },
+                "revisionId": {
+                    "label": "Revision Id",
+                    "input_type": "text",
+                    "description": "The ID of a revision.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

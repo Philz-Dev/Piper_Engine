@@ -1,0 +1,52 @@
+{
+    "name": "get_conversations_v3_conversations_channel_accounts__id__conversations",
+    "method": "GET",
+    "url": "https://api.hubapi.com/conversations/v3/conversations/channel-accounts/{channelAccountId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "channelAccountId": "{{DataType=int, Required=True}}",
+        "archived": "{{DataType=bool, Default=false, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get Single Channel Account (Conversations)",
+        "display_name_source": "summary",
+        "description": "Retrieve details of a single channel account using the channel account ID.",
+        "learn_more": null,
+        "operation_id": "get-/conversations/v3/conversations/channel-accounts/{channelAccountId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "channelAccountId": {
+                    "label": "Channel Account Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Whether to return only results that have been archived.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

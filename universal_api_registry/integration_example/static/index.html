@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Integration console</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --surface: #ffffff; --border: #e2e0da;
+    --text: #1c1b19; --text-dim: #6b6862; --text-faint: #a09c93;
+    --accent: #b45309; --accent-bg: #fdf0e1; --danger: #b3261e; --success: #146c43;
+    --mono: "SF Mono", "Consolas", "Menlo", monospace;
+    --sans: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+  header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 8px; }
+  h1 { font-size: 18px; font-weight: 600; margin: 0; }
+  .tenant { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-dim); }
+  .tenant input { font-family: var(--mono); font-size: 12px; border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; width: 110px; background: var(--surface); color: var(--text); }
+  .route { font-family: var(--mono); font-size: 11px; color: var(--text-faint); margin: 0 0 6px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+  .app-card, .node-card { cursor: pointer; transition: border-color .12s; }
+  .app-card:hover, .node-card:hover { border-color: var(--text-faint); }
+  .app-card.active { border-color: var(--accent); background: var(--accent-bg); }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .icon { width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0; }
+  .name { font-weight: 500; font-size: 13.5px; margin: 0; }
+  .sub { font-size: 11.5px; color: var(--text-dim); margin: 2px 0 0; }
+  h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; color: var(--text-dim); margin: 2rem 0 .75rem; }
+  h2:first-of-type { margin-top: 0; }
+  label { display: block; font-size: 12.5px; margin-bottom: 4px; color: var(--text); }
+  .req { color: var(--danger); }
+  input[type=text], input[type=number] {
+    width: 100%; font-family: var(--sans); font-size: 13.5px; border: 1px solid var(--border);
+    border-radius: 6px; padding: 7px 10px; background: var(--surface); color: var(--text);
+  }
+  input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .field { margin-bottom: 12px; }
+  .group-field { padding-left: 12px; border-left: 2px solid var(--border); margin-bottom: 12px; }
+  .err { font-size: 11.5px; color: var(--danger); margin: 4px 0 0; display: none; }
+  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; padding: 3px 9px; border-radius: 999px; }
+  .badge.ok { background: #e7f4ec; color: var(--success); }
+  .badge.no { background: #f2f1ee; color: var(--text-dim); }
+  .badge.err { background: #fbeae9; color: var(--danger); }
+  button { font-family: var(--sans); font-size: 13.5px; font-weight: 500; padding: 8px 16px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+  button:hover { border-color: var(--text-faint); }
+  button.primary { background: var(--text); color: var(--surface); border-color: var(--text); }
+  button.primary:hover { opacity: .88; }
+  a.connect-link { display: inline-block; text-decoration: none; }
+  pre { font-family: var(--mono); font-size: 12px; background: #f2f1ee; border-radius: 7px; padding: 10px 12px; overflow-x: auto; margin: 0; }
+  .empty { color: var(--text-faint); font-size: 13px; padding: 8px 0; }
+  .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--border); border-top-color: var(--text-dim); border-radius: 50%; animation: spin .6s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Integration console</h1>
+    <div class="tenant">
+      tenant_id
+      <input id="tenantInput" type="text" />
+    </div>
+  </header>
+
+  <h2>Apps</h2>
+  <p class="route">GET /apps</p>
+  <div id="apps" class="grid"><p class="empty">Loading&hellip;</p></div>
+
+  <div id="nodesSection" style="display:none">
+    <h2>Actions</h2>
+    <p class="route" id="nodesRoute"></p>
+    <div id="nodes" class="grid"></div>
+  </div>
+
+  <div id="formSection" style="display:none">
+    <h2>Configure</h2>
+    <p class="route" id="formRoute"></p>
+    <div class="card">
+      <div id="authStatus" style="margin-bottom:12px"></div>
+      <div id="formFields"></div>
+      <button class="primary" id="runBtn" onclick="runAction()">Run action</button>
+    </div>
+  </div>
+
+  <div id="resultSection" style="display:none">
+    <h2>Result</h2>
+    <p class="route" id="resultRoute"></p>
+    <div class="card"><pre id="resultBody"></pre></div>
+  </div>
+
+</div>
+
+<script>
+// Same-origin by default — this file is meant to be served by the SAME
+// FastAPI process as integration.py (e.g. app.mount("/", StaticFiles(directory="static", html=True))).
+// If you're hosting this separately, point API_BASE at wherever integration.py
+// actually runs, e.g. "https://api.yourplatform.com" — every fetch() below
+// is built from this constant, nothing else needs to change.
+const API_BASE = "";
+
+function tenantId() {
+  let el = document.getElementById("tenantInput");
+  if (!el.value) {
+    el.value = localStorage.getItem("piper_tenant_id") ||
+      "demo-" + Math.random().toString(36).slice(2, 8);
+  }
+  localStorage.setItem("piper_tenant_id", el.value);
+  return el.value;
+}
+
+let selectedApp = null;
+let selectedNode = null;
+let currentForm = null;
+let fieldValues = {};
+
+async function api(path) {
+  const res = await fetch(API_BASE + path);
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText} — ${path}`);
+  return res.json();
+}
+
+// ---------------------------------------------------------------------
+// GET /apps
+// ---------------------------------------------------------------------
+async function loadApps() {
+  const el = document.getElementById("apps");
+  try {
+    const apps = await api("/apps");
+    if (!apps.length) { el.innerHTML = `<p class="empty">No apps in the catalog.</p>`; return; }
+    // 🛠️ FIX: the .icon div was always an empty colored square — a.favicon_url
+    // (returned by GET /apps) was fetched but never actually used anywhere in
+    // this markup, so no app's real logo could ever show up. Now renders the
+    // favicon as an <img> when present, and falls back to the old
+    // background-color square with an initial letter when it's missing or
+    // fails to load.
+    el.innerHTML = apps.map(a => {
+      const initial = (a.display_name || a.app || "?").charAt(0).toUpperCase();
+      const fallback = `background:${a.logo_background_color || '#eee'};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text-dim);`;
+      const icon = a.favicon_url
+        ? `<img class="icon" src="${a.favicon_url}" alt=""
+             style="object-fit:contain;background:${a.logo_background_color || '#eee'}"
+             onerror="this.outerHTML='<div class=&quot;icon&quot; style=&quot;${fallback}&quot;>${initial}</div>'" />`
+        : `<div class="icon" style="${fallback}">${initial}</div>`;
+      return `
+      <div class="app-card card" onclick="selectApp('${a.app}')" id="app-${a.app}">
+        <div class="row">
+          ${icon}
+          <div>
+            <p class="name">${a.display_name || a.app}</p>
+            <p class="sub">${a.category || ""}</p>
+          </div>
+        </div>
+      </div>`;
+    }).join("");
+  } catch (e) {
+    el.innerHTML = `<p class="empty">Couldn't load /apps — ${e.message}</p>`;
+  }
+}
+
+// ---------------------------------------------------------------------
+// GET /apps/{app_name}/nodes
+// ---------------------------------------------------------------------
+async function selectApp(app) {
+  selectedApp = app; selectedNode = null; currentForm = null;
+  document.querySelectorAll(".app-card").forEach(c => c.classList.remove("active"));
+  document.getElementById(`app-${app}`).classList.add("active");
+  document.getElementById("formSection").style.display = "none";
+  document.getElementById("resultSection").style.display = "none";
+
+  const section = document.getElementById("nodesSection");
+  const el = document.getElementById("nodes");
+  section.style.display = "block";
+  document.getElementById("nodesRoute").textContent = `GET /apps/${app}/nodes`;
+  el.innerHTML = `<p class="empty"><span class="spinner"></span> Loading&hellip;</p>`;
+
+  try {
+    const nodes = await api(`/apps/${app}/nodes`);
+    if (!nodes.length) { el.innerHTML = `<p class="empty">No actions for this app.</p>`; return; }
+    el.innerHTML = nodes.map(n => `
+      <div class="node-card card" onclick="selectNode('${app}','${n.action}')">
+        <p class="name">${n.display_name || n.action}</p>
+        <p class="sub">${n.description || ""}</p>
+      </div>`).join("");
+  } catch (e) {
+    el.innerHTML = `<p class="empty">Couldn't load nodes — ${e.message}</p>`;
+  }
+}
+
+// ---------------------------------------------------------------------
+// GET /apps/{app_name}/nodes/{action}/form
+// ---------------------------------------------------------------------
+async function selectNode(app, action) {
+  selectedNode = action; fieldValues = {};
+  const section = document.getElementById("formSection");
+  const fieldsEl = document.getElementById("formFields");
+  section.style.display = "block";
+  document.getElementById("resultSection").style.display = "none";
+  document.getElementById("formRoute").textContent = `GET /apps/${app}/nodes/${action}/form`;
+  fieldsEl.innerHTML = `<p class="empty"><span class="spinner"></span> Loading&hellip;</p>`;
+  document.getElementById("authStatus").innerHTML = "";
+
+  try {
+    const form = await api(`/apps/${app}/nodes/${action}/form`);
+    currentForm = form;
+    fieldsEl.innerHTML = form.fields.map(f => fieldHtml(f)).join("") ||
+      `<p class="empty">This action takes no input.</p>`;
+    if (form.requires_auth) await checkAuthStatus(app);
+  } catch (e) {
+    fieldsEl.innerHTML = `<p class="empty">Couldn't load form — ${e.message}</p>`;
+  }
+}
+
+// 🛠️ FIX: this used to re-prefix every field's key with its parent
+// group's key ("class" + "." + f.key). But interpreter.py's
+// _convert_fields() already hands back each field's FULL dotted path
+// as f.key (e.g. a field nested under the "class" group already
+// arrives as "class.contactId", not just "contactId" — see
+// build_schema()'s own docstring: "Every FormField the SDK hands back
+// already carries the correct key to submit — a caller never has to
+// construct one by hand"). Re-prefixing on top of that produced
+// "class.class.contactId" for anything inside a group — every nested
+// field on every app, since every app's fields are wrapped in class/body
+// groups by _wrap_top_level(). No `prefix` param anymore — f.key is
+// always already correct, at any nesting depth.
+// 🛠️ FIX: only ever checked f.input_type === "group" — never
+// "array_group" (a REPEATABLE nested section, e.g. HubSpot's
+// filterGroups/filters: an array whose items are objects — see
+// converter.py's _build_body_fields_metadata/_infer_field_from_value,
+// which emit this distinct type specifically so a UI can tell "one
+// fixed nested object" apart from "a list of them"). Since the check
+// never matched, array_group fell straight through to the plain-text
+// input branch at the bottom with NO recursion into f.fields at all —
+// every leaf nested inside an array_group (filterGroups.filters.
+// propertyName/operator/value, at any depth) was completely invisible,
+// never rendered, never fillable. Treated identically to "group" here:
+// recurse and render every nested field. One real limitation, called
+// out rather than silently glossed over: this renders ONE instance of
+// the array's shape (matching how the schema itself represents it — a
+// one-element template, see converter.py's own "first element is
+// representative" convention), not a dynamic "+ Add another" repeater
+// producing multiple array entries. Building that properly means
+// confirming how interpreter.py's get_input_form()/build_schema() key
+// and reassemble MULTIPLE instances of an array_group's fields back
+// into a real list server-side — not verified in this pass, so it's
+// not attempted here rather than guessed at.
+function fieldHtml(f) {
+  const key = f.key;
+  if ((f.input_type === "group" || f.input_type === "array_group") && f.fields) {
+    const repeatHint = f.input_type === "array_group"
+      ? `<span style="color:var(--text-faint);font-weight:400"> (list — one entry shown)</span>`
+      : "";
+    return `<div class="group-field">
+      <label>${f.label}${repeatHint}</label>
+      ${f.fields.map(sf => fieldHtml(sf)).join("")}
+    </div>`;
+  }
+  const req = f.required ? `<span class="req">*</span>` : "";
+  let input;
+  if (f.input_type === "checkbox") {
+    input = `<input type="checkbox" onchange="setField('${key}', this.checked)" />`;
+  } else if (f.input_type === "number") {
+    input = `<input type="number" onchange="setField('${key}', Number(this.value))" />`;
+  } else if (f.input_type === "tags") {
+    input = `<input type="text" placeholder="comma, separated" onchange="setField('${key}', this.value.split(',').map(s => s.trim()).filter(Boolean))" />`;
+  } else {
+    input = `<input type="text" onchange="setField('${key}', this.value)" />`;
+  }
+  return `<div class="field">
+    <label>${f.label} ${req}</label>
+    ${input}
+    <p class="err" data-err="${key}"></p>
+  </div>`;
+}
+
+// 🛠️ FIX: was building a NESTED object tree (fieldValues.class.contactId
+// = value) by splitting the key on ".". But build_schema() expects a
+// FLAT dict keyed by the literal dotted-path STRING itself
+// ("class.contactId" as one key — see its docstring and its
+// `for dotted_path, value in field_values.items()` loop, which looks
+// dotted_path up directly against placeholder_paths). A nested object
+// meant every field vanished from the backend's point of view (it only
+// ever saw top-level "class"/"body" keys mapping to sub-objects, never
+// a key matching any real placeholder path) — every required nested
+// field then failed as "missing", which is the Bad Request you hit on
+// HubSpot search-contact (and would hit on literally any action with
+// fields, since every app's fields are nested under class/body).
+function setField(key, value) {
+  fieldValues[key] = value;
+  const errEl = document.querySelector(`[data-err="${key}"]`);
+  if (errEl) { errEl.style.display = "none"; errEl.textContent = ""; }
+}
+
+// ---------------------------------------------------------------------
+// GET /connect/{app_name}/status  and  GET /connect/{app_name}
+// ---------------------------------------------------------------------
+async function checkAuthStatus(app) {
+  const el = document.getElementById("authStatus");
+  try {
+    const status = await api(`/connect/${app}/status?tenant_id=${encodeURIComponent(tenantId())}`);
+    if (status.connected) {
+      el.innerHTML = `<span class="badge ok">connected</span>`;
+    } else {
+      el.innerHTML = `
+        <span class="badge no">not connected</span>
+        <a class="connect-link" href="${API_BASE}/connect/${app}?tenant_id=${encodeURIComponent(tenantId())}">
+          <button style="margin-left:8px">Connect ${app}</button>
+        </a>`;
+    }
+  } catch (e) {
+    el.innerHTML = `<span class="badge err">status check failed — ${e.message}</span>`;
+  }
+}
+
+// ---------------------------------------------------------------------
+// POST /tenants/{tenant_id}/run/{app_name}/{action}
+// ---------------------------------------------------------------------
+// 🛠️ FIX: was `for (const f of currentForm.fields)` — only the top-level
+// class/body group nodes, which _wrap_top_level() hardcodes to
+// required=False. Every real required flag lives on a LEAF field inside
+// f.fields, which this never looked at, so a required nested field could
+// be submitted empty and only fail server-side. Recurses into groups and
+// validates every leaf.
+// 🛠️ FIX: same array_group blind spot as fieldHtml() above — only
+// recursed on "group", so a required leaf nested inside an
+// array_group was silently skipped here too. Even once fieldHtml()
+// renders those inputs, validation still needs to walk them or a
+// required nested field could be submitted empty and only fail
+// server-side, same failure mode the original FIX comment here already
+// described for plain "group".
+function flattenFields(fields) {
+  const out = [];
+  for (const f of fields) {
+    if ((f.input_type === "group" || f.input_type === "array_group") && f.fields) {
+      out.push(...flattenFields(f.fields));
+    } else {
+      out.push(f);
+    }
+  }
+  return out;
+}
+
+async function runAction() {
+  if (!currentForm) return;
+
+  let ok = true;
+  for (const f of flattenFields(currentForm.fields)) {
+    if (f.required && !fieldValues[f.key]) {
+      const errEl = document.querySelector(`[data-err="${f.key}"]`);
+      errEl.textContent = `Enter ${f.label.toLowerCase()} first`;
+      errEl.style.display = "block";
+      ok = false;
+    }
+  }
+  if (!ok) return;
+
+  const btn = document.getElementById("runBtn");
+  btn.disabled = true; btn.textContent = "Running…";
+
+  const resultSection = document.getElementById("resultSection");
+  const resultRoute = `POST /tenants/${tenantId()}/run/${selectedApp}/${selectedNode}`;
+  document.getElementById("resultRoute").textContent = resultRoute;
+  resultSection.style.display = "block";
+
+  try {
+    const res = await fetch(`${API_BASE}/tenants/${encodeURIComponent(tenantId())}/run/${selectedApp}/${selectedNode}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fieldValues),
+    });
+    const data = await res.json();
+    document.getElementById("resultBody").textContent = JSON.stringify(data, null, 2);
+
+    if (data.status === "needs_authorization") {
+      document.getElementById("resultBody").innerHTML =
+        JSON.stringify(data, null, 2) +
+        `\n\n→ redirect the user to: ${data.authorization_url}`;
+    }
+  } catch (e) {
+    document.getElementById("resultBody").textContent = `Request failed: ${e.message}`;
+  } finally {
+    btn.disabled = false; btn.textContent = "Run action";
+  }
+}
+
+tenantId();
+loadApps();
+</script>
+</body>
+</html>

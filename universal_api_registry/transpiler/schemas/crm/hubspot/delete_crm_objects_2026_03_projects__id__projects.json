@@ -1,0 +1,45 @@
+{
+    "name": "delete_crm_objects_2026_03_projects__id__projects",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/projects/{projectId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "projectId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Archive Project",
+        "display_name_source": "summary+path_heuristic",
+        "description": "Move an Object identified by `{projectId}` to the recycling bin.",
+        "learn_more": null,
+        "operation_id": "delete-/crm/objects/2026-03/projects/{projectId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "projectId": {
+                    "label": "Project Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "name": "post_crm_objects_2026_03_line_items_batch_update_line_items",
+    "method": "POST",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/line_items/batch/update",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "inputs": "{{DataType=list, Required=True}}"
+    },
+    "metadata": {
+        "display_name": "Update Batch Of Line Items By Internal ID, Or Unique Property Values",
+        "display_name_source": "summary",
+        "description": "Update multiple line items using their internal IDs or unique property values.",
+        "learn_more": "Update multiple line items using their internal IDs or unique property values. This endpoint allows for batch processing of updates, ensuring efficient modification of line item records in bulk.",
+        "operation_id": "post-/crm/objects/2026-03/line_items/batch/update_update",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "inputs": {
+                    "label": "Inputs",
+                    "input_type": "tags",
+                    "description": "",
+                    "required": true
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "name": "get_crm_task_series_2026_09_beta__id__tasks_series",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/task-series/2026-09-beta/{taskId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "taskId": "{{DataType=int, Required=True}}",
+        "properties": "{{DataType=list, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Task Series (Tasks Series)",
+        "display_name_source": "summary",
+        "description": "Retrieve details of a specific task series using its unique identifier.",
+        "learn_more": "Retrieve details of a specific task series using its unique identifier. This endpoint allows you to access the properties and series information associated with the specified taskId. It's useful for obtaining detailed information about a task series, including any custom properties.",
+        "operation_id": "get-/crm/task-series/2026-09-beta/{taskId}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "taskId": {
+                    "label": "Task Id",
+                    "input_type": "number",
+                    "description": "The unique identifier of the task series to retrieve. This is required to specify which task series you are interested in.",
+                    "required": true
+                },
+                "properties": {
+                    "label": "Properties",
+                    "input_type": "tags",
+                    "description": "A comma-separated list of property names to include in the response. This allows you to specify which properties of the task series you want to retrieve.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

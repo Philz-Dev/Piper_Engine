@@ -1,0 +1,69 @@
+{
+    "name": "post_automation_email_templates_2026_09_beta_email_templates",
+    "method": "POST",
+    "url": "https://api.hubapi.com/automation/email-templates/2026-09-beta",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "body": {
+        "body": "{{DataType=str, Required=True}}",
+        "folderId": "{{DataType=str, Required=False}}",
+        "name": "{{DataType=str, Required=True}}",
+        "subject": "{{DataType=str, Required=False}}"
+    },
+    "metadata": {
+        "display_name": "Create Beta (Email Templates)",
+        "display_name_source": "summary+path_heuristic",
+        "description": "Create a new email template in your HubSpot account.",
+        "learn_more": "Create a new email template in your HubSpot account. This endpoint allows you to define the template's name, subject, body, and optionally assign it to a folder. The request must include the template's body and name. Please note: the scopes for these endpoints require user-level access and will not work for existing apps with portal-level access. ",
+        "operation_id": "post-/automation/email-templates/2026-09-beta_/automation/email-templates/2026-09-beta",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {
+                "body": {
+                    "label": "Body",
+                    "input_type": "text",
+                    "description": "The main content of the email template. This is a required field and must be a string.",
+                    "required": true
+                },
+                "folderId": {
+                    "label": "Folder Id",
+                    "input_type": "text",
+                    "description": "The identifier of the folder in which the template is stored. This is an optional field and must be a string if provided.",
+                    "required": false
+                },
+                "name": {
+                    "label": "Name",
+                    "input_type": "text",
+                    "description": "The name of the email template. This is a required field and must be a string.",
+                    "required": true
+                },
+                "subject": {
+                    "label": "Subject",
+                    "input_type": "text",
+                    "description": "The subject line of the email template. This is an optional field and must be a string if provided.",
+                    "required": false
+                }
+            }
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

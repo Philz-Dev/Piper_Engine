@@ -1,0 +1,52 @@
+{
+    "name": "delete_crm_object_schemas_2026_03_schemas__id__associations__id__schemas",
+    "method": "DELETE",
+    "url": "https://api.hubapi.com/crm-object-schemas/2026-03/schemas/{objectType}/associations/{associationIdentifier}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "associationIdentifier": "{{DataType=str, Required=True}}",
+        "objectType": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Delete Existing Association For Specified Object Type (Schemas)",
+        "display_name_source": "summary",
+        "description": "Remove an association between two object types identified by the association identifier and object type.",
+        "learn_more": "Remove an association between two object types identified by the association identifier and object type. This operation is irreversible and will permanently delete the specified association.",
+        "operation_id": "delete-/crm-object-schemas/2026-03/schemas/{objectType}/associations/{associationIdentifier}_archiveAssociation",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "associationIdentifier": {
+                    "label": "Association Identifier",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

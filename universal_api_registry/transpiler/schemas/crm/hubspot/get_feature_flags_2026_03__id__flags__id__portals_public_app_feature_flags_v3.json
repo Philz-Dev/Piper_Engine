@@ -1,0 +1,66 @@
+{
+    "name": "get_feature_flags_2026_03__id__flags__id__portals_public_app_feature_flags_v3",
+    "method": "GET",
+    "url": "https://api.hubapi.com/feature-flags/2026-03/{appId}/flags/{flagName}/portals",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "appId": "{{DataType=int, Required=True}}",
+        "flagName": "{{DataType=str, Required=True}}",
+        "limit": "{{DataType=int, Required=False}}",
+        "startPortalId": "{{DataType=int, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Accounts With Set Flag State (Public App Feature Flags V3)",
+        "display_name_source": "summary",
+        "description": "Retrieve a list of HubSpot accounts with an account-level flag setting for the specified app.",
+        "learn_more": "Retrieve a list of HubSpot accounts with an account-level flag setting for the specified app. No request body is included.",
+        "operation_id": "get-/feature-flags/2026-03/{appId}/flags/{flagName}/portals",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "appId": {
+                    "label": "App Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": true
+                },
+                "flagName": {
+                    "label": "Flag Name",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "startPortalId": {
+                    "label": "Start Portal Id",
+                    "input_type": "number",
+                    "description": "",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

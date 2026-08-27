@@ -1,0 +1,73 @@
+{
+    "name": "get_crm_objects_2026_03__id___id__associations__id__associations",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/objects/2026-03/{objectType}/{objectId}/associations/{toObjectType}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectId": "{{DataType=str, Required=True}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "toObjectType": "{{DataType=str, Required=True}}",
+        "after": "{{DataType=str, Required=False}}",
+        "limit": "{{DataType=int, Default=500, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve All Associations By Object Type",
+        "display_name_source": "summary",
+        "description": "Retrieve all associations between a specific record and an object type.",
+        "learn_more": "Retrieve all associations between a specific record and an object type. Limit 500 per call.",
+        "operation_id": "get-/crm/objects/2026-03/{objectType}/{objectId}/associations/{toObjectType}_/crm/objects/2025-09/{objectType}/{objectId}/associations/{toObjectType}",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectId": {
+                    "label": "Object Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "toObjectType": {
+                    "label": "To Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to display per page.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

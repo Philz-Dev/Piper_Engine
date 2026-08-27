@@ -1,0 +1,45 @@
+{
+    "name": "get_crm_lists_2026_03__id__schedule_conversion_lists",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/lists/2026-03/{listId}/schedule-conversion",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "listId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Retrieve Conversion Details For List",
+        "display_name_source": "summary",
+        "description": "Retrieve the conversion details for a list.",
+        "learn_more": "Retrieve the conversion details for a list. This can be used to check for an upcoming conversion, or to get the details of when a list was already converted.",
+        "operation_id": "get-/crm/lists/2026-03/{listId}/schedule-conversion_/crm/lists/v3/{listId}/schedule-conversion",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "listId": {
+                    "label": "List Id",
+                    "input_type": "text",
+                    "description": "The ID of the list to schedule the conversion for.",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

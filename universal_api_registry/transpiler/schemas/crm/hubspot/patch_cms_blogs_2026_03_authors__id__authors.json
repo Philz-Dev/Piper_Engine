@@ -1,0 +1,52 @@
+{
+    "name": "patch_cms_blogs_2026_03_authors__id__authors",
+    "method": "PATCH",
+    "url": "https://api.hubapi.com/cms/blogs/2026-03/authors/{objectId}",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectId": "{{DataType=str, Required=True}}",
+        "archived": "{{DataType=bool, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Update Blog Author",
+        "display_name_source": "summary",
+        "description": "Sparse updates a single Blog Author object identified by the id in the path.\nAll the column values need not be specified.",
+        "learn_more": "Sparse updates a single Blog Author object identified by the id in the path.\nAll the column values need not be specified. Only the that need to be modified can be specified.\n",
+        "operation_id": "patch-/cms/blogs/2026-03/authors/{objectId}_update",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectId": {
+                    "label": "Object Id",
+                    "input_type": "text",
+                    "description": "The Blog Author id.",
+                    "required": true
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Specifies whether to update deleted Blog Authors. Defaults to `false`.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

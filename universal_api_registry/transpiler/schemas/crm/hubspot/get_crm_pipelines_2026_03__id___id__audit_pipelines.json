@@ -1,0 +1,52 @@
+{
+    "name": "get_crm_pipelines_2026_03__id___id__audit_pipelines",
+    "method": "GET",
+    "url": "https://api.hubapi.com/crm/pipelines/2026-03/{objectType}/{pipelineId}/audit",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "objectType": "{{DataType=str, Required=True}}",
+        "pipelineId": "{{DataType=str, Required=True}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Return Audit Of All Changes To Pipeline",
+        "display_name_source": "summary",
+        "description": "Return a reverse chronological list of all mutations that have occurred on the pipeline identified by `{pipelineId}`.",
+        "learn_more": null,
+        "operation_id": "get-/crm/pipelines/2026-03/{objectType}/{pipelineId}/audit_getAudit",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "objectType": {
+                    "label": "Object Type",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "pipelineId": {
+                    "label": "Pipeline Id",
+                    "input_type": "text",
+                    "description": "",
+                    "required": true
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

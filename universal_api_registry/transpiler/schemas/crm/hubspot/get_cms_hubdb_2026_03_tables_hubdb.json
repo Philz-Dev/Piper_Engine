@@ -1,0 +1,122 @@
+{
+    "name": "get_cms_hubdb_2026_03_tables_hubdb",
+    "method": "GET",
+    "url": "https://api.hubapi.com/cms/hubdb/2026-03/tables",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.HUBSPOT_TOKEN}}",
+        "after": "{{DataType=str, Required=False}}",
+        "archived": "{{DataType=bool, Required=False}}",
+        "contentType": "{{DataType=str, Required=False}}",
+        "createdAfter": "{{DataType=str, Required=False}}",
+        "createdAt": "{{DataType=str, Required=False}}",
+        "createdBefore": "{{DataType=str, Required=False}}",
+        "isGetLocalizedSchema": "{{DataType=bool, Required=False}}",
+        "limit": "{{DataType=int, Required=False}}",
+        "sort": "{{DataType=list, Required=False}}",
+        "updatedAfter": "{{DataType=str, Required=False}}",
+        "updatedAt": "{{DataType=str, Required=False}}",
+        "updatedBefore": "{{DataType=str, Required=False}}"
+    },
+    "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {authorization}"
+    },
+    "metadata": {
+        "display_name": "Get All Published Tables (Hubdb)",
+        "display_name_source": "summary",
+        "description": "Returns the details for the published version of each table defined in an account, including column definitions.",
+        "learn_more": null,
+        "operation_id": "get-/cms/hubdb/2026-03/tables_getAllTables",
+        "icon_url": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg",
+        "color": "#ff7a59",
+        "category": "crm",
+        "node_type": "action",
+        "node_type_confidence": "heuristic",
+        "source": "transpiled_official",
+        "last_updated": "2026-08-23T07:46:45Z",
+        "fields": {
+            "class": {
+                "after": {
+                    "label": "After",
+                    "input_type": "text",
+                    "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results.",
+                    "required": false
+                },
+                "archived": {
+                    "label": "Archived",
+                    "input_type": "checkbox",
+                    "description": "Specifies whether to return archived tables. Defaults to `false`.",
+                    "required": false
+                },
+                "contentType": {
+                    "label": "Content Type",
+                    "input_type": "text",
+                    "description": "Specifies the content type for the response.",
+                    "required": false
+                },
+                "createdAfter": {
+                    "label": "Created After",
+                    "input_type": "text",
+                    "description": "Only return tables created after the specified time.",
+                    "required": false
+                },
+                "createdAt": {
+                    "label": "Created At",
+                    "input_type": "text",
+                    "description": "Only return tables created at exactly the specified time.",
+                    "required": false
+                },
+                "createdBefore": {
+                    "label": "Created Before",
+                    "input_type": "text",
+                    "description": "Only return tables created before the specified time.",
+                    "required": false
+                },
+                "isGetLocalizedSchema": {
+                    "label": "Is Get Localized Schema",
+                    "input_type": "checkbox",
+                    "description": "Indicates whether to retrieve the localized schema for the tables.",
+                    "required": false
+                },
+                "limit": {
+                    "label": "Limit",
+                    "input_type": "number",
+                    "description": "The maximum number of results to return. Default is 1000.",
+                    "required": false
+                },
+                "sort": {
+                    "label": "Sort",
+                    "input_type": "tags",
+                    "description": "Specifies which fields to use for sorting results. Valid fields are `name`, `createdAt`, `updatedAt`, `createdBy`, `updatedBy`. `createdAt` will be used by default.",
+                    "required": false
+                },
+                "updatedAfter": {
+                    "label": "Updated After",
+                    "input_type": "text",
+                    "description": "Only return tables last updated after the specified time.",
+                    "required": false
+                },
+                "updatedAt": {
+                    "label": "Updated At",
+                    "input_type": "text",
+                    "description": "Only return tables last updated at exactly the specified time.",
+                    "required": false
+                },
+                "updatedBefore": {
+                    "label": "Updated Before",
+                    "input_type": "text",
+                    "description": "Only return tables last updated before the specified time.",
+                    "required": false
+                },
+                "authorization": {
+                    "label": "Authorization",
+                    "input_type": "text",
+                    "description": "",
+                    "required": false
+                }
+            },
+            "body": {}
+        },
+        "first_created": "2026-08-23T07:46:45Z"
+    }
+}

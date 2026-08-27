@@ -1,0 +1,110 @@
+version: "1.0"
+
+import:
+  - from: "file.external_script.go"
+    as: "filego"
+  - from: "file.helpers.go"
+    as: "helpers"
+
+trigger: 
+  - id: trigger_entry 
+    service: timer.now 
+
+pipeline: 
+  - id: data_transformer 
+    service: clean.incoming_payload 
+    input:
+      customer_name: '{{$webhook.body.phone | replace("+", "") | replace("-", "")}}'
+      phone_normalized: '{{$webhook.body.phone | replace("+", "") | replace("-", "")}}'
+      raw_country: '{{$webhook.body.country_code | uppercase}}'
+    condition: 
+      - if: '{{$telegram.message | trim | count}} == 4'
+        operations: 
+          - action: trim 
+            space: true 
+          - action: call 
+            target: "step_telegram_alert" 
+            input: 
+              chat_id: "{{$env.telegram_admin_chat_id}}" 
+              message: "Alert! Urgent short-code action received"
+            timeout: 20
+
+  - id: condition_switch 
+    service: qualify_and_route 
+    condition: 
+      - if: '{{$telegram.message | trim | count}} == 4'
+        operations: 
+          - action: trim 
+            space: true 
+          - action: call 
+            target: "step_telegram_alert" 
+            input: 
+              chat_id: "{{$env.telegram_admin_chat_id}}" 
+              message: "Alert! Urgent short-code action received"
+            timeout: 20
+          - action: call 
+            target: "step_telegram_alert2" 
+            input: 
+              chat_id: "{{$env.telegram_admin_chat_id}}" 
+              message: "Alert! Urgent short-code action received"
+            timeout: 20
+          - action: call 
+            target: "step_telegram_alert3" 
+            input: 
+              chat_id: "{{$env.telegram_admin_chat_id}}" 
+              message: "Alert! Urgent short-code action received"
+            timeout: 20
+          - action: call 
+            target: "step_telegram_alert4" 
+            input: 
+              chat_id: "{{$env.telegram_admin_chat_id}}" 
+              message: "Alert! Urgent short-code action received"
+            timeout: 20
+      - if: '$condition_switch.error'
+        operations: 
+          - action: trim 
+            space: true 
+      - if: '{{$clean_incoming_payload.raw_country | trim}} == "US"'
+        operations: 
+          - action: append 
+            text: "_premium_tier" 
+          - action: goto 
+            target: "step_hubspot_enterprise" 
+
+      - if: '{{$webhook.body.source}} == "admin"'
+        operations: 
+          - action: cut 
+            count: 2 
+          - action: break 
+
+      - else: 
+        operations: 
+          - action: append 
+            text: "_standard_routing" 
+          - action: log 
+            level: "info" 
+            message: "Lead did not match primary branches. Routing to default queue." 
+
+  - id: hubspot_enterprise 
+    service: hubspot.create_contact 
+    auth: "{{$auth.hubspot_production}}" 
+    input: 
+      email: "{{$webhook.body.email}}" 
+      tier: "Enterprise Gold" 
+      identifier: '{{$clean_incoming_payload.customer_name | append "_us_validated"}}' 
+
+  - id: telegram_send_message 
+    service: telegram.alert 
+    auth: "{{$auth.telegram_bot}}" 
+    input: 
+      chat_id: "{{$env.telegram_admin_chat_id}}" 
+      message: "Alert! Urgent short-code action received"
+    timeout: 10
+    steps: 
+      - id: hubspot_enterprise_sub 
+        service: hubspot.create_contact 
+        auth: "{{$auth.hubspot_production}}" 
+        input: 
+          email: "{{$webhook.body.email}}" 
+          tier: "Enterprise Gold" 
+          identifier: '{{$clean_incoming_payload.customer_name | append "_us_validated"}}'

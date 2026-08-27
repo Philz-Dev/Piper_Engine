@@ -1,0 +1,31 @@
+{
+    "name": "slack_post_message",
+    "method": "POST",
+    "url": "https://slack.com/api/chat.postMessage",
+    "headers": {
+        "Authorization": "Bearer {authorization}",
+        "Content-Type": "application/json"
+    },
+    "class": {
+        "authorization": "{{DataType=str, Default=$.Slack}}",
+        "fname": "{{DataType=str}}",
+        "email": "{{DataType=str}}",
+        "text": "{{DataType=str}}"
+    },
+    "body": {
+        "channel": "{{DataType=str}}",
+        "blocks": [
+        {
+            "type": "header",
+            "text": { "type": "plain_text", "text": "{text} 🔔" }
+        },
+        {
+            "type": "section",
+            "fields": [
+            { "type": "mrkdwn", "text": "*Name:*\n{fname}" },
+            { "type": "mrkdwn", "text": "*Email:*\n{email}" }
+            ]
+        }
+        ]
+    }
+}

@@ -1,0 +1,102 @@
+version: "1.0"
+
+trigger:
+  - id: "timer_30s"
+    service: timer.interval
+    interval: "5 sec"
+
+pipeline:
+  - id: "process_data"
+    service: script.external_script.pyscript
+    runtime: python         # ⚙️ Configuration (for the Engine)
+    timeout: 30
+  
+  - id: "dev_name"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+    condition: 
+    - if: '{{$telegram.message | trim | count}} == 4'
+      operations: 
+        - action: trim 
+          space: true 
+        - action: call 
+          target: "step_telegram_alert" 
+          input: 
+            chat_id: "{{$env.telegram_admin_chat_id}}" 
+            message: "Alert! Urgent short-code action received"
+          timeout: 20
+
+
+  - id: "dev_name2"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+    operations: 
+      - action: "action"
+        target:   "dev_name"
+
+  - id: "dev_name3"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+
+  - id: "dev_name4"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+    condition: 
+      - if: "401 in _on_error"
+        operations: 
+          - action: retry
+      - else:
+          operations:
+            - action: exit
+            
+    on_error:
+      - action: ignore
+
+  - id: "dev_name5"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+
+  - id: "dev_name6"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+
+  - id: "dev_name7"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+    operations: 
+      - action: goto 
+        target: "step_hubspot_enterprise" 
+
+on_error:
+  - id: "dev_name8"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+    operations: 
+      - action: goto 
+        target: "step_hubspot_enterprise" 
+
+on_success:
+  - id: "dev_name9"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+    operations: 
+      - action: goto 
+        target: "step_hubspot_enterprise" 
+
+on_complete:
+  - id: "dev_name10"
+    service: script.external_script.second
+    runtime: javascript        # ⚙️ Configuration (for the Engine)
+    timeout: 30
+    operations: 
+      - action: goto 
+        target: "step_hubspot_enterprise" 

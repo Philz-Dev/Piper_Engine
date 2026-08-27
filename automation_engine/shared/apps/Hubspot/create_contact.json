@@ -1,0 +1,25 @@
+ {
+    "name": "HubSpot_CRM_Create_Contact",
+    "response_navigator": "id",
+    "url": "https://api.hubapi.com/crm/v3/objects/contacts",
+    "method": "POST",
+    "class": {
+        "authorization": "{{DataType=str, Default=$env.Hubspot}}"
+    },
+    "headers": {
+        "Authorization": "Bearer {authorization}",
+        "Content-Type": "application/json"
+    },
+    "body": {
+        "properties": {
+            "firstname": "{{DataType=str}}",
+            "lastname": "{{DataType=str}}",
+            "email": "{{DataType=str}}",
+            "phone": "{{DataType=str}}",
+            "company": "{{DataType=str}}",
+            "website": "{{DataType=str}}",
+            "lifecyclestage": "{{DataType=str}}",
+            "jobtitle": "{{DataType=str}}"
+        }
+    }
+}

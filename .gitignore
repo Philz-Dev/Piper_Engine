@@ -7,11 +7,11 @@ build/
 *.egg-info/
 .venv/
 venv/
-.env
+.env/
 
 # Local configuration / scratch directories
 universal_api_registry/schemas/
-.gitignore
+.gitignore/
 universal_api_registry/credentials.db
 universal_api_registry/credentials.db-shm
 universal_api_registry/credentials.db-wal

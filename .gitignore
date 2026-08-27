@@ -13,8 +13,8 @@ env/
 universal_api_registry/schemas/
 .gitignore
 universal_api_registry/credentials.db
-universal_api_registry/credential.db-shm
-universal_api_registry/credential.db-wal
+universal_api_registry/credentials.db-shm
+universal_api_registry/credentials.db-wal
 universal_api_registry/package-lock.json
 universal_api_registry/package.json
 universal_api_registry/node_modules.json

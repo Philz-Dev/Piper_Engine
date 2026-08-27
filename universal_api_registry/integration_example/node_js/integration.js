@@ -37,7 +37,7 @@ app.use(express.json());
 // 1. SETUP — Initialize the engine, store, and SDK once at process start.
 // ---------------------------------------------------------------------------
 
-const key = process.env.PIPER_SECRET_KEY || "T9wkTOczZN4uGjMNuCJKl4EzdoWAtuRQL8CLCm60kFw=";
+const key = process.env.PIPER_SECRET_KEY || "";
 
 // 🛠️ FIX: build the CryptoEngine once here (mirrors integration.py's
 // `crypto_engine = get_crypto_engine(key)`) and inject it into the store,
@@ -73,8 +73,8 @@ const sdk = new PiperSDK({ store: credentialStore, redirectBaseUrl });
 // accepting requests — see the startServer() IIFE at the bottom of this
 // file.
 const hubspotAppCred = {
-    client_id: process.env.HUBSPOT_CLIENT_ID || "4d4ef8a9-b12e-43ca-a68b-29695edda560",
-    client_secret: process.env.HUBSPOT_CLIENT_SECRET || "0a669fa8-8bab-4c4e-869a-9fd5c32f27db",
+    client_id: process.env.HUBSPOT_CLIENT_ID || "",
+    client_secret: process.env.HUBSPOT_CLIENT_SECRET || "",
 };
 
 // Serve static frontend files (including index.html)

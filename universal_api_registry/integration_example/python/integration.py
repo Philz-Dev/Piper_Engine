@@ -38,12 +38,14 @@ from stretis import (
 )
 from stretis import SqliteCredentialStore # import PostgresCredentialStore for postgres or CredentialStore
 from stretis import get_crypto_engine
+from pathlib import Path
+import os
 
 # ---------------------------------------------------------------------------
 # 1. SETUP — do this once, at process start.
 # ---------------------------------------------------------------------------
 
-key = "T9wkTOczZN4uGjMNuCJKl4EzdoWAtuRQL8CLCm60kFw=" # os.environ.get("PIPER_SECRET_KEY")
+key = os.environ.get("PIPER_SECRET_KEY")
 
 # 🛠️ FIX: get_crypto_engine(key)'s return value was being discarded here,
 # then SqliteCredentialStore was constructed without it at all — a
@@ -64,8 +66,8 @@ credential_store = SqliteCredentialStore(
 )
 
 hubspot_app_cred = AppCredentials(
-    client_id="4d4ef8a9-b12e-43ca-a68b-29695edda560",
-    client_secret="0a669fa8-8bab-4c4e-869a-9fd5c32f27db"
+    client_id=os.environ.get("HUBSPOT_CLIENT_ID"),
+    client_secret=os.environ.get("HUBSPOT_CLIENT_SECRET")
 )
 
 credential_store.save_app_credentials(app="hubspot", credentials=hubspot_app_cred)

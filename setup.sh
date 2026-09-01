@@ -67,11 +67,12 @@ echo "📍 Infrastructure Verified: Auto-assigning engine mode to -> [$DETECTED_
 # Generate/reuse a real INSTALL_TOKEN and PIPER_ADMIN_SECRET instead of hardcoding placeholders
 if [ -f .env ]; then
     sed -i 's/@piper-db:/@db:/g' .env || true
+    sed -i 's|DATABASE_URL=postgresql://postgres:|DATABASE_URL=postgresql://piper_admin:|' .env || true
     DB_PASSWORD=$(grep DATABASE_URL .env | sed -e 's|.*//[^:]*:\([^@]*\)@.*|\1|')
 else
     echo "📌 Generating fresh credentials..."
     DB_PASSWORD=$(openssl rand -hex 12 2>/dev/null || echo "piper_$(date +%s)")
-    echo "DATABASE_URL=postgresql://postgres:$DB_PASSWORD@db:5432/piper_data" > .env
+    echo "DATABASE_URL=postgresql://piper_admin:$DB_PASSWORD@db:5432/piper_data" > .env
 fi
 
 # Reuse an existing INSTALL_TOKEN/ADMIN_SECRET if present, otherwise generate real random ones.
@@ -177,7 +178,7 @@ echo "✅ Nginx config generated and hidden for $USER_DOMAIN."
 # supplies the dash itself. (The double-dash here was the bug causing
 # "services.db.volumes.0 must be a string".)
 if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then
-    DB_VOLUMES="./piper_db_data:/var/lib/postgresql/data"
+    DB_VOLUMES="piper_db_data:/var/lib/postgresql/data"
     HOST_PROJECT_PATH=$(pwd -W)
     PLATFORM="windows"
     SERVER_VOLUMES="- ./.env:/app/.env
@@ -185,7 +186,7 @@ if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then
       - .:/app"
 else
     HOST_PROJECT_PATH=$(pwd)
-    DB_VOLUMES="./piper_db_data:/var/lib/postgresql/data"
+    DB_VOLUMES="piper_db_data:/var/lib/postgresql/data"
     PLATFORM="linux"
     SERVER_VOLUMES="- ./.env:/app/.env
       - piper_storage:/app/piper_storage
@@ -242,6 +243,8 @@ services:
       - POSTGRES_USER=piper_admin
       - POSTGRES_PASSWORD=$DB_PASSWORD
       - POSTGRES_DB=piper_data
+      - POSTGRES_HOST_AUTH_METHOD=scram-sha-256
+      - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
     volumes:
       - $DB_VOLUMES
     networks:
@@ -377,21 +380,6 @@ services:
     networks:
       - piper-network
 
-  piper-frontend:
-    image: ghcr.io/philz-dev/piper-frontend:latest
-    container_name: piper-frontend
-    restart: always
-    ports:
-      - "3000:3000"
-    environment:
-      - API_URL=http://piper-engine-servers:8099
-      - INSTALL_TOKEN=$INSTALL_TOKEN
-      - NEXT_PUBLIC_ENGINE_MODE=$DETECTED_ENV
-    networks:
-      - piper-network
-    depends_on:
-      - piper-servers
-
   piper-servers:
     image: ghcr.io/philz-dev/piper-servers:v1
     container_name: piper-engine-servers
@@ -455,6 +443,8 @@ networks:
 volumes:
   piper_storage:
     name: piper_storage
+  piper_db_data:
+    name: piper_db_data
 EOF
 )
 
@@ -463,8 +453,8 @@ echo "🧹 Cleaning up old networks, volumes, and containers..."
 # Stop gracefully first (gives Postgres a chance to checkpoint and shut down
 # cleanly) before force-removing. `rm -f` alone SIGKILLs, which is what was
 # causing crash recovery (and slow startup) on the next run.
-docker stop -t 30 piper-db piper-redis piper-watchtower piper-docker-proxy piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-runner-python-live piper-runner-node-live 2>/dev/null || true
-docker rm -f piper-db piper-redis piper-watchtower piper-docker-proxy piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-runner-python-live piper-runner-node-live 2>/dev/null || true
+docker stop -t 30 piper-db piper-redis piper-watchtower piper-docker-proxy piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-runner-python-live piper-runner-node-live piper-nginx piper-certbot 2>/dev/null || true
+docker rm -f piper-db piper-redis piper-watchtower piper-docker-proxy piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-runner-python-live piper-runner-node-live piper-nginx piper-certbot 2>/dev/null || true
 docker network rm piper-network 2>/dev/null || true
 docker volume create piper_storage 2>/dev/null || true
 
@@ -576,7 +566,7 @@ echo -e "\n✅ Database Engine is accepting operations!"
 # not just the db. Without this, a crash-looping service still gets reported
 # as "SUCCESS" below.
 echo "🩺 Verifying all core services are running..."
-SERVICES_TO_CHECK="piper-docker-proxy piper-db piper-redis piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-nginx piper-frontend"
+SERVICES_TO_CHECK="piper-docker-proxy piper-db piper-redis piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-nginx"
 FAILED_SERVICES=""
 for svc in $SERVICES_TO_CHECK; do
     STATE=$(docker inspect -f '{{.State.Status}}' "$svc" 2>/dev/null || echo "missing")

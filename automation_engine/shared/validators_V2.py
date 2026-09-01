@@ -1285,9 +1285,12 @@ def validate_timer(key, current_step: Dict, registry: PiperRegistry, state: Vali
             f"and must include dot notation (got '{service_val}')."
         )
         return
+    now = None
+    if e := service_val.split(".")[-1] == "now":
+        now = e
+        
 
     interval = str(current_step.get('interval') or current_step.get('args', {}).get('interval'))
-    now = str(current_step.get('now') or current_step.get('args', {}).get('now'))
     
     if not interval or now:
         # If it's mandatory but missing, add error (or let check_step_validity handle it)
@@ -1296,7 +1299,7 @@ def validate_timer(key, current_step: Dict, registry: PiperRegistry, state: Vali
         )
         return
     
-    line_name = interval or now
+    line_name = interval or current_step
 
     line_info = get_line_number(current_step, line_name)
     valid_units = {"sec", "min", "h", "d", "m", "y"}
@@ -2218,5 +2221,3 @@ def use_validator(section_key: str, line_info, content: Any, key: str, value: st
                 f"in Line {line_info}: [{step_ref}] '{top_section_key}' does not support the service type "
                 f"used by '{target_id}' (prefix '{prefix}')."
             )
-
-#def validate_actions

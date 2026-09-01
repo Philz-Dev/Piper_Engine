@@ -138,7 +138,6 @@ async def builder(name, path, crypto_engine, password, dsl_file=None):
 
     compiler = WorkflowCompiler()
     compiled_manifest = compiler.compile_block(piper_interpreter.manifest, registry=registry, state=state)
-    print(compiled_manifest)
 
     await processor(_cont=compiled_manifest, _password=password, _client_name=name, _registry=registry, _dsl_file_name=dsl_file)
 

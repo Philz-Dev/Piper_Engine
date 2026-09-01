@@ -26,6 +26,7 @@ from shared.redis_queuer import handover_password
 from shared.database_manager import ContextDB
 from shared.setup_build import execute_piper_start, execute_piper_stop
 import docker
+import time
 
 DB = ContextDB()
 
@@ -375,24 +376,56 @@ def secrets():
 @secrets.command()
 @click.argument('key_name')
 @click.option('--client', '-c', required=True, help="The client name")
+@click.option('--oauth', is_flag=True,
+              help="Also collect refresh_token/expires_in/token_url/client_id/client_secret "
+                   "for auto-refreshing apps. Omit for a static API key that never expires.")
 @click.password_option('--password', help="Master Password to encrypt this secret", prompt=True)
-def set(key_name, client, password):
+def set(key_name, client, oauth, password):
     if not verify_password(password):
         click.echo("❌ Error: Incorrect Master Password.")
         return
-    vault_file = f"templates/{client}/.piper_vault"
-    secret_value = click.prompt(f"Enter value for {key_name}", hide_input=True)
-    
+
     try:
         fernet = get_encryption_key(password)
-        encrypted_value = fernet.encrypt(secret_value.encode()).decode()
-        vault = retrieve_file(file_path=vault_file)
-        print(vault)
+
+        access_token = click.prompt(f"Access token / value for {key_name}", hide_input=True)
+
+        # Always a dict — this is the shape get_client_auth_cred() and
+        # get_valid_access_token() require for every $env.-resolved key,
+        # OAuth or not.
+        token_bundle = {"access_token": access_token}
+
+        if oauth:
+            refresh_token = click.prompt("Refresh token (blank if none)", default="", show_default=False, hide_input=True)
+            expires_in    = click.prompt("Expires in (seconds from now)", default=3600, type=int)
+            token_url     = click.prompt("Token refresh URL (blank if none)", default="", show_default=False)
+            oauth_id      = click.prompt("OAuth client_id (blank if none)", default="", show_default=False)
+            oauth_secret  = click.prompt("OAuth client_secret (blank if none)", default="", hide_input=True, show_default=False)
+
+            token_bundle.update({
+                "refresh_token": refresh_token or None,
+                "expires_at": time.time() + expires_in or None,
+                "token_url": token_url or None,
+                "client_id": oauth_id or None,
+                "client_secret": oauth_secret or None,
+            })
+            # no --oauth: no "expires_at" key at all, which get_valid_access_token
+            # already treats correctly — `if not old_expires_at:` returns
+            # token_info["access_token"] straight away, no refresh attempted.
+
+        payload = json.dumps(token_bundle)
+        encrypted_value = fernet.encrypt(payload.encode()).decode()
+
+        vault = DB.get_vault(client)
         vault[key_name] = encrypted_value
-        os.makedirs(os.path.dirname(vault_file), exist_ok=True)
-        with open(vault_file, "w") as f:
-            json.dump(vault, f, indent=4)
-        click.echo(f"✅ Secret '{key_name}' stored for {client}.")
+        success = DB.save_vault(client, vault)
+
+        if success:
+            kind = "OAuth token bundle" if oauth else "static secret"
+            click.echo(f"✅ {kind} '{key_name}' stored in DB vault for {client}.")
+        else:
+            click.echo("❌ Error: Failed to save vault to database.")
+
     except Exception as e:
         click.echo(f"❌ Error: {e}")
 

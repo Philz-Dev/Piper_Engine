@@ -344,6 +344,7 @@ schema_reg = {
             "sleep": {
                 "dependency": {},
                 "executor": system_functions.sleep,
+                "validator": {},
                 "top_level_parent": [
                     SchemaID.PIPELINE, 
                     SchemaID.ON_COMPLETE, 
@@ -356,6 +357,7 @@ schema_reg = {
                 "dependency": {},
                 "processor": processor.start_webhook,
                 "executor": system_functions.stop,
+                "validator": {},
                 "top_level_parent": [
                     SchemaID.PIPELINE, 
                     SchemaID.ON_COMPLETE, 
@@ -369,7 +371,7 @@ schema_reg = {
                 "interpreter": interpreter.webhook_func,
                 "processor": processor.schedule,
                 "executor": system_functions.exit,
-                "validator": "validators_V2.validate_timer",
+                "validator": {},
                 "top_level_parent": [
                     SchemaID.PIPELINE, 
                     SchemaID.ON_COMPLETE, 
@@ -383,7 +385,7 @@ schema_reg = {
                 "interpreter": interpreter.webhook_func,
                 "processor": processor.schedule,
                 "executor": system_functions.retry,
-                "validator": "validators_V2.validate_timer",
+                "validator": {},
                 "top_level_parent": [
                     SchemaID.PIPELINE, 
                     SchemaID.ON_COMPLETE, 
@@ -397,7 +399,7 @@ schema_reg = {
                 "interpreter": interpreter.webhook_func,
                 "processor": processor.schedule,
                 "executor": system_functions.goto,
-                "validator": "validators_V2.validate_timer",
+                "validator": {},
                 # 🛠️ FIX: CONDITION added - 'map'-style DSL files put 'action: goto'
                 # directly under a top-level 'condition:' section (a decision map),
                 # not under 'pipeline'/'on_complete'/'on_error'/'on_success' like a
@@ -418,7 +420,7 @@ schema_reg = {
                 "interpreter": interpreter.webhook_func,
                 "processor": processor.schedule,
                 "executor": system_functions.to_break,
-                "validator": "validators_V2.validate_timer",
+                "validator": {},
                 "top_level_parent": [
                     SchemaID.PIPELINE, 
                     SchemaID.ON_COMPLETE, 
@@ -432,7 +434,7 @@ schema_reg = {
                 "interpreter": interpreter.webhook_func,
                 "processor": processor.schedule,
                 "executor": system_functions.skip,
-                "validator": "validators_V2.validate_timer",
+                "validator": {},
                 "top_level_parent": [
                     SchemaID.PIPELINE, 
                     SchemaID.ON_COMPLETE, 

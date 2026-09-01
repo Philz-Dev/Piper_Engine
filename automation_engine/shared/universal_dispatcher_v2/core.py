@@ -73,7 +73,6 @@ async def get_client_auth_cred(client_name: str, app_name: str, crypto_engine, v
     encrypted_token_data = vault_data.get(app_name)
 
     if not encrypted_token_data:
-        print(f"encrypted_token_data:                         {encrypted_token_data}")
         raise ValueError(f"No authentication data found for app '{app_name}' under client '{client_name}'. Run auth flow first.")
 
     # 2. Decrypt tokens and check expiration
@@ -86,6 +85,7 @@ async def get_valid_access_token(client_name: str, app_name: str, crypto_engine,
     Checks DB first; if expired, acquires a Redis lock to safely refresh 
     while waiting workers sleep, re-check DB, and compare expiration timestamps.
     """
+    
     if not vault_data:
         return {}
     

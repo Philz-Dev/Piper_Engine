@@ -21,7 +21,7 @@ async def stop_server():
         print("\n--- PHASE 2: Auth Complete. Closing local server... ---")
         server_instance.should_exit = True
 
-@app.get("/callback")
+@app.get("/callback/{hubspot}")
 async def callback(background_tasks: BackgroundTasks, code: str = Query(None)):
     recieved_cont = app.state.cont 
     crypto_engine = app.state.crypto_engine

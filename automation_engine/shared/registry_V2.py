@@ -382,15 +382,12 @@ class PiperRegistry:
             """
             # 1. Get the definition for the key (e.g., 'service')
             definition = self._raw.get(key, {})
-            print(f"definition:    {definition}")
             
             # 2. Get the prefix dictionary (e.g., the map of webhook, timer, etc.)
             prefixes = definition.get("prefix", {})
-            print(f"prefixes:    {prefixes}")
             
             # 3. Get the specific prefix config (e.g., the 'webhook' dictionary)
             target_config = prefixes.get(prefix_name, {})
-            print(f"target_config:    {target_config}")
             
             # 4. Return the 'executor' if it exists, otherwise return None/empty list
             return target_config.get("processor")

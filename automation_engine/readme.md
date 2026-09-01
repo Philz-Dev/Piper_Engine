@@ -68,9 +68,16 @@ It's a single-host, single-process version of what Kubernetes does with a schedu
 
 ## Quick start
 
+## Quick start
+
+To provision and run the stack instantly via remote execution:
+
 ```bash
-git clone <this-repo>
-cd <this-repo>
+curl -fsSL [https://raw.githubusercontent.com/philz-dev/piper_engine/main/setup_v4.sh](https://raw.githubusercontent.com/philz-dev/piper_engine/main/setup_v4.sh) | bash
+
+```bash
+git clone https://github.com/philz-dev/piper_engine.git
+cd your-repo
 sh setup_v4.sh
 ```
 
@@ -147,8 +154,6 @@ Everything sensitive is gated behind a **Master Password**, set once via `piper 
 |---|---|
 | `piper init` | Zero-touch setup — verifies the master password vault, creates DB tables, creates `logs/`, `templates/`, `temp_downloads/`. Runs automatically at the end of `setup_v4.sh`. |
 | `piper start [clients...]` / `piper stop [clients...]` | Start or stop specific clients (or the whole fleet if none named). |
-| `piper deploy [clients...]` | Deploy the whole agency — starts every client's engine, or a named subset. |
-| `piper dep -c <client>` | Generates a per-client Compose config on the fly and brings up a dedicated `<client>_engine` container. |
 | `piper status` | Lists all running `*_engine` containers and their status. |
 | `piper logs -c <client>` | Streams `docker logs -f` for a specific client's engine container. |
 | `piper stats` | Aggregates live CPU/memory usage across every running container into one summary panel. |

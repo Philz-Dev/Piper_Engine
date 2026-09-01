@@ -307,6 +307,26 @@ class ContextDB:
         with self.engine.connect() as conn:
             for q in queries:
                 conn.execute(text(q))
+            # 🛠️ FIX: `CREATE TABLE IF NOT EXISTS pipeline_storage` above
+            # already lists on_complete/on_error/on_success — but that's a
+            # no-op on any database where pipeline_storage was already
+            # created by an older version of this method, before those
+            # three columns existed in the code. CREATE TABLE IF NOT
+            # EXISTS only checks the table name, never reconciles columns
+            # against an existing table — so every environment that had
+            # this table created before these columns were added is stuck
+            # missing them forever, with no error at startup, only later
+            # when a query actually references the column (exactly the
+            # "column \"on_complete\" does not exist" failure this fixes).
+            # ADD COLUMN IF NOT EXISTS is the actual migration Postgres
+            # supports for this; safe to re-run every startup since it's a
+            # no-op once the column is present.
+            conn.execute(text("""
+                ALTER TABLE pipeline_storage
+                    ADD COLUMN IF NOT EXISTS on_complete JSONB,
+                    ADD COLUMN IF NOT EXISTS on_error JSONB,
+                    ADD COLUMN IF NOT EXISTS on_success JSONB;
+            """))
             conn.commit()
 
     def upsert_on_complete(self, client_id, task_id, data, dsl_name=None):

@@ -158,7 +158,7 @@ async def start_webhook(_cont, _crypto_engine, _client_id, _task_id, _step, **kw
             print(f"🛡️ Cleanup schema persisted for task: {_task_id}")
     print("\n--- System Fully Operational ---")
 
-async def schedule(interval: str, _client_id: str, _task_id: str, _step: Dict, **_kwargs):
+async def schedule(_client_id: str, _task_id: str, _step: Dict, interval: str="5 sec", **_kwargs):
     # 1. Mapping for local calculation
 
     service_map = {
@@ -169,9 +169,20 @@ async def schedule(interval: str, _client_id: str, _task_id: str, _step: Dict, *
         "m": "months",
         "y": "years"
     }
-    
+    action = _step.get("action") or _step.get("service", {}).get("action")
+    # 🛠️ FIX: 'id' and 'interval_str' were only ever assigned inside the
+    # 'else' branch below, but both get referenced unconditionally after
+    # the if/else (in the DB.schedule_task call and the final print) —
+    # so an action=="now" run (the immediate-execution path) crashed with
+    # "cannot access local variable 'id'"/'interval_str' the moment it
+    # reached either of those. 'id' is needed either way, so it's pulled
+    # out here, once, regardless of which branch runs.
+    id = _step.get("id")
+    interval_label = None  # no periodic unit for a one-off immediate run
+
     try:
-        if _step.get("action") == "now":
+        if action == "now":
+            value = 0
             print(f"⚡ Immediate execution requested for Task {_task_id}")
             # Logic: Either run the task logic here, or set run_at to now()
             run_at = datetime.now()
@@ -181,7 +192,6 @@ async def schedule(interval: str, _client_id: str, _task_id: str, _step: Dict, *
             # e.g., "2 m" or "30 sec"
             value_str, interval_str = interval.split(" ")
             value = int(value_str)
-            id = _step.get("id")
             
             # Ensure the unit exists in our map
             if interval_str not in service_map:
@@ -189,22 +199,26 @@ async def schedule(interval: str, _client_id: str, _task_id: str, _step: Dict, *
                 return
 
             # 2. Calculate the VERY FIRST run date
-            delta_kwargs = {service_map[interval_str]: value}
+            interval_label = service_map[interval_str]
+            delta_kwargs = {interval_label: value}
             run_at = datetime.now() + relativedelta(**delta_kwargs)
 
         # 3. Save to DB
-        # IMPORTANT: We save the 'interval_str' (e.g., "m") so check_schedules 
-        # can look it up in its own service_map later.
+        # IMPORTANT: We save the mapped interval label (e.g., "minutes") so
+        # check_schedules can look it up directly - 'intervals' is nullable
+        # and stays None for an immediate "now" run, which has no periodic
+        # unit to store.
         DB.schedule_task(
             client_id=_client_id, 
             task_id=_task_id, 
             run_at=run_at, 
             value=value,
             step_id=id, 
-            intervals=service_map[interval_str]  # This goes into the 'intervals' column
+            intervals=interval_label
         )
         
-        print(f"⏰ Task {_task_id} scheduled for {run_at} (Every {value} {interval_str})")
+        schedule_desc = f"Every {value} {interval_label}" if interval_label else "Immediate"
+        print(f"⏰ Task {_task_id} scheduled for {run_at} ({schedule_desc})")
         
     except ValueError:
         print(f"❌ Error: Invalid interval format '{interval}'. Expected 'value unit' (e.g., '10 min')")

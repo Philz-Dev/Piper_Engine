@@ -81,7 +81,7 @@ async def service_executor(_registry, _cont: Dict, _crypto_engine, _context_data
     return {}
 
 
-def schedule_executor(interval: str, **_kwargs):
+def schedule_executor(interval: str="5 sec", **_kwargs):
     """
         A function placeholder for schedule sub executor
     """

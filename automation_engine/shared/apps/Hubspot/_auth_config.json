@@ -5,8 +5,8 @@
     "method": "POST",
     "class": {
         "CLIENT_ID": "4d4ef8a9-b12e-43ca-a68b-29695edda560",
-        "CLIENT_SECRET": "0a669fa8-8bab-4c4e-869a-9fd5c32f27db",
+        "CLIENT_SECRET": "211fad1d-48ca-4bfc-86f0-28e6a7423f51",
         "scopes": "crm.objects.contacts.read crm.objects.contacts.write crm.objects.companies.read crm.objects.companies.write",
-        "REDIRECT_URI": "http://localhost:8080/callback"
+        "REDIRECT_URI": "http://localhost:8080/callback/hubspot"
     }
 }

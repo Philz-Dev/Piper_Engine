@@ -21,6 +21,9 @@ credentials or fires a request unless you wire it to. The transpiler
 generates files on your disk that you own outright. Nothing here runs on
 anyone else's servers.
 
+## 🚀 Live Demo
+![Universal API Registry Demo](universal_api_registry/demo/universal_api_registry_demo.gif)
+
 ## Architecture
 
 ```

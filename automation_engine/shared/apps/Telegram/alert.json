@@ -3,7 +3,7 @@
     "method": "POST",
     "url": "https://api.telegram.org/bot{authorization}/sendMessage",
     "class": {
-        "authorization": "{{DataType=str, Default=$.Telegram}}"
+        "authorization": "{{DataType=str, Default=$env.Telegram}}"
     },
     "headers": {
         "Content-Type": "application/json"

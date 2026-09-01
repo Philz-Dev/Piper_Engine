@@ -29,24 +29,6 @@ else
     MISSING_DEPS=1
 fi
 
-# 🛠️ FIX: Compose's project name — the identity it uses to decide
-# whether an existing network/volume belongs to THIS setup or someone
-# else's — defaults to the current directory's BASENAME when nothing
-# pins it explicitly. That means renaming or relocating the project
-# folder (exactly what moving everything into automation_engine/ did)
-# silently changes Compose's own idea of "who owns piper-network and
-# piper_storage", even though nothing about the actual infrastructure
-# changed. The result: "exists but was not created for project ..."
-# warnings, Compose reusing stale/mismatched resources instead of
-# cleanly-owned ones, and containers that depend on that network
-# (piper-engine-servers, reported crash-looping) failing to connect
-# correctly. Pinning a fixed name here — via `-p`, added to
-# DOCKER_COMPOSE itself so every call site below picks it up
-# automatically — makes this identity permanent regardless of what
-# directory the script is ever run from or renamed to in the future.
-COMPOSE_PROJECT_NAME="piper_engine"
-DOCKER_COMPOSE="$DOCKER_COMPOSE -p $COMPOSE_PROJECT_NAME"
-
 if ! docker info >/dev/null 2>&1; then
     echo "❌ Docker daemon is not reachable. Is Docker Desktop / the docker service running?"
     MISSING_DEPS=1
@@ -85,24 +67,11 @@ echo "📍 Infrastructure Verified: Auto-assigning engine mode to -> [$DETECTED_
 # Generate/reuse a real INSTALL_TOKEN and PIPER_ADMIN_SECRET instead of hardcoding placeholders
 if [ -f .env ]; then
     sed -i 's/@piper-db:/@db:/g' .env || true
-    # Self-heal .env files generated before the piper_admin username fix
-    # below — same migration pattern as the @piper-db: line above.
-    sed -i 's|postgresql://postgres:|postgresql://piper_admin:|g' .env || true
     DB_PASSWORD=$(grep DATABASE_URL .env | sed -e 's|.*//[^:]*:\([^@]*\)@.*|\1|')
 else
     echo "📌 Generating fresh credentials..."
     DB_PASSWORD=$(openssl rand -hex 12 2>/dev/null || echo "piper_$(date +%s)")
-    # 🛠️ FIX: was "postgres:$DB_PASSWORD" — the `db` service below is
-    # actually initialized with POSTGRES_USER=piper_admin, not the
-    # postgres superuser. The long-running containers never hit this
-    # because their DATABASE_URL is hardcoded correctly to piper_admin
-    # right in the compose environment: block, but `piper init` runs
-    # as a separate one-off container via `docker run --env-file .env`
-    # (see piper_wrapper below), which reads this file's value
-    # directly — so it was connecting as a user that was never
-    # created, and failing with "password authentication failed for
-    # user \"postgres\"".
-    echo "DATABASE_URL=postgresql://piper_admin:$DB_PASSWORD@db:5432/piper_data" > .env
+    echo "DATABASE_URL=postgresql://postgres:$DB_PASSWORD@db:5432/piper_data" > .env
 fi
 
 # Reuse an existing INSTALL_TOKEN/ADMIN_SECRET if present, otherwise generate real random ones.
@@ -180,15 +149,6 @@ mkdir -p ./.piper_internal
 cat <<EOF > ./.piper_internal/nginx.conf
 events { worker_connections 1024; }
 http {
-    # 🛠️ FIX: nginx's default map_hash_bucket_size (32 or 64 bytes, depending
-    # on platform) is too small to hold PIPER_ADMIN_SECRET as a map key -
-    # it's a 48-char hex string (openssl rand -hex 24), which exceeds the
-    # default bucket size once nginx's internal alignment is factored in.
-    # Without this, nginx fails at startup with "could not build map_hash,
-    # you should increase map_hash_bucket_size" and restart-loops forever.
-    # 128 comfortably covers the current 48-char secret with room to spare.
-    map_hash_bucket_size 128;
-
     map \$http_x_piper_secret \$is_authorized {
         default "0";
         "$PIPER_ADMIN_SECRET" "1";
@@ -318,20 +278,6 @@ services:
     image: ghcr.io/philz-dev/piper-manager:v1
     container_name: piper-engine-manager
     restart: always
-    # 🛠️ FIX: this service connects to both db (DATABASE_URL) and
-    # docker-proxy (DOCKER_HOST) at startup, but had no depends_on at
-    # all — Compose started it in the same batch as piper-db, so its
-    # first connection attempt raced against Postgres actually being
-    # ready, lost that race, crashed, and sat in restart backoff. The
-    # post-DB health check then caught it mid-restart and reported it
-    # as failed, even though it would likely have recovered on its own
-    # a few seconds later. piper-controller already does this correctly
-    # below — mirroring that here.
-    depends_on:
-      db:
-        condition: service_healthy
-      docker-proxy:
-        condition: service_started
     extra_hosts:
       - "host.docker.internal:host-gateway"
     dns:
@@ -389,7 +335,7 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     volumes:
-      - $HOST_PROJECT_PATH:/app
+      - \${HOST_PROJECT_PATH}:/app
     networks:
       - piper-network
     entrypoint: ["tail", "-f", "/dev/null"]
@@ -401,7 +347,7 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     volumes:
-      - $HOST_PROJECT_PATH:/app
+      - \${HOST_PROJECT_PATH}:/app
     networks:
       - piper-network
     entrypoint: ["tail", "-f", "/dev/null"]
@@ -430,6 +376,21 @@ services:
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait \$\${!}; done;'"
     networks:
       - piper-network
+
+  piper-frontend:
+    image: ghcr.io/philz-dev/piper-frontend:latest
+    container_name: piper-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - API_URL=http://piper-engine-servers:8099
+      - INSTALL_TOKEN=$INSTALL_TOKEN
+      - NEXT_PUBLIC_ENGINE_MODE=$DETECTED_ENV
+    networks:
+      - piper-network
+    depends_on:
+      - piper-servers
 
   piper-servers:
     image: ghcr.io/philz-dev/piper-servers:v1
@@ -502,21 +463,8 @@ echo "🧹 Cleaning up old networks, volumes, and containers..."
 # Stop gracefully first (gives Postgres a chance to checkpoint and shut down
 # cleanly) before force-removing. `rm -f` alone SIGKILLs, which is what was
 # causing crash recovery (and slow startup) on the next run.
-# 🛠️ FIX: this list was missing piper-nginx and piper-certbot — two
-# container_names the compose file below actually defines. Whichever of
-# those already existed from a prior run was never cleaned up here, so
-# `docker compose up` would hit a name conflict ("Conflict. The
-# container name ... is already in use") trying to recreate it. Keeping
-# this list in sync with every container_name in the compose file is the
-# actual fix; missing any one of them reproduces the same failure for
-# that container specifically.
-# (piper-frontend was previously listed here too, on the belief that the
-# compose file defines it — it does not; grep container_name: below and
-# there is no such service. Harmless here since `rm -f` on a nonexistent
-# name is a silent no-op, but see the SERVICES_TO_CHECK fix further down
-# for where the identical stale belief was NOT harmless.)
-docker stop -t 30 piper-db piper-redis piper-watchtower piper-docker-proxy piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-runner-python-live piper-runner-node-live piper-nginx piper-certbot 2>/dev/null || true
-docker rm -f piper-db piper-redis piper-watchtower piper-docker-proxy piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-runner-python-live piper-runner-node-live piper-nginx piper-certbot 2>/dev/null || true
+docker stop -t 30 piper-db piper-redis piper-watchtower piper-docker-proxy piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-runner-python-live piper-runner-node-live 2>/dev/null || true
+docker rm -f piper-db piper-redis piper-watchtower piper-docker-proxy piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-runner-python-live piper-runner-node-live 2>/dev/null || true
 docker network rm piper-network 2>/dev/null || true
 docker volume create piper_storage 2>/dev/null || true
 
@@ -628,59 +576,21 @@ echo -e "\n✅ Database Engine is accepting operations!"
 # not just the db. Without this, a crash-looping service still gets reported
 # as "SUCCESS" below.
 echo "🩺 Verifying all core services are running..."
-# 🛠️ FIX: "piper-frontend" was in this list, on the same stale belief
-# corrected above — the compose file defined below never creates a
-# container by that name (12 container_name entries total; see them
-# all with `grep container_name:`), so docker inspect on it returns
-# "missing" forever. That's not a transient race this loop's retry
-# window could ever resolve — it's a permanent, guaranteed failure on
-# every single run, in every environment, since the container this was
-# waiting for was never going to exist. Removed it here; the fix above
-# (dropping it from cleanup too) was the same belief, just harmless
-# there instead of fatal.
-SERVICES_TO_CHECK="piper-docker-proxy piper-db piper-redis piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-nginx"
-# 🛠️ FIX: this used to be a single instant check right after the DB became
-# ready. A service can legitimately restart once on its very first
-# connection attempt (even WITH a correct depends_on, since a healthcheck
-# passing doesn't guarantee the depended-on service is instantly reachable
-# on the network yet) and settle a few seconds later — checking exactly
-# once caught services mid-restart-backoff and reported them as failed
-# when they'd have come up fine moments later. Retrying for up to 30s
-# before declaring an actual failure gives that settling time a chance,
-# while still failing fast (not hanging forever) on a genuinely broken
-# service.
-HEALTH_CHECK_TIMEOUT=30
-HEALTH_CHECK_ELAPSED=0
-while true; do
-    FAILED_SERVICES=""
-    for svc in $SERVICES_TO_CHECK; do
-        STATE=$(docker inspect -f '{{.State.Status}}' "$svc" 2>/dev/null || echo "missing")
-        if [ "$STATE" != "running" ]; then
-            FAILED_SERVICES="$FAILED_SERVICES $svc($STATE)"
-        fi
-    done
-    if [ -z "$FAILED_SERVICES" ]; then
-        break
+SERVICES_TO_CHECK="piper-docker-proxy piper-db piper-redis piper-engine-manager piper-engine-controller piper-engine-servers piper-engine-services piper-nginx piper-frontend"
+FAILED_SERVICES=""
+for svc in $SERVICES_TO_CHECK; do
+    STATE=$(docker inspect -f '{{.State.Status}}' "$svc" 2>/dev/null || echo "missing")
+    if [ "$STATE" != "running" ]; then
+        FAILED_SERVICES="$FAILED_SERVICES $svc($STATE)"
     fi
-    if [ "$HEALTH_CHECK_ELAPSED" -ge "$HEALTH_CHECK_TIMEOUT" ]; then
-        echo -e "\n❌ The following services are not running after ${HEALTH_CHECK_TIMEOUT}s:$FAILED_SERVICES"
-        echo "   Check logs with: docker logs <container-name>"
-        exit 1
-    fi
-    # 🛠️ FIX: this loop previously printed NOTHING between the initial
-    # "Verifying..." line and either success or the 30s-later failure —
-    # unlike the DB-wait loop immediately above it, which prints a "."
-    # every 2s. A silent 30-second stretch right after a fresh curl|bash
-    # install looks indistinguishable from a genuine hang, which is
-    # exactly what was reported here even though the loop WAS retrying
-    # correctly and would have failed with a clear message at 30s. A
-    # dot every retry (3s) makes "still checking" visibly distinct from
-    # "frozen" without adding meaningful noise.
-    echo -n "."
-    sleep 3
-    HEALTH_CHECK_ELAPSED=$((HEALTH_CHECK_ELAPSED + 3))
 done
-echo -e "\n✅ All core services are running."
+
+if [ -n "$FAILED_SERVICES" ]; then
+    echo "❌ The following services are not running:$FAILED_SERVICES"
+    echo "   Check logs with: docker logs <container-name>"
+    exit 1
+fi
+echo "✅ All core services are running."
 
 # 5. HANDSHAKE
 echo -e "\n🚀 Running Core Initialization..."

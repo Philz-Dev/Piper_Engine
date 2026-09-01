@@ -32,7 +32,7 @@ pipeline:
       - id: "telegram_bot"
         service: "Telegram.alert"
         input:
-          chat_id: "6878549543"
+          chat_id: ""
           text: "New Lead Created in HubSpot!"
 
   - id: "hubspot_update"
@@ -51,6 +51,6 @@ pipeline:
       - id: "telegram_bot2"
         service: "Telegram.alert"
         input:
-          chat_id: "6878549543"
+          chat_id: ""
           text: "Update performed in HubSpot! hubspot_crm_search result is $hubspot_crm_search.total"
 

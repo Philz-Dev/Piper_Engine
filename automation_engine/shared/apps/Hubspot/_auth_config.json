@@ -4,8 +4,8 @@
     "auth_link": "https://app.hubspot.com/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope={scopes}",
     "method": "POST",
     "class": {
-        "CLIENT_ID": "4d4ef8a9-b12e-43ca-a68b-29695edda560",
-        "CLIENT_SECRET": "211fad1d-48ca-4bfc-86f0-28e6a7423f51",
+        "CLIENT_ID": "",
+        "CLIENT_SECRET": "",
         "scopes": "crm.objects.contacts.read crm.objects.contacts.write crm.objects.companies.read crm.objects.companies.write",
         "REDIRECT_URI": "http://localhost:8080/callback/hubspot"
     }

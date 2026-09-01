@@ -335,7 +335,7 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     volumes:
-      - \${HOST_PROJECT_PATH}:/app
+      - $HOST_PROJECT_PATH:/app
     networks:
       - piper-network
     entrypoint: ["tail", "-f", "/dev/null"]
@@ -347,7 +347,7 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     volumes:
-      - \${HOST_PROJECT_PATH}:/app
+      - $HOST_PROJECT_PATH:/app
     networks:
       - piper-network
     entrypoint: ["tail", "-f", "/dev/null"]

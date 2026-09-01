@@ -78,7 +78,7 @@ or
 ```bash
 git clone https://github.com/philz-dev/piper_engine.git
 cd your-repo
-sh setup_v4.sh
+sh setup.sh
 ```
 
 On first run you'll be prompted for an optional **Ngrok authtoken** (press Enter to skip — the tunnel is disabled by default). Everything else is generated automatically.

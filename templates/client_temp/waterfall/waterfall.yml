@@ -1,0 +1,21 @@
+# ---------------------------------------------------------
+# IRON FORTRESS DSL v1.0
+# ---------------------------------------------------------
+
+version: "1.0"
+
+
+trigger:
+  - id: "Typeform_webhook"
+    service: "timer.interval"
+    interval: "1 min"
+
+pipeline:
+  - id: "python_script"
+    service: script.external_script.pyscript
+    runtime: python
+
+  - id: "node_script"
+    service: script.external_script.nscript
+    runtime: javascript
+  

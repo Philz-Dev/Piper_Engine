@@ -20,6 +20,8 @@ universal_api_registry/package.json
 universal_api_registry/node_modules.json
 stretis_frontend/
 automation_engine/.piper_config
+piper_db_data/
+
 
 # OS metadata
 .DS_Store
